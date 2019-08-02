@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Using the spline generator</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Using the spline generator</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Using the spline generator</h2>
+</header>
+
+<article>
+    <p>Splines are mathematical curves which describe <em>smooth</em> paths.
+The <a href="https://en.wikipedia.org/wiki/Centripetal_Catmull%25E2%2580%2593Rom_spline">Catmull-Rom splines</a> are among the most efficient and easy to use, since they only require eight parameters (four points) and very simple arithmetic operations.</p>
+<p>Every enemy using a <a href="BHell.BHell_Mover_Spline.html"><code>BHell.BHell_Mover_Spline</code></a> mover (i.e. enemies derived from the <a href="BHell.BHell_Enemy_Spline.html"><code>BHell.BHell_Enemy_Spline</code></a>) move along a uniform Catmull-Rom spline and have among their parameters the four spline points.</p>
+<p>The path travelled by spline enemies always has the two middle points as starting and finishing positions (i.e. an enemy will be generated at point <code>B</code> and move towards point <code>C</code>).
+If <code>A = B</code> and <code>C = D</code>, the enemy path will be a straight line, otherwise it will have one or two curves, determined by the position of <code>A</code> and <code>D</code>.</p>
+<p><strong>Important</strong>: A generator will always spawn a spline enemy at <code>B</code>, if you don't want the enemy to suddenly appear out of nowhere, you'll have to place point <code>B</code> <strong>outside</strong> the screen.
+A spline enemy will stop once it reaches point <code>C</code> (it will continue shooting though), so most of the times you'll want point <code>C</code> to be outside the screen as well (remember that an enemy is destroyed only if it leaves the screen or is killed by the player).</p>
+<p>The default spline parameters are set so that an enemy will travel vertically (from top to bottom) at the center of the screen, more interesting paths need to be manually defined.</p>
+<p>Since manually defining each point for a spline is a tedious task, a <a href="spline_editor.html">spline editor</a> is available for developer's use.</p>
+<p>The editor has a grid at the center which represents the visible area of the stage.</p>
+<p><img src="spline1.png" alt="Spline editor"></p>
+<p>You can click on screen four times to place your spline points. Once you have placed the last one, the spline will be displayed.</p>
+<p><img src="spline2.png" alt="Spline path"></p>
+<p>You can now drag any of the points on screen to change your spline.</p>
+<p><img src="spline.gif" alt="Spline drag"></p>
+<p>Finally, you simply need to copy and paste the content from the <code>textarea</code> to a comment in your generator.</p>
+<p><strong>Note</strong>: Comments are parsed as JSON, so if you need to add more parameters, don't forget the comma!</p>
+<p><img src="spline3.png" alt="Spline paste"></p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:19 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

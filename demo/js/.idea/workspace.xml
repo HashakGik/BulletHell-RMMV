@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+    <option name="CUSTOM_SCOPE_NAME" value="Current File" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4eca8112-a700-43bf-af55-f1759eef04e2" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="js" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>*</find>
+      <find>BHell_</find>
+      <find>@cons</find>
+      <find>function (\w+)\(.*\)</find>
+      <find>function (\wmy.$1 = function)\((.*)\)</find>
+      <find>function (\w+)\((.*)\)</find>
+      <find>var (\w+) = function</find>
+      <find>new BHell_</find>
+      <find>\$gameBHell(\w)</find>
+      <find>parse</find>
+      <find>new</find>
+      <find>var e</find>
+      <find>$gameBHellController</find>
+      <find>$game</find>
+      <find>\$[^g]</find>
+      <find>\$([^(game)])</find>
+      <find>$controller</find>
+      <find>stagesta</find>
+      <find>playerId</find>
+      <find>$</find>
+      <find>$explosion</find>
+      <find>my.</find>
+      <find>Factory</find>
+      <find>icon</find>
+      <find>&quot;bomb&quot;</find>
+      <find>AudioMa</find>
+      <find>SceneManager.goto</find>
+      <find>die</find>
+      <find>player</find>
+      <find>BHell_Sprite =</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>bulletList, bombBulletList)</replace>
+      <replace>this.bombBulletList.push</replace>
+      <replace>this.bombBulletList);</replace>
+      <replace>always_aim</replace>
+      <replace>$gameBHellPauseSprite</replace>
+      <replace>$gameBHellExplosions</replace>
+      <replace>BHell_Bomb_Earth</replace>
+      <replace>BHell_Bomb_Fire</replace>
+      <replace>BHell_Bomb_Thunder</replace>
+      <replace>stage</replace>
+      <replace>parent</replace>
+      <replace>this.stage</replace>
+      <replace>pauseWindow</replace>
+      <replace>Window_BHell_Confirm</replace>
+      <replace>$gameBHellScoreAccumulator</replace>
+      <replace>$gameBHellResult.score</replace>
+      <replace>my.BHell_</replace>
+      <replace>var $1 = function($2)</replace>
+      <replace>my.$1 = function</replace>
+      <replace>my.$1 = $1 = function</replace>
+      <replace>var $1 = my.$1 = function</replace>
+      <replace>new BHell_</replace>
+      <replace>new my.BHell_</replace>
+      <replace>my.parse</replace>
+      <replace>g</replace>
+      <replace>e</replace>
+      <replace>my.$1</replace>
+      <replace>my.</replace>
+      <replace>death</replace>
+      <replace>$Bullets</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/plugins/sprites.js" />
+        <option value="$PROJECT_DIR$/plugins/BulletHellSprites.js" />
+        <option value="$PROJECT_DIR$/plugins/sceneinit.js" />
+        <option value="$PROJECT_DIR$/plugins/BulletHellController.js" />
+        <option value="$PROJECT_DIR$/plugins/scenemain.js" />
+        <option value="$PROJECT_DIR$/plugins/Emitters.js" />
+        <option value="$PROJECT_DIR$/plugins/BulletHellObj.js" />
+        <option value="$PROJECT_DIR$/plugins/windows.js" />
+        <option value="$PROJECT_DIR$/plugins/spriteset.js" />
+        <option value="$PROJECT_DIR$/plugins/controller.js" />
+        <option value="$PROJECT_DIR$/plugins/scene_main.js" />
+        <option value="$PROJECT_DIR$/plugins/conf.json" />
+        <option value="$PROJECT_DIR$/plugins/parse.js" />
+        <option value="$PROJECT_DIR$/plugins/enemies.js" />
+        <option value="$PROJECT_DIR$/plugins/explosion.js" />
+        <option value="$PROJECT_DIR$/plugins/generator.js" />
+        <option value="$PROJECT_DIR$/plugins/emitters.js" />
+        <option value="$PROJECT_DIR$/plugins/movers.js" />
+        <option value="$PROJECT_DIR$/plugins/bombs.js" />
+        <option value="$PROJECT_DIR$/../data/BulletHell.json" />
+        <option value="$PROJECT_DIR$/plugins/player.js" />
+        <option value="$PROJECT_DIR$/plugins/scene_init.js" />
+        <option value="$PROJECT_DIR$/plugins/sprite.js" />
+        <option value="$PROJECT_DIR$/plugins/bullet.js" />
+        <option value="$PROJECT_DIR$/plugins/BulletHell.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="width" value="1750" />
+    <option name="height" value="970" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="js" type="b2602c69:ProjectViewProjectNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="js" type="b2602c69:ProjectViewProjectNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/plugins/conf.json" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4eca8112-a700-43bf-af55-f1759eef04e2" name="Default" comment="" />
+      <created>1561721426792</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1561721426792</updated>
+      <workItem from="1561721428018" duration="4242000" />
+      <workItem from="1561728689849" duration="10409000" />
+      <workItem from="1561792670381" duration="4490000" />
+      <workItem from="1561824135796" duration="9949000" />
+      <workItem from="1561873026950" duration="5128000" />
+      <workItem from="1561881882654" duration="7325000" />
+      <workItem from="1561896694049" duration="7873000" />
+      <workItem from="1561921837685" duration="3351000" />
+      <workItem from="1561955867527" duration="4218000" />
+      <workItem from="1561975536492" duration="19932000" />
+      <workItem from="1562047751526" duration="695000" />
+      <workItem from="1562054857025" duration="4791000" />
+      <workItem from="1562080319532" duration="2838000" />
+      <workItem from="1562094254132" duration="9984000" />
+      <workItem from="1562134415832" duration="12444000" />
+      <workItem from="1562150632202" duration="1845000" />
+      <workItem from="1562157017397" duration="4229000" />
+      <workItem from="1562170944263" duration="17296000" />
+      <workItem from="1562220750058" duration="5750000" />
+      <workItem from="1562253896342" duration="5801000" />
+      <workItem from="1562261608836" duration="1714000" />
+      <workItem from="1562269382078" duration="5069000" />
+      <workItem from="1562303280595" duration="5130000" />
+      <workItem from="1562320011905" duration="15840000" />
+      <workItem from="1562354675427" duration="4732000" />
+      <workItem from="1562398106549" duration="4596000" />
+      <workItem from="1562403951306" duration="1965000" />
+      <workItem from="1562409902490" duration="8869000" />
+      <workItem from="1562576061679" duration="19781000" />
+      <workItem from="1562609076819" duration="7793000" />
+      <workItem from="1562652473622" duration="508000" />
+      <workItem from="1562662351681" duration="605000" />
+      <workItem from="1562662969323" duration="18056000" />
+      <workItem from="1562692486358" duration="8953000" />
+      <workItem from="1562739288421" duration="4551000" />
+      <workItem from="1562745030264" duration="7114000" />
+      <workItem from="1562753780134" duration="9818000" />
+      <workItem from="1562788748355" duration="324000" />
+      <workItem from="1562831383032" duration="560000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="268568000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.490113" visible="true" weight="0.37600535" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49932975" weight="0.32909605" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50067025" side_tool="true" weight="0.32909605" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32909605" />
+      <window_info id="Structure" order="1" sideWeight="0.509887" side_tool="true" weight="0.35120642" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Favorites" order="2" sideWeight="0.5084746" side_tool="true" weight="0.31032172" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection Results" order="8" weight="0.32909605" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32909605" />
+    </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.490113" visible="true" weight="0.3605898" />
+      <window_info id="Structure" order="1" sideWeight="0.509887" side_tool="true" weight="0.35120642" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32909605" />
+      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32909605" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32909605" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" sideWeight="0.5084746" side_tool="true" weight="0.31032172" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="6" />
+    </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="breakpointLogExpression">
+      <expression>
+        <expression-string>this.x = 0;
+    this.y = 0;</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellObj.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sceneinit.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/emitters.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sprites.js" />
+    <entry file="file://$PROJECT_DIR$/../data/BulletHell.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellSprites.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/windows.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sceneinit.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellObj.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHell.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/sprites.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/spriteset.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/scenemain.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellController.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sceneinit.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/windows.js" />
+    <entry file="file://$PROJECT_DIR$/../data/BulletHell.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="17" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../data/States.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="65" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/sprites.js" />
+    <entry file="file://$PROJECT_DIR$/../data/Map002.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4590" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rpg_objects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="703" column="32" selection-start-line="703" selection-start-column="27" selection-end-line="703" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rpg_managers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1422" column="18" selection-start-line="1422" selection-start-column="18" selection-end-line="1422" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="15875" column="17" selection-start-line="15875" selection-start-column="17" selection-end-line="15875" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rpg_scenes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="111" column="4" lean-forward="true" selection-start-line="111" selection-start-column="4" selection-end-line="112" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rpg_sprites.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-403">
+          <caret line="2248" column="16" selection-start-line="2248" selection-start-column="3" selection-end-line="2248" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rpg_core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="3486" column="16" selection-start-line="3486" selection-start-column="11" selection-end-line="3486" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellController.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sceneinit.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/scenemain.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellSprites.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHellObj.js" />
+    <entry file="file://$PROJECT_DIR$/rpg_windows.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1780">
+          <caret line="768" column="28" selection-start-line="768" selection-start-column="28" selection-end-line="768" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/enemies.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/explosion.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/generator.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/spriteset.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/windows.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/emitters.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/controller.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/movers.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/conf.json" />
+    <entry file="file://$PROJECT_DIR$/plugins/parse.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/scene_main.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/bombs.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/scene_init.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/player.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/sprite.js" />
+    <entry file="file://$PROJECT_DIR$/plugins/bullet.js" />
+    <entry file="file://$PROJECT_DIR$/../../Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/BulletHell.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="267" column="3" selection-start-line="267" selection-start-column="3" selection-end-line="267" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../data/BulletHell.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="430" column="12" selection-start-line="430" selection-start-column="12" selection-end-line="430" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

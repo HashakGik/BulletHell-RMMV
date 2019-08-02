@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Creating new bombs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Creating new bombs</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Creating new bombs</h2>
+</header>
+
+<article>
+    <p>In this tutorial we are going to create two <code>bomb</code> classes.
+The first one will be a simple object-oriented programming exercise (like <a href="tutorial-enemies_js.html">Creating new enemies</a>, <a href="tutorial-mover_js.html">Creating new movers</a> and <a href="tutorial-emitter_js.html">Creating new emitters</a>), the second one will exploit JavaScript's peculiar capability of redefining methods on an already instantiated object.</p>
+<h3>BHell_Bomb_Gravity</h3>
+<p>So far, no <code>bomb</code> relies on something different than spawning bullets.
+We want to create a <code>BHell_Bomb_Gravity</code> class which simply will halve the hit points of every enemy on screen (and to prevent this bomb's abuse, we'll also want it to deactivate itself after 20 seconds), without spawning any bullet.</p>
+<p><strong>Note</strong>: Autobombing won't work during the entire time a bomb is active, so, although extremely powerful, this bomb may make the player more vulnerable.</p>
+<p>Since no bullet will be spawned, we will hint the player that the bomb has fired by spawning an explosion on every enemy.</p>
+<p>Let's start by creating a new <code>bomb_gravity.js</code> file and reopening our <code>BHell</code> module:</p>
+<pre><code>var BHell = (function (my) {    
+    /* Our code will go here */
+    
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>We can now create our <code>BHell_Bomb_Gravity</code> class:</p>
+<pre><code>var BHell_Bomb_Gravity = my.BHell_Bomb_Gravity = function () {
+    this.initialize.apply(this, arguments);
+};
+
+BHell_Bomb_Gravity.prototype = Object.create(my.BHell_Bomb_Base.prototype);
+BHell_Bomb_Gravity.prototype.constructor = BHell_Bomb_Gravity;
+
+BHell_Bomb_Gravity.prototype.initialize = function (parent, params, bulletList) {
+    my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+};
+</code></pre>
+<p>The behaviour of <code>bomb</code> classes is handled entirely by the methods <a href="BHell.BHell_Bomb_Base.html#activate"><code>BHell.BHell_Bomb_Base#activate</code></a>, <a href="BHell.BHell_Bomb_Base.html#update"><code>BHell.BHell_Bomb_Base#update</code></a> and <a href="BHell.BHell_Bomb_Base.html#deactivate"><code>BHell.BHell_Bomb_Base#deactivate</code></a>.
+In this example, our desired behaviour is something that happen only at the bomb's activation, so we will rewrite the <code>activate</code> method to suit our purposes.</p>
+<p>Since the bomb will directly manipulate enemies parameters, we need to check that an enemy list is in fact available (there are no enemies on the preview window and that would cause an error).
+We also need to deal with the bosses' bar, since it normally is updated only by <a href="BHell.BHell_Enemy_Base.html#hit"><code>BHell.BHell_Enemy_Base#hit</code></a> (which we are not going to use):</p>
+<pre><code>BHell_Bomb_Gravity.prototype.activate = function (x, y) {
+    my.BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+    if (my.controller != null &amp;&amp; my.controller.enemies != null) {
+        my.controller.enemies.forEach(e =&gt; {
+            // We are using the ceil function to prevent enemies from dying when they have less than two hit points.
+            var damage = Math.ceil(e.hp / 2);
+            e.hp -= damage;
+            if (e.boss) {
+                my.bossHp -= damage;
+            }
+
+            my.explosions.push(new my.BHell_Explosion(e.x, e.y, this.parent, my.explosions));
+        });
+    }
+};  
+</code></pre>
+<p>We decided to deactivate our bomb after 20 seconds (1200 frames), because it would be too easy for the player to use a bomb so powerful too often.
+The default <code>update</code> behaviour sets a deactivation timeout of one seconds, so we need to rewrite that method as well:</p>
+<pre><code>BHell_Bomb_Gravity.prototype.update = function () {
+    if (this.active === true) {
+        this.i++;
+
+        if (this.i &gt; 1200) {
+            this.deactivate();
+        }
+    }
+};
+</code></pre>
+<p>Our complete <code>bomb_gravity.js</code> looks like this:</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Bomb_Gravity = my.BHell_Bomb_Gravity = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Gravity.prototype = Object.create(my.BHell_Bomb_Base.prototype);
+    BHell_Bomb_Gravity.prototype.constructor = BHell_Bomb_Gravity;
+
+    BHell_Bomb_Gravity.prototype.initialize = function (parent, params, bulletList) {
+        my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+    };
+
+    BHell_Bomb_Gravity.prototype.activate = function (x, y) {
+        my.BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+        if (my.controller != null &amp;&amp; my.controller.enemies != null) {
+            my.controller.enemies.forEach(e =&gt; {
+                // We are using the ceil function to prevent enemies from dying when they have less than two hit points.
+                var damage = Math.ceil(e.hp / 2);
+                e.hp -= damage;
+                if (e.boss) {
+                    my.bossHp -= damage;
+                }
+
+                my.explosions.push(new my.BHell_Explosion(e.x, e.y, this.parent, my.explosions));
+            });
+        }
+
+    };
+
+
+    BHell_Bomb_Gravity.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i &gt; 1200) {
+                this.deactivate();
+            }
+        }
+    };
+
+
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>All we need to do now is to import the plugin and assign this bomb to a player, by adding the following parameter to its configuration in the JSON file.
+While we are at it, we'll also customise the icon index and the sound effect.</p>
+<pre><code>&quot;bomb&quot;: {
+    &quot;sprite&quot;: &quot;$Bullets&quot;,
+    &quot;index&quot;: 0,
+    &quot;direction&quot;: 2,
+    &quot;frame&quot;: 1,
+    &quot;icon&quot;: &quot;IconSet&quot;,
+    &quot;icon_index&quot;: 161,
+    &quot;class&quot;: &quot;BHell_Bomb_Gravity&quot;,
+    &quot;se&quot;: {
+        &quot;name&quot;: &quot;Collapse4&quot;,
+        &quot;volume&quot;: 100,
+        &quot;pitch&quot;: 100,
+        &quot;pan&quot;: 0
+    }
+}
+</code></pre>
+<h3>BHell_Bomb_Thunder</h3>
+<p>Most of the predefined bombs simply behave like emitters, spawning a barrage of bullets filling the screen.
+In this section we want to create a <code>BHell_Bomb_Thunder</code> class which will spawn 200 bullets moving erratically across the screen for ten seconds.
+In order to do so, we can't rely on the default <a href="BHell.BHell_Bullet.html#update"><code>BHell.BHell_Bullet#update</code></a> method and we could be tempted to proceed (in the object-oriented way) by creating a derived class from <a href="BHell.BHell_Bullet.html"><code>BHell.BHell_Bullet</code></a>, but JavaScript allows to achieve the same result (more quickly) by <em>replacing</em> a function definition in an already instantiated object.</p>
+<p>This is what was done with <a href="BHell.BHell_Bomb_Earth.html"><code>BHell.BHell_Bomb_Earth</code></a>, which makes the bullets rotate around the player, instead of moving in a straight line.</p>
+<p>Lets' create our <code>bomb_thunder.js</code> plugin in the usual way:</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Bomb_Thunder = my.BHell_Bomb_Thunder = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Thunder.prototype = Object.create(my.BHell_Bomb_Base.prototype);
+    BHell_Bomb_Thunder.prototype.constructor = BHell_Bomb_Thunder;
+
+    BHell_Bomb_Thunder.prototype.initialize = function (parent, params, bulletList) {
+        my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+    };
+
+    return my;
+}(BHell || {})); 
+</code></pre>
+<p>Since we are going to use bullets which most likely will never leave the screen, we need to store them on a separate array, so we can destroy them during the bomb's deactivation. Let's start by initialise it:</p>
+<pre><code>BHell_Bomb_Thunder.prototype.initialize = function (parent, params, bulletList) {
+    my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+
+    this.bullets = [];
+};
+</code></pre>
+<p>And let's destroy every bullet:</p>
+<pre><code>BHell_Bomb_Thunder.prototype.deactivate = function () {
+    my.BHell_Bomb_Base.prototype.deactivate.call(this);
+    while (this.bullets.length &gt; 0) {
+        var bullet = this.bullets.pop();
+        bullet.destroy();
+    }
+};
+</code></pre>
+<p><strong>Important</strong>: If you are familiar with the <a href="http://en.wikipedia.org/wiki/Iterator_pattern">Iterator design pattern</a>, you already know that using a <code>forEach</code> here would be a big mistake and would most certainly cause an hard to find bug.
+For those of you who aren't aware, the <code>forEach</code> construct relies on &quot;moving&quot; from one element to the <em>next</em> one in a list, but when you dynamically change the list's content while iterating over it (as in this case, since we are popping elements from it), the iterator's state (usually a simple index variable) will desynchronise: upon deletion we might skip some elements, while on insertion we might iterate over some elements more than once.</p>
+<p>Just like our <code>BHell_Bomb_Gravity</code>, we want to deactivate our bomb after some time other than the default one second timeout, we'll rewrite our <code>update</code> method accordingly:</p>
+<pre><code>BHell_Bomb_Thunder.prototype.update = function () {
+    if (this.active === true) {
+        this.i++;
+
+        if (this.i &gt; 600) {
+            this.deactivate();
+        }
+    }
+};
+</code></pre>
+<p>Finally, we can focus on the most important part of this bomb: its activation.</p>
+<p>If we were simply to spawn 200 bullets at the player's coordinates, our <code>update</code> method would look like this:</p>
+<pre><code>BHell_Bomb_Thunder.prototype.activate = function (x, y) {
+    my.BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+    var j;
+    var bullet;
+
+    for (j = 0; j &lt; 200; j++) {
+        bullet = new my.BHell_Bullet(my.player.x, my.player.y, 0, this.bulletParams, this.bulletList);
+
+        this.bullets.push(bullet);
+        this.bulletList.push(bullet);
+        this.parent.addChild(bullet);
+    }
+};
+</code></pre>
+<p>And in fact if we were to create a derived class (let's say for example <code>BHell_Bullet_Erratic</code>), we would simply need to replace the constructor.
+But since we want to replace our bullet's behaviour on a per-instance basis, we are going to do something like this:</p>
+<pre><code>BHell_Bomb_Thunder.prototype.activate = function (x, y) {
+    my.BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+    var j;
+    var bullet;
+
+    for (j = 0; j &lt; 200; j++) {
+        bullet = new my.BHell_Bullet(my.player.x, my.player.y, 0, this.bulletParams, this.bulletList);
+
+        // Create new properties for the bullet
+        bullet.destX = my.player.x;
+        bullet.destY = my.player.y;
+
+        bullet.update = function () {
+            var dx = this.destX - this.x;
+            var dy = this.destY - this.y;
+
+            if (Math.abs(dx) &lt; this.speed &amp;&amp; Math.abs(dy) &lt; this.speed) {
+                this.destX = Math.round(Math.random() * Graphics.width);
+                this.destY = Math.round(Math.random() * Graphics.height);
+            }
+            else {
+                this.angle = Math.atan2(dy, dx);
+            }
+
+            my.BHell_Bullet.prototype.update.call(this);
+        };
+
+        this.bullets.push(bullet);
+        this.bulletList.push(bullet);
+        this.parent.addChild(bullet);
+    }
+};
+</code></pre>
+<p>Our complete class looks like this:</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Bomb_Thunder = my.BHell_Bomb_Thunder = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Thunder.prototype = Object.create(my.BHell_Bomb_Base.prototype);
+    BHell_Bomb_Thunder.prototype.constructor = BHell_Bomb_Thunder;
+
+    BHell_Bomb_Thunder.prototype.initialize = function (parent, params, bulletList) {
+        my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+
+        this.bullets = [];
+    };
+
+    BHell_Bomb_Thunder.prototype.activate = function (x, y) {
+        my.BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+        var j;
+        var bullet;
+
+        for (j = 0; j &lt; 200; j++) {
+            bullet = new my.BHell_Bullet(my.player.x, my.player.y, 0, this.bulletParams, this.bulletList);
+
+            // Create new properties for the bullet
+            bullet.destX = my.player.x;
+            bullet.destY = my.player.y;
+
+            bullet.update = function () {
+                var dx = this.destX - this.x;
+                var dy = this.destY - this.y;
+
+                if (Math.abs(dx) &lt; this.speed &amp;&amp; Math.abs(dy) &lt; this.speed) {
+                    this.destX = Math.round(Math.random() * Graphics.width);
+                    this.destY = Math.round(Math.random() * Graphics.height);
+                }
+                else {
+                    this.angle = Math.atan2(dy, dx);
+                }
+
+                my.BHell_Bullet.prototype.update.call(this);
+            };
+
+            this.bullets.push(bullet);
+            this.bulletList.push(bullet);
+            this.parent.addChild(bullet);
+        }
+    };
+
+    BHell_Bomb_Thunder.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i &gt; 600) {
+                this.deactivate();
+            }
+        }
+    };
+
+    BHell_Bomb_Thunder.prototype.deactivate = function () {
+        my.BHell_Bomb_Base.prototype.deactivate.call(this);
+        while (this.bullets.length &gt; 0) {
+            var bullet = this.bullets.pop();
+            bullet.destroy();
+        }
+    };
+
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>We can now import it and configure a player to use our new <code>BHell_Bomb_Thunder</code>:</p>
+<pre><code>&quot;bomb&quot;: {
+    &quot;sprite&quot;: &quot;$Bullets&quot;,
+    &quot;index&quot;: 0,
+    &quot;direction&quot;: 4,
+    &quot;frame&quot;: 1,
+    &quot;speed&quot;: 9,
+    &quot;icon&quot;: &quot;IconSet&quot;,
+    &quot;icon_index&quot;: 66,
+    &quot;class&quot;: &quot;BHell_Bomb_Thunder&quot;,
+    &quot;se&quot;: {
+        &quot;name&quot;: &quot;Explosion2&quot;,
+        &quot;volume&quot;: 100,
+        &quot;pitch&quot;: 100,
+        &quot;pan&quot;: 0
+    }
+}</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

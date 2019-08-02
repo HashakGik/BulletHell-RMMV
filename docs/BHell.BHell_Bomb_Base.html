@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: BHell_Bomb_Base</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: BHell_Bomb_Base</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="BHell.html">BHell</a>.</span>BHell_Bomb_Base<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="BHell_Bomb_Base"><span class="type-signature"></span>new BHell_Bomb_Base<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Bomb base class. It simply deletes every enemy bullet on screen.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="BHell.BHell_Sprite.html">BHell.BHell_Sprite</a></li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="activate"><span class="type-signature"></span>activate<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Activates a bomb. Makes every enemy bullet on screen explode.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>X activation coordinate.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Y activaton coordinate.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="deactivate"><span class="type-signature"></span>deactivate<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Deactivates the bomb.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(parent, params, bulletList)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Constructor.</p>
+<p>Parameters:</p>
+<ul>
+<li>sprite: The bullets' charset file,</li>
+<li>index: The bullets' charset index,</li>
+<li>direction: The bullets' charset direction,</li>
+<li>frame: The bullets' charset frame,</li>
+<li>icon: The bomb's iconset,</li>
+<li>icon_index: The bomb's icon index,</li>
+<li>se: The sound effect to be played when launching a bomb.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Container for the derived classes' effects.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Bomb parameters.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bulletList</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Array in which the spawned bullets will be stored.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BHell.BHell_Sprite.html#initialize">BHell.BHell_Sprite#initialize</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isActive"><span class="type-signature"></span>isActive<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Checks if a bomb is currently active.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if a bomb is active.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Updates the bomb. After one second it automatically deactivates it.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BHell.BHell_Sprite.html#update">BHell.BHell_Sprite#update</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bombs.js.html">bombs.js</a>, <a href="bombs.js.html#line92">line 92</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateCharacterFrame"><span class="type-signature"></span>updateCharacterFrame<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Updates the charset frame, calculating the correct offsets.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="BHell.BHell_Sprite.html#updateCharacterFrame">BHell.BHell_Sprite#updateCharacterFrame</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sprite.js.html">sprite.js</a>, <a href="sprite.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Configuring the enemies</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Configuring the enemies</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Configuring the enemies</h2>
+</header>
+
+<article>
+    <h3>General configuration</h3>
+<p>The JSON configuration file contains an array of enemies which needs to be filled in before you can create a stage.</p>
+<pre><code>&quot;enemies&quot;: [
+    {
+        &quot;name&quot;: (enemy name),
+          &quot;class&quot;: (enemy class),
+          &quot;params&quot;: {
+            (parameters)
+          }
+    },
+    etc.
+]
+</code></pre>
+<p>Each entry of the array has three fields:</p>
+<ul>
+<li><code>name</code>: the name which will be used in the map editor to create a generator (see <a href="tutorial-mechanics.html">Game Mechanics</a>) for this enemy,</li>
+<li><code>class</code>: the class associated with this enemy entry,</li>
+<li><code>params</code>: the default value for the enemy parameters.</li>
+</ul>
+<p>Every enemy shares the following parameters (defined in <a href="BHell.BHell_Enemy_Base.html"><code>BHell.BHell_Enemy_Base</code></a>):</p>
+<ul>
+<li><code>hp</code>: hit points,</li>
+<li><code>speed</code>: moving speed (in pixels per frame),</li>
+<li><code>period</code>: shooting period (see <a href="tutorial-emitters.html">Configuring the emitters</a>),</li>
+<li><code>hitbox_w</code>: width of the hitbox,</li>
+<li><code>hitbox_h</code>: height of the hitbox,</li>
+<li><code>angle</code>: shooting angle (ignored if <code>aim</code> or <code>rnd</code> are <code>true</code>),</li>
+<li><code>aim</code>: if <code>true</code>, the enemy will aim at the player,</li>
+<li><code>always_aim</code>: if <code>true</code>, the enemy will constantly adjust the aim,</li>
+<li><code>aim_x</code>: the enemy will shift the aim horizontally by <code>aim_x</code> pixels from the player,</li>
+<li><code>aim_y</code>: the enemy will shift the aim vertically by <code>aim_y</code> pixels from the player,</li>
+<li><code>rnd</code>: if <code>true</code>, the shooting angle will be random,</li>
+<li><code>score</code>: score awarded on each successful shot,</li>
+<li><code>kill_score</code>: score awarded on kill,</li>
+<li><code>boss</code>: if <code>true</code> displays a boss bar on stage,</li>
+<li><code>bullet</code>: bullet parameters (see <a href="tutorial-bullets.html">Configuring the bullets</a>).</li>
+</ul>
+<p>Every class sets a default value for each of these parameters, so the JSON can contain only the values you actually want to cutomise.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hp</td>
+<td>1</td>
+</tr>
+<tr>
+<td>speed</td>
+<td>3</td>
+</tr>
+<tr>
+<td>period</td>
+<td>60</td>
+</tr>
+<tr>
+<td>hitbox_w</td>
+<td>(sprite width)</td>
+</tr>
+<tr>
+<td>hitbox_h</td>
+<td>(sprite height)</td>
+</tr>
+<tr>
+<td>angle</td>
+<td>PI / 2</td>
+</tr>
+<tr>
+<td>aim</td>
+<td>false</td>
+</tr>
+<tr>
+<td>always_aim</td>
+<td>false</td>
+</tr>
+<tr>
+<td>aim_x</td>
+<td>0</td>
+</tr>
+<tr>
+<td>aim_y</td>
+<td>0</td>
+</tr>
+<tr>
+<td>rnd</td>
+<td>false</td>
+</tr>
+<tr>
+<td>score</td>
+<td>10</td>
+</tr>
+<tr>
+<td>kill_score</td>
+<td>100</td>
+</tr>
+<tr>
+<td>boss</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>Other than <a href="BHell.BHell_Enemy_Base.html"><code>BHell.BHell_Enemy_Base</code></a>, there are other abstract classes which set some additional parameters for their derived classes.</p>
+<h4><a href="BHell.BHell_Enemy_Spline.html"><code>BHell.BHell_Enemy_Spline</code></a></h4>
+<p>This class adds parameters related to the spline movement (see <a href="tutorial-spline.html">Using the spline generator</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>(x, y - sprite height)</td>
+</tr>
+<tr>
+<td>B</td>
+<td>(x, y - sprite height)</td>
+</tr>
+<tr>
+<td>C</td>
+<td>(x, screen height + sprite height)</td>
+</tr>
+<tr>
+<td>D</td>
+<td>(x, screen height + sprite height)</td>
+</tr>
+</tbody>
+</table>
+<h4><a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a></h4>
+<p>This class inherits parameters from <a href="BHell.BHell_Enemy_Spline.html"><code>BHell.BHell_Enemy_Spline</code></a> and adds parameters related to the shooting behaviour:</p>
+<ul>
+<li><code>cooldown</code>: number of frames the enemy won't be able to shoot,</li>
+<li><code>shooting</code>: number of frames the enemy will shoot,</li>
+<li><code>stop_on_shooting</code>: if <code>true</code>, during the shooting phase the enemy will stop moving.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cooldown</td>
+<td>60</td>
+</tr>
+<tr>
+<td>shooting</td>
+<td>60</td>
+</tr>
+<tr>
+<td>stop_on_shooting</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h3>Predefined enemies</h3>
+<p>These are the predefined nine enemy types, if you are interested in creating more of them, see <a href="tutorial-enemies_js.html">Creating new enemies</a>, if you want to create a boss see <a href="tutorial-bosses.html">Creating a boss</a>.</p>
+<h4><a href="BHell.BHell_Enemy_Smallfry.html"><code>Small fry</code></a></h4>
+<p>Small fries move along a fixed path and shoot once in a while.</p>
+<p><img src="smallfry.gif" alt="Smallfry"></p>
+<h5>Additional parameters</h5>
+<p>Smallfries inherit their parameters from <a href="BHell.BHell_Enemy_Spline.html"><code>BHell.BHell_Enemy_Spline</code></a>.</p>
+<h5>Strategy</h5>
+<p>Although weak and predictable (both in shooting and moving patterns), small fries tend to appear in groups. Should they overwhelm you, it could be wise to let them escape or obliterate all of them at once with a bomb.</p>
+<h4><a href="BHell.BHell_Enemy_Suicide.html"><code>Suicide</code></a></h4>
+<p>Suicide enemies move towards the player until they crash.</p>
+<p><img src="suicide.gif" alt="Suicide"></p>
+<h5>Additional parameters</h5>
+<p>None.</p>
+<h5>Strategy</h5>
+<p>Suicide enemies are not capable of shooting and usually have very little health, however they tend to follow you and catch up very quickly. When there is many of them, your best bet is to maneuver them into your firing range while keeping your distance. If everything else fails, a bomb might come in handy.</p>
+<h4><a href="BHell.BHell_Enemy_Orbiter.html"><code>Orbiter</code></a></h4>
+<p>Orbiters approach the player and then orbit around it, shooting once in a while aiming at the player.</p>
+<p><img src="orbiter.gif" alt="Orbiter"></p>
+<h5>Additional parameters</h5>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>radius</td>
+<td>Orbiter distance from the player (in pixel)</td>
+<td>250</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>Orbiters never give up. Once they start orbiting around you, there is no other way out but killing them. Try to synchronise your shooting with their position. If you are equipped with a bomb which doesn't follow the player, try to force orbiters to run straight into the bomb's position.</p>
+<h4><a href="BHell.BHell_Enemy_Probe.html"><code>Probe</code></a></h4>
+<p>Probes move quickly in a random direction, stop and then shoot.</p>
+<p><img src="probe.gif" alt="Probe"></p>
+<h5>Additional parameters</h5>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shooting</td>
+<td>number of frames of the shooting phase</td>
+<td>120</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>Probes are absolutely unpredictable. They move very fast and there is no way to know where they want to go, but they need to stop before shooting you: that's your chance to get rid of them for good. When they are moving, try to stay as far away as possible, so you can dodge them, should they decide to move in your general direction.</p>
+<h4><a href="BHell.BHell_Enemy_Blocker.html"><code>Blocker</code></a></h4>
+<p>Blockers try to block the player and slowly advance towards the bottom of the screen, shooting downwards.</p>
+<p><img src="blocker.gif" alt="Blocker"></p>
+<h5>Additional parameters</h5>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vspeed</td>
+<td>Vertical moving speed</td>
+<td>0.2</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>If their speed matches yours, you have no choice but to destroy blockers before they trap you at the bottom of the screen, resulting in certain death. You should ignore other enemies on screen and focus on blockers. On occasions (or if your speed rank is insanely high), you might be able to actually dodge a blocker: since it only shoots downwards, you can safely ignore it until it leaves the screen.</p>
+<h4><a href="BHell.BHell_Enemy_Gunner.html"><code>Gunner</code></a></h4>
+<p>Gunners move along a fixed path and shoot a streak of bullets.</p>
+<p><img src="gunner.gif" alt="Gunner"></p>
+<h5>Additional parameters</h5>
+<p>Gunners inherit their parameters from <a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a>.</p>
+<h5>Strategy</h5>
+<p>You'll encounter many gunners along your path and they can be categorised in three groups: those which shoot at a fixed angle, those which shoot randomly and those which aim at you. Despite this variance in behaviour, they all need to stop shooting once in a while to reload and that's your chance to get them!</p>
+<h4><a href="BHell.BHell_Enemy_Burster.html"><code>Burster</code></a></h4>
+<p>Bursters move along a fixed path and shoot a burst of densely packed bullets.</p>
+<p><img src="burster.gif" alt="Burster"></p>
+<h5>Additional parameters</h5>
+<p>Bursters inherit their parameters from <a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a> and define the following:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shots</td>
+<td>number of bullets to be fired at once</td>
+<td>30</td>
+</tr>
+<tr>
+<td>dispersion</td>
+<td>radius of the dispersion circle</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>Bursters are just like gunners with shotguns, treat them as such.</p>
+<h4><a href="BHell.BHell_Enemy_Sprayer.html"><code>Sprayer</code></a></h4>
+<p>Sprayers move along a fixed path and shoot an arc of bullets.</p>
+<p><img src="sprayer.gif" alt="Sprayer"></p>
+<h5>Additional parameters</h5>
+<p>Sprayers inherit their parameters from <a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a> and define the following:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>initial angle for the arc</td>
+<td>PI / 2 - PI / 16</td>
+</tr>
+<tr>
+<td>b</td>
+<td>final angle for the arc</td>
+<td>PI / 2 + PI / 16</td>
+</tr>
+<tr>
+<td>n</td>
+<td>number of bullets to be fired</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>Sprayers' shots can be dangerously wide and you might not have enough space to dodge them. If you are with your back on the wall remember you can rely on your bombs.</p>
+<h4><a href="BHell.BHell_Enemy_Starshooter.html"><code>Starshooter</code></a></h4>
+<p>Starshooters move along a fixed path and shoot many streaks of bullets radially.</p>
+<p><img src="starshooter.gif" alt="Starshooter"></p>
+<h5>Additional parameters</h5>
+<p>Starshooters inherit their parameters from <a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a> and define the following:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n</td>
+<td>number of streaks to shoot</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>These guys are gunners with a thing for shooting in many directions at once. Remember that they eventually need to stop shooting, until that time try to stay between two of their streaks.</p>
+<h4><a href="BHell.BHell_Enemy_Swirler.html"><code>Swirler</code></a></h4>
+<p>Swirlers move along a fixed path and shoot many streaks of bullets slowly rotating.</p>
+<p><img src="swirler.gif" alt="Swirler"></p>
+<h5>Additional parameters</h5>
+<p>Swirlers inherit their parameters from <a href="BHell.BHell_Enemy_Starshooter.html"><code>BHell.BHell_Enemy_Starshooter</code></a> and define the following:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rotation</td>
+<td>rotation speed (in radians per frame) of the streaks</td>
+<td>0.01</td>
+</tr>
+</tbody>
+</table>
+<h5>Strategy</h5>
+<p>Swirlers are starshooters with a fetish for vortexes, you need to keep yourself between two streaks and rotate along them until they drop their guards to reload.</p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:19 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

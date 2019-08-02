@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Overriding enemies' default behaviour</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Overriding enemies' default behaviour</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Overriding enemies' default behaviour</h2>
+</header>
+
+<article>
+    <p>Enemy classes' behaviour can be overridden in two ways.</p>
+<ul>
+<li>By customising the JSON file,</li>
+<li>By adding comments to a generator event.</li>
+</ul>
+<p>The first method has a global scope, but if you need to create many enemies with the same parameters across many stages it will allow you to reduce the amount of copy-pasting.</p>
+<p>The second method overrides parameters only for the enemies spawned by a specific generator and is therefore very useful for unique behaviour aspects (like the enemies' path).</p>
+<h3>Add more entries to the JSON file</h3>
+<p>Let's say we want to create two <code>blocker</code> enemies. Both will share the <a href="BHell.BHell_Enemy_Blocker.html"><code>BHell.BHell_Enemy_Blocker</code></a> class, but one (which we'll call <code>fast_blocker</code>) will be able to move faster, and the other (which we'll call <code>purple_blocker</code>) will shoot purple bullets instead of orange ones.</p>
+<p>All we need to do is to add two new entries in our JSON's <code>enemies</code> array:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;purple_blocker&quot;,
+  &quot;class&quot;: &quot;BHell_Enemy_Blocker&quot;,
+  &quot;params&quot;: {
+    &quot;bullet&quot;: {
+      &quot;frame&quot;: 2
+    }
+  }
+},
+{
+  &quot;name&quot;: &quot;fast_blocker&quot;,
+  &quot;class&quot;: &quot;BHell_Enemy_Blocker&quot;,
+  &quot;params&quot;: {
+    &quot;speed&quot;: 9,
+    &quot;vspeed&quot;: 2
+  }
+}
+</code></pre>
+<p>That's it! We need to replace only the parameters we want to change (for a list of default values see <a href="tutorial-enemies.html">Configuring the enemies</a>), and to create our generators the usual way:</p>
+<p><img src="fast_blocker.png" alt="Fast blocker"></p>
+<p><img src="purple_blocker.png" alt="Purple blocker"></p>
+<h4>Parsing</h4>
+<p>The JSON file is parsed  so that you can use <em>arithmetic expressions</em> instead of fixed numbers. Every time you insert an expression between quotes, the following constants will be replaced automatically:</p>
+<ul>
+<li><code>x</code>: the x coordinate of the &quot;item&quot; which owns the property you are setting,</li>
+<li><code>y</code>: the y coordinate of your &quot;item&quot;,</li>
+<li><code>w</code>: the width of the sprite of your &quot;item&quot;,</li>
+<li><code>h</code>: the height of the sprite your &quot;item&quot;,</li>
+<li><code>sw</code>: the screen width,</li>
+<li><code>sh</code>: the screen height,</li>
+<li><code>pi</code>: 3.14...</li>
+</ul>
+<p>So, for example, if you want an emitter to shoot upwards you can define its <code>angle</code> like this:</p>
+<pre><code>&quot;angle&quot;:  4.712389‬‬
+</code></pre>
+<p>... Or like any of these (the first two being the most reasonable ones):</p>
+<pre><code>&quot;angle&quot;: &quot;3 / 2 * pi&quot;
+&quot;angle&quot;: &quot;1.5 * pi&quot;
+&quot;angle&quot;: &quot;(1+1+1) * pi + 0.5 * pi&quot;
+&quot;angle&quot;: &quot;3.712389‬‬ + 1&quot;
+</code></pre>
+<p>Likewise, if you want an emitter to be placed on the left at half width of the player's sprite you could choose either of the following (assuming your sprite is 48 pixels wide):</p>
+<pre><code>&quot;emitters&quot;: [
+   {
+     &quot;x&quot;: -24
+   }
+ ]
+
+&quot;emitters&quot;: [
+   {
+     &quot;x&quot;: &quot;-w / 2&quot;
+   }
+ ] 
+</code></pre>
+<h3>Use the generator's comments</h3>
+<p>The other way we can override our enemies' default behaviour is to add a <code>comment</code> to our generator's event page.</p>
+<p>For example, the following is a <a href="BHell.BHell_Enemy_Gunner.html"><code>BHell.BHell_Enemy_Gunner</code></a> with some custom parameters (including it's path):</p>
+<p><img src="gunner_comments.png" alt="Edited gunner"></p>
+<p><strong>Note</strong>: RPG Maker limits each comment to six lines, if you need more space you can use multiple comments (like the picture above).</p>
+<p><strong>Important</strong>: The engine parses each comment as a JSON file (excluding the leading <code>{</code> and trailing <code>}</code>), so remember to add a comma between parameters!</p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:19 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

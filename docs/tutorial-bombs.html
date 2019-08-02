@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Configuring the bombs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Configuring the bombs</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Configuring the bombs</h2>
+</header>
+
+<article>
+    <p>Each player is equipped with a bomb, which can be fired manually or, if the <code>autobombs</code> rank allows it, automatically (see <a href="tutorial-mechanics.html">Game Mechanics</a> for more details).</p>
+<p>Any bomb destroys every enemy bullet on screen when fired, in addition, each bomb has an unique way of dealing enemies massive damage (it usually consists in a barrage of bullets, but you can make bombs which don't spawn bullets).</p>
+<p>To configure a bomb, you need to fill in the players' <code>bomb</code> parameters.</p>
+<pre><code>&quot;bomb&quot;: {
+    (parameters)
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sprite</td>
+<td>The bullets' charset</td>
+</tr>
+<tr>
+<td>index</td>
+<td>The bullets' charset index</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>The bullets' charset direction</td>
+</tr>
+<tr>
+<td>frame</td>
+<td>The bullets' charset frame</td>
+</tr>
+<tr>
+<td>speed</td>
+<td>The bullets' speed</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>The iconset image</td>
+</tr>
+<tr>
+<td>icon_index</td>
+<td>The index for the icon displayed in the HUD</td>
+</tr>
+<tr>
+<td>class</td>
+<td>The bomb class (must be derived from <code>BHell_Bomb_Base</code>)</td>
+</tr>
+<tr>
+<td>se</td>
+<td>If not <code>null</code>, the sound effect to be played when the bomb is launched</td>
+</tr>
+</tbody>
+</table>
+<p>An example of configuration (using one of the bombs created in <a href="tutorial-bombs_js.html">Creating new bombs</a>) is the following:</p>
+<pre><code>&quot;bomb&quot;: {
+    &quot;sprite&quot;: &quot;$Bullets&quot;,
+    &quot;index&quot;: 0,
+    &quot;direction&quot;: 4,
+    &quot;frame&quot;: 1,
+    &quot;speed&quot;: 9,
+    &quot;icon&quot;: &quot;IconSet&quot;,
+    &quot;icon_index&quot;: 66,
+    &quot;class&quot;: &quot;BHell_Bomb_Thunder&quot;,
+    &quot;se&quot;: {
+        &quot;name&quot;: &quot;Explosion2&quot;,
+        &quot;volume&quot;: 100,
+        &quot;pitch&quot;: 100,
+        &quot;pan&quot;: 0
+    }
+}
+</code></pre>
+<p>There are four predefined bomb classes (if you want to create your own, see <a href="tutorial-bombs_js.html">Creating new bombs</a>).</p>
+<h3><a href="BHell.BHell_Bomb_Earth.html"><code>Earth</code></a></h3>
+<p>Creates two protective rings of bullets around the player, lasting 10 seconds. The rings follow the player.</p>
+<p><img src="bomb_earth.gif" alt="Earth bomb"></p>
+<h3><a href="BHell.BHell_Bomb_Ice.html"><code>Ice</code></a></h3>
+<p>Creates a 25-pointed snowflake of bullets lasting 5 seconds. The snowflake doesn't follow the player.</p>
+<p><img src="bomb_ice.gif" alt="Ice bomb"></p>
+<h3><a href="BHell.BHell_Bomb_Water.html"><code>Water</code></a></h3>
+<p>Creates 5 rings of bullets rippling outwards. The rings don't follow the player.</p>
+<p><img src="bomb_water.gif" alt="Water bomb"></p>
+<h3><a href="BHell.BHell_Bomb_Wind.html"><code>Wind</code></a></h3>
+<p>Creates a whirlwind of bullets for 5 seconds. The whirlwind's eye is centered at the player.</p>
+<p><img src="bomb_wind.gif" alt="Wind bomb"></p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:19 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

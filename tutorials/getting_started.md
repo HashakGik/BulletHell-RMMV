@@ -1,0 +1,1 @@
+This RPG Maker MV plugin implements a *Bullet hell* shoot 'em up engine. These tutorials will cover the plugin's basic configuration.

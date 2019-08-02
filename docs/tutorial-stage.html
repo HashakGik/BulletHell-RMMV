@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Creating a new stage</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Creating a new stage</h1>
+
+    <section>
+
+<header>
+    
+    <ul>
+        <li><a href="tutorial-override.html">Overriding enemies' default behaviour</a></li>
+    
+        <li><a href="tutorial-spline.html">Using the spline generator</a></li>
+    </ul>
+    
+
+    <h2>Creating a new stage</h2>
+</header>
+
+<article>
+    <p>In this tutorial we are going to create a new stage.
+Before you proceed, you should be familiar with how the engine works (read <a href="tutorial-mechanics.html">Game Mechanics</a> if you haven't yet).</p>
+<p>The engine leverages RPG Maker's Map Editor, so basically we are going to create a map with some events in it.</p>
+<p>Let's start by creating a new map in the usual way. Just keep in mind the following considerations though:</p>
+<ul>
+<li>the player will cross the map vertically, a width larger than the default (17 tiles) would be a waste,</li>
+<li>if you want your map to loop once the player reaches the top, don't forget to set the <code>Scroll Type</code> property to <code>Loop Vertically</code>.</li>
+</ul>
+<p><img src="map1.png" alt="Map properties"></p>
+<p>Now we set our scrolling speed in the map's note (if we don't specify anything, the engine will scroll the map at a speed of 0.1):</p>
+<p><img src="map2.png" alt="Map speed"></p>
+<p>We are done with the map's properties! Let's move on to our stage's background.
+The engine automatically draws the tiles we set on the map editor and uses them as background for the stage, let's draw something (please excuse my poor mapping abilities):</p>
+<p><img src="map3.png" alt="Map background"></p>
+<p>It's time to add our enemies!</p>
+<p>We are not going to add enemies directly, instead we are going to place <code>generators</code> on map which will create a certain number of enemies for us, when the player reaches their position.
+A generator is any event which has a note in one of the following forms:</p>
+<pre><code>&lt;enemy name:number of enemies:period:sync&gt;
+&lt;enemy name:number of enemies:period:sync:stop&gt;
+</code></pre>
+<ul>
+<li>Enemy class: the name of the enemy as we defined it in the JSON file (see <a href="tutorial-enemies.html">Configuring the enemies</a> and <a href="tutorial-override.html">Overriding enemies' default behaviour</a>),</li>
+<li>Number of enemies: how many enemies will be spawned by the generator,</li>
+<li>Sync: if <code>true</code> the generator should be considered a synchronising generator (see <a href="tutorial-mechanics.html">Game Mechanics</a>),</li>
+<li>Stop: if <code>true</code> the generator should be considered a stopping generator (if not set, it's considered <code>false</code>).</li>
+</ul>
+<p>The event's charset will determine the spawned enemies apperance.</p>
+<p>The following is a generator which will spawn three small fries, one every half second (30 frames) and which won't synchronise the stage:</p>
+<p><img src="map4.png" alt="Small fries"></p>
+<p>This one instead is a generator which will spawn a single small fry, will override its path's parameters (see <a href="tutorial-override.html">Overriding enemies' default behaviour</a> and <a href="tutorial-spline.html">Using the spline generator</a>) and will synchronise the stage:</p>
+<p><img src="map5.png" alt="Small fry"></p>
+<p>Maybe we want to add a mini boss halfway in the stage? A miniboss which stops the map from scrolling.</p>
+<p><img src="map6.png" alt="Miniboss"></p>
+<p>Let's continue with our normal enemies:</p>
+<p><img src="map7.png" alt="Gunner"></p>
+<p>And so on until our stage is finished...</p>
+<p><img src="map8.png" alt="Completed map"></p>
+<p>There is only one thing left: to start our stage!</p>
+<p>Open again the map properties and take note of the <code>Map ID</code>:</p>
+<p><img src="map_id.png" alt="Map ID"></p>
+<p>Now all you have to do is to call the plugin's command from a regular event on a regular map:</p>
+<p><img src="event.png" alt="Event"></p>
+<p>...And we are done!</p>
+<p><img src="stage.png" alt="Stage"></p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:19 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

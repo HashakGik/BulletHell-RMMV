@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Creating new movers</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Creating new movers</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Creating new movers</h2>
+</header>
+
+<article>
+    <p>In this tutorial we are going to create a new <code>Mover</code> class which will allow an enemy to <em>teleport</em> at the player's position.
+Just like creating a new <code>Emitter</code> (see <a href="tutorial-emitter_js.html">Creating new emitters</a>) or <code>Enemy</code> (see <a href="tutorial-enemies_js.html">Creating new enemies</a>), implementing a new <code>Mover</code> is a simple exercise of object-oriented programming.</p>
+<p>Let's start by creating a new plugin called <code>teleport.js</code> and let's reopen the <code>BHell</code> module in order to have access to all the engine's variables:</p>
+<pre><code>var BHell = (function (my) {    
+    /* Our code will go here */
+    
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>Inside our module, we'll create a new class, extending <code>BHell_Mover_Base</code>:</p>
+<pre><code>var BHell_Mover_Teleport = my.BHell_Mover_Teleport = function () {
+    this.initialize.apply(this, arguments);
+};
+
+BHell_Mover_Teleport.prototype = Object.create(my.BHell_Mover_Base.prototype);
+BHell_Mover_Teleport.prototype.constructor = BHell_Mover_Teleport;
+
+BHell_Mover_Teleport.prototype.initialize = function () {
+    my.BHell_Mover_Base.prototype.initialize.call(this);
+};
+</code></pre>
+<p>Now it's time to think about our class' behaviour: we want to move our enemy <em>on a straight line</em> until a starting position is reached, and then we want to teleport it to the player's position, giving it enough time to avoid being killed.</p>
+<p>We can summarise this behaviour in the following way:</p>
+<ul>
+<li>If the enemy has not reached the initial position yet, move towards it;</li>
+<li>Otherwise:
+<ul>
+<li>Memorise the player's position;</li>
+<li>Wait some time;</li>
+<li>Teleport to the memorised position.</li>
+</ul>
+</li>
+</ul>
+<p>In order to implement this behaviour, we need to initialise some parameters:</p>
+<ul>
+<li>Initial x position;</li>
+<li>Initial y position;</li>
+<li>Delay between memorisation and teleportation;</li>
+<li>If the enemy has reached its initial position;</li>
+<li>A frame counter for time keeping.</li>
+</ul>
+<p>Our <code>initialize</code> method will therefore set the initial value for these (three of which should be passed):</p>
+<pre><code>BHell_Mover_Teleport.prototype.initialize = function (x, y, delay) {
+    my.BHell_Mover_Base.prototype.initialize.call(this);
+
+    this.initX = x;
+    this.initY = y;
+    this.delay = delay;
+    this.inPosition = false;
+    this.i = 0;
+};
+</code></pre>
+<p>From <a href="BHell.BHell_Mover_Base.html#move"><code>BHell.BHell_Mover_Base#move</code></a>, you can see that a <code>Mover</code> returns the new set of coordinates into a new array, based on the old ones and the speed.</p>
+<p>Let's try to divide our behaviour into smaller steps:</p>
+<ul>
+<li>
+<p>If the enemy has not reached the initial position yet, move towards it (i.e. determine the angle between the old position and the destination and move a step towards it, no farther than what is allowed by the defined speed):</p>
+<pre><code>  var dx = this.initX - oldX;
+  var dy = this.initY - oldY;
+
+  // If the error is less than two pixels, consider it in place.
+  if (Math.abs(dx) &lt;= 2 &amp;&amp; Math.abs(dy) &lt;= 2) {
+      this.inPosition = true;
+      ret.push(this.initX);
+      ret.push(this.initY);
+  }
+  else {
+      var angle = Math.atan2(dy, dx);
+      ret.push(oldX + Math.cos(angle) * speed);
+      ret.push(oldY + Math.sin(angle) * speed);
+  }
+</code></pre>
+</li>
+<li>
+<p>Otherwise:</p>
+<ul>
+<li>
+<p>Memorise the player's position:</p>
+<pre><code>  if (this.i === 0) {        
+      this.destX = my.player.x;
+      this.destY = my.player.y;
+      // Since no movement is required yet, return the old coordinates.
+      ret.push(oldX);
+      ret.push(oldY);
+  }    
+</code></pre>
+</li>
+<li>
+<p>Wait <code>delay</code> frames:</p>
+<pre><code>  if (this.i === this.delay - 1) {
+      /* do something */
+  }
+  else {
+      // Don't move.
+      ret.push(oldX);
+      ret.push(oldY);
+  }
+  
+  this.i = (this.i + 1) % this.delay;
+</code></pre>
+</li>
+<li>
+<p>Teleport to the memorised position:</p>
+<pre><code>  if (this.i === this.delay - 1) {
+      ret.push(this.destX);
+      ret.push(this.destY);
+  }
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>Let's put the pieces together:</p>
+<pre><code>BHell_Mover_Teleport.prototype.move = function (oldX, oldY, speed) {
+    var ret = [];
+    if (this.inPosition) {
+        if (this.i === 0) {
+            this.destX = my.player.x;
+            this.destY = my.player.y;
+
+            ret.push(oldX);
+            ret.push(oldY);
+        }
+        else if (this.i === this.delay - 1) {
+            ret.push(this.destX);
+            ret.push(this.destY);
+        }
+        else {
+            ret.push(oldX);
+            ret.push(oldY);
+        }
+
+        this.i = (this.i + 1) % this.delay;
+    }
+    else {
+        var dx = this.initX - oldX;
+        var dy = this.initY - oldY;
+
+        if (Math.abs(dx) &lt;= 2 &amp;&amp; Math.abs(dy) &lt;= 2) {
+            this.inPosition = true;
+            ret.push(this.initX);
+            ret.push(this.initY);
+        }
+        else {
+            var angle = Math.atan2(dy, dx);
+            ret.push(oldX + Math.cos(angle) * speed);
+            ret.push(oldY + Math.sin(angle) * speed);
+        }
+    }
+
+    return ret;
+};
+</code></pre>
+<p>Our <code>BHell_Mover_Teleport</code> is now complete (if you want to push it on the <code>master</code> branch don't forget the JSDoc documentation!):</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Mover_Teleport = my.BHell_Mover_Teleport = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Mover_Teleport.prototype = Object.create(my.BHell_Mover_Base.prototype);
+    BHell_Mover_Teleport.prototype.constructor = BHell_Mover_Teleport;
+
+    BHell_Mover_Teleport.prototype.initialize = function (x, y, delay) {
+        my.BHell_Mover_Base.prototype.initialize.call(this);
+
+        this.initX = x;
+        this.initY = y;
+        this.delay = delay;
+        this.inPosition = false;
+        this.i = 0;
+    };
+
+    BHell_Mover_Teleport.prototype.move = function (oldX, oldY, speed) {
+        var ret = [];
+        if (this.inPosition) {
+            if (this.i === 0) {
+                this.destX = my.player.x;
+                this.destY = my.player.y;
+
+                ret.push(oldX);
+                ret.push(oldY);
+            }
+            else if (this.i === this.delay - 1) {
+                ret.push(this.destX);
+                ret.push(this.destY);
+            }
+            else {
+                ret.push(oldX);
+                ret.push(oldY);
+            }
+
+            this.i = (this.i + 1) % this.delay;
+        }
+        else {
+            var dx = this.initX - oldX;
+            var dy = this.initY - oldY;
+
+            if (Math.abs(dx) &lt;= 2 &amp;&amp; Math.abs(dy) &lt;= 2) {
+                this.inPosition = true;
+                ret.push(this.initX);
+                ret.push(this.initY);
+            }
+            else {
+                var angle = Math.atan2(dy, dx);
+                ret.push(oldX + Math.cos(angle) * speed);
+                ret.push(oldY + Math.sin(angle) * speed);
+            }
+        }
+
+        return ret;
+    };
+
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>We can finally import our class as a plugin on RPG Maker MV.</p>
+<p><img src="teleport_plugin.png" alt="teleport"></p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bombs.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bombs.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace BHell
+ */
+var BHell = (function (my) {
+
+    /**
+     * Bomb base class. It simply deletes every enemy bullet on screen.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Sprite
+     */
+    var BHell_Bomb_Base = my.BHell_Bomb_Base = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Base.prototype = Object.create(Object.prototype);
+    BHell_Bomb_Base.prototype.constructor = BHell_Bomb_Base;
+
+    /**
+     * Constructor.
+     *
+     * Parameters:
+     *
+     * - sprite: The bullets' charset file,
+     * - index: The bullets' charset index,
+     * - direction: The bullets' charset direction,
+     * - frame: The bullets' charset frame,
+     * - icon: The bomb's iconset,
+     * - icon_index: The bomb's icon index,
+     * - se: The sound effect to be played when launching a bomb.
+     *
+     * @param parent Container for the derived classes' effects.
+     * @param params Bomb parameters.
+     * @param bulletList Array in which the spawned bullets will be stored.
+     */
+    BHell_Bomb_Base.prototype.initialize = function (parent, params, bulletList) {
+        this.i = 0;
+
+        this.bulletList = bulletList;
+        this.parent = parent;
+        this.params = params;
+
+        this.bulletParams = {};
+        this.bulletParams.sprite = this.params.sprite;
+        this.bulletParams.index = this.params.index;
+        this.bulletParams.direction = this.params.direction;
+        this.bulletParams.frame = this.params.frame;
+
+        this.active = false;
+    };
+
+    /**
+     * Checks if a bomb is currently active.
+     * @returns {boolean} True if a bomb is active.
+     */
+    BHell_Bomb_Base.prototype.isActive = function () {
+        return this.active;
+    };
+
+    /**
+     * Activates a bomb. Makes every enemy bullet on screen explode.
+     * @param x X activation coordinate.
+     * @param y Y activaton coordinate.
+     */
+    BHell_Bomb_Base.prototype.activate = function (x, y) {
+        if (this.active === false) {
+            this.x = x;
+            this.y = y;
+            this.i = 0;
+            if (this.params.se != null) {
+                AudioManager.playSe(this.params.se);
+            }
+
+            this.active = true;
+
+            if (my.controller != null) {
+                my.controller.destroyEnemyBullets();
+            }
+        }
+    };
+
+    /**
+     * Deactivates the bomb.
+     */
+    BHell_Bomb_Base.prototype.deactivate = function () {
+        this.active = false;
+    };
+
+    /**
+     * Updates the bomb. After one second it automatically deactivates it.
+     */
+    BHell_Bomb_Base.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i >= 60) {
+                this.deactivate();
+            }
+        }
+    };
+
+    /**
+     * Wind bomb class. Creates a whirlwind of bullets around the player. Lasts 5 seconds.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Bomb_Base
+     */
+    var BHell_Bomb_Wind = my.BHell_Bomb_Wind = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Wind.prototype = Object.create(BHell_Bomb_Base.prototype);
+    BHell_Bomb_Wind.prototype.constructor = BHell_Bomb_Wind;
+
+    BHell_Bomb_Wind.prototype.initialize = function (parent, params, bulletList) {
+        BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+    };
+
+    /**
+     * Updates the bomb. For 5 seconds (300 frames) creates four bullets each frame.
+     */
+    BHell_Bomb_Wind.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i > 300) {
+                this.deactivate();
+            }
+            else {
+                for (var j = 0; j &lt; 4; j++) {
+                    var bullet = new my.BHell_Bullet(my.player.x, my.player.y, Math.PI / 180 * (j + this.i * 16), this.bulletParams, this.bulletList);
+
+                    this.bulletList.push(bullet);
+                    this.parent.addChild(bullet);
+                }
+            }
+        }
+    };
+
+    /**
+     * Water bomb class. Creates 5 concentric rings of bullets centered at the activation point (not the player). Lasts 5 seconds.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Bomb_Base
+     */
+    var BHell_Bomb_Water = my.BHell_Bomb_Water = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Water.prototype = Object.create(BHell_Bomb_Base.prototype);
+    BHell_Bomb_Water.prototype.constructor = BHell_Bomb_Water;
+
+    BHell_Bomb_Water.prototype.initialize = function (parent, params, bulletList) {
+        BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+    };
+
+    /**
+     * Updates the bomb. Creates 360 bullets travelling radially from the spawn point every second (60 frames).
+     */
+    BHell_Bomb_Water.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i > 300) {
+                this.deactivate();
+            }
+            else if (this.i % 60 === 0) {
+                for (var j = 0; j &lt; 360; j++) {
+                    var bullet = new my.BHell_Bullet(this.x, this.y, Math.PI / 180 * j, this.bulletParams, this.bulletList);
+
+                    this.bulletList.push(bullet);
+                    this.parent.addChild(bullet);
+                }
+            }
+        }
+    };
+
+    /**
+     * Earth bomb class. Creates two protective rings around the player. Instead of travelling straight,
+     * the bullets orbit the player. Lasts 10 seconds.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Bomb_Base
+     */
+    var BHell_Bomb_Earth = my.BHell_Bomb_Earth = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Earth.prototype = Object.create(BHell_Bomb_Base.prototype);
+    BHell_Bomb_Earth.prototype.constructor = BHell_Bomb_Earth;
+
+    BHell_Bomb_Earth.prototype.initialize = function (parent, params, bulletList) {
+        BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+
+        this.bullets = [];
+    };
+
+    /**
+     * Activates the bomb. Creates 50 bullets rotating (the default behaviour is overridden) counterclockwise at 200 pixels
+     * from the player and 25 rotating clockwise at 100 pixels from the player. Bullets are stored in an internal array
+     * for deactivation's sake.
+     * @param x X activation coordinate.
+     * @param y Y activation coordinate.
+     */
+    BHell_Bomb_Earth.prototype.activate = function (x, y) {
+        BHell_Bomb_Base.prototype.activate.call(this, x, y);
+
+        var j;
+        var bullet;
+
+        for (j = 0; j &lt; 50; j++) {
+            bullet = new my.BHell_Bullet(200 * Math.cos(2 * Math.PI / 50 * j) + my.player.x, 200 * Math.sin(2 * Math.PI / 50 * j) + my.player.y, 2 * Math.PI / 50 * j, this.bulletParams, this.bulletList);
+            bullet.update = function () {
+                this.x = 200 * Math.cos(this.angle) + my.player.x;
+                this.y = 200 * Math.sin(this.angle) + my.player.y;
+                this.angle += 0.1;
+                if (this.angle >= Math.PI * 2) {
+                    this.angle -= Math.PI * 2;
+                }
+            };
+
+            this.bullets.push(bullet);
+            this.bulletList.push(bullet);
+            this.parent.addChild(bullet);
+        }
+
+        for (j = 0; j &lt; 25; j++) {
+            bullet = new my.BHell_Bullet(100 * Math.cos(2 * Math.PI / 25 * j) + my.player.x, 100 * Math.sin(2 * Math.PI / 25 * j) + my.player.y, 2 * Math.PI / 25 * j, this.bulletParams, this.bulletList);
+            bullet.update = function () {
+                this.x = 100 * Math.cos(this.angle) + my.player.x;
+                this.y = 100 * Math.sin(this.angle) + my.player.y;
+                this.angle -= 0.1;
+                if (this.angle &lt;= 0) {
+                    this.angle += Math.PI * 2;
+                }
+            };
+
+            this.bullets.push(bullet);
+            this.bulletList.push(bullet);
+            this.parent.addChild(bullet);
+        }
+    };
+
+    /**
+     * Updates the bomb. After 10 seconds it's deactivated.
+     */
+    BHell_Bomb_Earth.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i > 600) {
+                this.deactivate();
+            }
+        }
+    };
+
+    /**
+     * Deactivates the bomb. Destroyes every bullet left orbiting the player.
+     */
+    BHell_Bomb_Earth.prototype.deactivate = function () {
+        BHell_Bomb_Base.prototype.deactivate.call(this);
+        while (this.bullets.length > 0) {
+            var bullet = this.bullets.pop();
+            bullet.destroy();
+        }
+
+    };
+
+    /**
+     * Ice bomb class. Creates a 25 pointed star of bullets centered at the activation point. Lasts 5 seconds.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Bomb_Base
+     */
+    var BHell_Bomb_Ice = my.BHell_Bomb_Ice = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Bomb_Ice.prototype = Object.create(BHell_Bomb_Base.prototype);
+    BHell_Bomb_Ice.prototype.constructor = BHell_Bomb_Ice;
+
+    BHell_Bomb_Ice.prototype.initialize = function (parent, params, bulletList) {
+        BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);
+    };
+
+    /**
+     * Updates the bomb. Creates 25 bullets radially every 5 frames.
+     */
+    BHell_Bomb_Ice.prototype.update = function () {
+        if (this.active === true) {
+            this.i++;
+
+            if (this.i > 300) {
+                this.deactivate();
+            }
+            else if (this.i % 5 === 0) {
+                for (var j = 0; j &lt; 25; j++) {
+                    var bullet = new my.BHell_Bullet(this.x, this.y, 2 * Math.PI / 25 * j, this.bulletParams, this.bulletList);
+
+                    this.bulletList.push(bullet);
+                    this.parent.addChild(bullet);
+                }
+            }
+        }
+    };
+
+    return my;
+}(BHell || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

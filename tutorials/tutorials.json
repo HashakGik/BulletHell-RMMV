@@ -1,0 +1,69 @@
+{
+  "getting_started": {
+    "title": "Getting Started",
+    "children": {
+      "plugin": {
+        "title": "Using the plugin"
+      },
+      "mechanics": {
+        "title": "Game Mechanics"
+      },
+      "json": {
+        "title": "Configuring the basic behaviour",
+        "children": {
+          "player": {
+            "title": "Configuring the player",
+            "children": {
+              "emitters": {
+                "title": "Configuring the emitters",
+                "children": {
+                  "bullets": {
+                    "title": "Configuring the bullets"
+                  }
+                }
+              },
+              "bombs": {
+                "title": "Configuring the bombs"
+              }
+            }
+          },
+          "enemies": {
+            "title": "Configuring the enemies"
+          }
+        }
+      },
+      "stage": {
+        "title": "Creating a new stage",
+        "children":
+        {
+          "override": {
+            "title": "Overriding enemies' default behaviour"
+          },
+          "spline": {
+            "title": "Using the spline generator"
+          }
+        }
+      }
+    }
+  },
+  "advanced": {
+    "title": "Advanced Topics",
+    "children": {
+      "bombs_js": {
+        "title": "Creating new bombs"
+      },
+      "emitter_js": {
+        "title": "Creating new emitters"
+      },
+      "mover_js": {
+        "title": "Creating new movers"
+      },
+      "enemies_js": {
+        "title": "Creating new enemies"
+      },
+      "bosses": {
+        "title": "Creating a boss"
+      }
+    }
+  }
+}

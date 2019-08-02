@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Creating new enemies</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Creating new enemies</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Creating new enemies</h2>
+</header>
+
+<article>
+    <p>In this tutorial we are going to create two new <code>Enemy</code> classes.
+Just like creating a new <code>Emitter</code> (see <a href="tutorial-emitter_js.html">Creating new emitters</a>) or <code>Mover</code> (see <a href="tutorial-mover_js.html">Creating new movers</a>), implementing a new <code>Enemy</code> is a simple exercise of object-oriented programming.</p>
+<h3>Telefragger enemy</h3>
+<p>In this part of the tutorial we are going to create an enemy which is incapable of shooting, but which will try to kill the player by <em>telefragging</em> it (a term coined in the Doom series referring to the action of destroying something by teleporting on it).
+Since instantly killing the player would not be fair, our enemy will wait for two seconds before teleporting itself.</p>
+<p>In our <a href="tutorial-mover_js.html">Creating new movers</a> tutorial, we created a <code>BHell_Mover_Teleport</code> class which performs exactly the kind of movement we need, so let's start by loading that plugin:</p>
+<p><img src="teleport_plugin.png" alt="teleport"></p>
+<p>Let's now create a new plugin called <code>telefragger.js</code> and let's reopen the <code>BHell</code> module in order to have access to all the engine's variables:</p>
+<pre><code>var BHell = (function (my) {    
+    /* Our code will go here */
+    
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>Since we don't need any of the peculiarities of the already defined enemies (e.g. the shooting behaviour of a <a href="BHell.BHell_Enemy_Gunner_Base.html"><code>BHell.BHell_Enemy_Gunner_Base</code></a> or the orbiting movement of a <a href="BHell.BHell_Enemy_Orbiter.html"><code>BHell.BHell_Enemy_Orbiter</code></a>), our <code>BHell_Enemy_Telefragger</code> will extend <a href="BHell.BHell_Enemy_Base.html"><code>BHell.BHell_Enemy_Base</code></a>:</p>
+<pre><code>var BHell_Enemy_Telefragger = my.BHell_Enemy_Telefragger = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Enemy_Telefragger.prototype = Object.create(my.BHell_Enemy_Base.prototype);
+    BHell_Enemy_Telefragger.prototype.constructor = BHell_Enemy_Telefragger;
+
+    BHell_Enemy_Telefragger.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+        my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+    };
+</code></pre>
+<blockquote>
+<p><strong>Important</strong>: The game engine will consider enemies only classes called <code>BHell_Enemy_*</code>, so follow this convention.</p>
+</blockquote>
+<p>Our enemy won't shoot and the default <a href="BHell.BHell_Enemy_Base.html#update"><code>BHell.BHell_Enemy_Base#update</code></a> (as well as every other method already defined) behaviour will work just fine for us, so we simply need to initialise our mover:</p>
+<pre><code>BHell_Enemy_Telefragger.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+    my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+
+    this.mover = new my.BHell_Mover_Teleport(x, 20, 120);
+};
+</code></pre>
+<p>Our <code>BHell_Enemy_Telefragger</code> is now complete (don't forget the JSDoc!):</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Enemy_Telefragger = my.BHell_Enemy_Telefragger = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Enemy_Telefragger.prototype = Object.create(my.BHell_Enemy_Base.prototype);
+    BHell_Enemy_Telefragger.prototype.constructor = BHell_Enemy_Telefragger;
+
+    BHell_Enemy_Telefragger.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+        my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+
+        this.mover = new my.BHell_Mover_Teleport(x, 20, 120);
+    };
+
+    return my;
+} (BHell || {}));
+</code></pre>
+<p>That's all! Now we simply add a new entry on our plugin's JSON file:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;telefragger&quot;,
+  &quot;class&quot;: &quot;BHell_Enemy_Telefragger&quot;,
+  &quot;params&quot;: null
+}
+</code></pre>
+<p>And finally (after importing our <code>telefragger.js</code> plugin) we can create a new enemy:</p>
+<p><img src="telefragger.png" alt="telefragger generator"></p>
+<p><img src="telefragger.gif" alt="telefragger"></p>
+<h3>Rammer enemy</h3>
+<p>In this part of the tutorial we are going to create a slightly more complicated enemy.
+We want to create an enemy capable of running very fast towards the player, without the ability to steer if the player moves away. We also want our enemy to shoot quick bursts of bullets ahead of itself and, just for fun, to play a sound effect upon death.
+Unlike our <code>BHell_Enemy_Telefragger</code> we also want to customize it a little, so we are going to define new JSON parameters as well.</p>
+<p>Let's start, as usual, by creating a <code>rammer.js</code> plugin and by reopening our <code>BHell</code> module:</p>
+<pre><code>var BHell = (function (my) {    
+    /* Our code will go here */
+    
+    return my;
+}(BHell || {}));
+</code></pre>
+<p>Now we can create our <code>BHell_Enemy_Rammer</code> class, since we want it to behave similarly to <a href="BHell.BHell_Enemy_Burster.html"><code>BHell.BHell_Enemy_Burster</code></a>, we are going to extend that class:</p>
+<pre><code>var BHell_Enemy_Rammer = my.BHell_Enemy_Rammer = function() {
+    this.initialize.apply(this, arguments);
+};
+
+BHell_Enemy_Rammer.prototype = Object.create(my.BHell_Enemy_Burster.prototype);
+BHell_Enemy_Rammer.prototype.constructor = BHell_Enemy_Rammer;
+
+BHell_Enemy_Rammer.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+    my.BHell_Enemy_Burster.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+};
+</code></pre>
+<p>Among the <code>Mover</code> classes there is <a href="BHell.BHell_Mover_Point.html"><code>BHell.BHell_Mover_Point</code></a>, which stores the initial direction between the player and the enemy and then travels along a straight line, we will use that class for our enemy.</p>
+<pre><code>this.mover = new my.BHell_Mover_Point(this.x, this.y);
+</code></pre>
+<p>Since the emitters are already handled by the base class (<code>BHell_Enemy_Burster</code>), we simply need to tweak the shooting angle for our needs:</p>
+<pre><code>this.emitters[0].angle = Math.atan2(my.player.y - this.y, my.player.x - this.x);
+</code></pre>
+<p>And finally we want to store the dying SE in the JSON as <code>dying_se</code>:</p>
+<pre><code>this.dyingSe = params.dying_se;
+</code></pre>
+<p>Our complete initialisation method becomes:</p>
+<pre><code>BHell_Enemy_Rammer.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+    my.BHell_Enemy_Burster.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+
+    this.dyingSe = params.dying_se;
+
+    // Aim the burst towards the player.
+    this.emitters[0].angle = Math.atan2(my.player.y - this.y, my.player.x - this.x);
+
+    // Replace the mover.
+    this.mover = new my.BHell_Mover_Point(this.x, this.y);
+};
+</code></pre>
+<p>The implementation of <a href="BHell.BHell_Enemy_Burster.html#update"><code>BHell.BHell_Enemy_Burster#update</code></a> does what we need, so there is no need to rewrite it.
+On the other hand, since we want to play our SE on death, we need to override the <a href="BHell.BHell_Enemy_Burster.html#die"><code>BHell.BHell_Enemy_Burster#die</code></a> method:</p>
+<pre><code>BHell_Enemy_Rammer.prototype.die = function () {
+    my.BHell_Enemy_Burster.prototype.die.call(this);
+
+    if (this.dyingSe !== null) {
+        AudioManager.playSe({name: this.dyingSe, volume: 100, pitch: 100, pan: 0});
+    }
+};
+</code></pre>
+<p>We've just finished implementing our <code>BHell_Enemy_Rammer</code>:</p>
+<pre><code>var BHell = (function (my) {
+
+    var BHell_Enemy_Rammer = my.BHell_Enemy_Rammer = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Enemy_Rammer.prototype = Object.create(my.BHell_Enemy_Burster.prototype);
+    BHell_Enemy_Rammer.prototype.constructor = BHell_Enemy_Rammer;
+
+    BHell_Enemy_Rammer.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+        my.BHell_Enemy_Burster.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+
+        this.dyingSe = params.dying_se;
+
+        // Aim the burst towards the player.
+        this.emitters[0].angle = Math.atan2(my.player.y - this.y, my.player.x - this.x);
+
+        // Replace the mover.
+        this.mover = new my.BHell_Mover_Point(this.x, this.y);
+    };
+
+    BHell_Enemy_Rammer.prototype.die = function () {
+        my.BHell_Enemy_Burster.prototype.die.call(this);
+
+        if (this.dyingSe !== null) {
+            AudioManager.playSe({name: this.dyingSe, volume: 100, pitch: 100, pan: 0});
+        }
+    };
+
+    return my;
+} (BHell || {}));
+</code></pre>
+<p>Let's move on to the JSON entry:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;rammer&quot;,
+  &quot;class&quot;: &quot;BHell_Enemy_Rammer&quot;,
+  &quot;params&quot;: null
+}
+</code></pre>
+<p>Since we have defined a <code>dying_se</code> parameter, we can set one in our JSON.
+Let's take this chance to customise some other parameters as well:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;rammer&quot;,
+  &quot;class&quot;: &quot;BHell_Enemy_Rammer&quot;,
+  &quot;params&quot;: {
+    &quot;dispersion&quot;: 20,
+    &quot;shots&quot;: 50,
+    &quot;bullet&quot;: {
+      &quot;speed&quot;: 6
+    },
+    &quot;period&quot;: 30,
+    &quot;speed&quot;: 5,
+    &quot;dying_se&quot;: &quot;Cow&quot;
+  }
+}  
+</code></pre>
+<p>All we need to do now is to import our <code>rammer.js</code> plugin and create a new enemy (maybe overriding some other parameters):</p>
+<p><img src="rammer.png" alt="rammer generator"></p>
+<p><img src="rammer.gif" alt="rammer"></p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

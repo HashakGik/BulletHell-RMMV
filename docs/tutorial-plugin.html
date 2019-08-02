@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Using the plugin</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Using the plugin</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Using the plugin</h2>
+</header>
+
+<article>
+    <p>In order to use this plugin, you must first get a copy of it.
+You can either download a stable release, or compile your own from the latest source files available on <a href="http://github.com/HashakGik/BulletHell-RMMV">GitHub</a>.</p>
+<p>Then you can import it in your RPG Maker MV projects.</p>
+<p><img src="plugin.png" alt="Plugin"></p>
+<h3>Configuring the plugin's parameters</h3>
+<p>Don't be afraid of the high number of parameters, most of them are just localisation strings which will allow you to translate the plugin in any language.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>config</td>
+<td>Configuration file (to be saved in data/)</td>
+<td>BulletHell.json</td>
+</tr>
+<tr>
+<td>resume</td>
+<td>Resume string (pause menu)</td>
+<td>Resume</td>
+</tr>
+<tr>
+<td>retry</td>
+<td>Retry string (pause menu)</td>
+<td>Retry</td>
+</tr>
+<tr>
+<td>quit</td>
+<td>Quit string (pause menu)</td>
+<td>Quit</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>Yes string (pause menu)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>no</td>
+<td>No string (pause menu)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>speed</td>
+<td>Speed rank string (shop and player selection)</td>
+<td>Speed</td>
+</tr>
+<tr>
+<td>rate</td>
+<td>Rate of fire rank string (shop and player selection)</td>
+<td>Rate</td>
+</tr>
+<tr>
+<td>power</td>
+<td>Fire power rank string (shop and player selection)</td>
+<td>Power</td>
+</tr>
+<tr>
+<td>bombs</td>
+<td>Bombs rank string (shop and player selection)</td>
+<td>Bombs</td>
+</tr>
+<tr>
+<td>Autobombs</td>
+<td>Autobombs rank string (shop and player selection)</td>
+<td>Autobombs</td>
+</tr>
+<tr>
+<td>buy_player</td>
+<td>Buy players command string (shop)</td>
+<td>Players</td>
+</tr>
+<tr>
+<td>buy_upgrade</td>
+<td>Buy upgrades command string (shop)</td>
+<td>Upgrades</td>
+</tr>
+<tr>
+<td>init_bgm</td>
+<td>BGM played during player selection</td>
+<td>null</td>
+</tr>
+<tr>
+<td>victory_me</td>
+<td>ME played when winning a stage</td>
+<td>Victory1</td>
+</tr>
+<tr>
+<td>bullet</td>
+<td>Bullets' default charset</td>
+<td>$Bullets</td>
+</tr>
+<tr>
+<td>explosion</td>
+<td>Explosions' charset</td>
+<td>$Explosions</td>
+</tr>
+<tr>
+<td>life_bonus_first</td>
+<td>Score at which the first bonus life is awarded</td>
+<td>30000</td>
+</tr>
+<tr>
+<td>life_bonus_next</td>
+<td>Score at multiples of which the following bonus lives are awarded</td>
+<td>80000</td>
+</tr>
+<tr>
+<td>DCprice</td>
+<td>Price (in G) for a D &gt; C upgrade</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>CBprice</td>
+<td>Price (in G) for a C &gt; B upgrade</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>BAprice</td>
+<td>Price (in G) for a B &gt; A upgrade</td>
+<td>50000</td>
+</tr>
+<tr>
+<td>ASprice</td>
+<td>Price (in G) for an A &gt; S upgrade</td>
+<td>100000</td>
+</tr>
+</tbody>
+</table>
+<h3>Using the plugin</h3>
+<p>The plugin provides the following commands.</p>
+<h4>Starting a stage</h4>
+<p>Start a new stage at a specified <code>map_id</code>:</p>
+<pre><code>Bullethell map_id
+</code></pre>
+<p>For example, the following will start a stage using map 3:</p>
+<pre><code>Bullethell 3
+</code></pre>
+<p>Start a new stage and set the <code>retries_enabled</code> flag:</p>
+<pre><code>Bullethell map_id retries_enabled
+</code></pre>
+<p>For example, the following will disable the &quot;retry&quot; option from the menu:</p>
+<pre><code>Bullethell 3 false
+</code></pre>
+<p>Start a new stage and set the <code>quit_enabled</code> flag:</p>
+<pre><code>Bullethell map_id retries_enabled quit_enabled
+</code></pre>
+<p>For example, the following will keep the &quot;retry&quot; option on the menu, but will disable the &quot;quit&quot; option:</p>
+<pre><code>Bullethell 3 true false
+</code></pre>
+<h4>Opening the shop</h4>
+<pre><code>Bullethell shop
+</code></pre>
+<h4>Unlocking a player</h4>
+<pre><code>Bullethell unlock player_id
+</code></pre>
+<p>For example, if you want to unlock the second player (remember arrays start at 0!):</p>
+<pre><code>Bullethell unlock 1
+</code></pre>
+<p>An unlocked player can be used on stages.</p>
+<h4>Locking a player</h4>
+<pre><code>Bullethell lock player_id
+</code></pre>
+<p>A locked player can no longer be used on stages (but if it can be bought it will appear at the shop).</p>
+<h4>Enabling a player's purchase</h4>
+<pre><code>Bullethell canbuy player_id
+</code></pre>
+<p>A purchasable player appears on sale at the shop (as long as it's not already unlocked).</p>
+<h4>Disabling a player's purchase</h4>
+<pre><code>Bullethell cannotbuy player_id
+</code></pre>
+<p>A player which no longer appears on sale can still be used (if it's  unlocked) on stage.</p>
+<h3>Global variables</h3>
+<p>Normally access to the engine's code is restricted (if you intend to extend it, read <a href="tutorial-advanced.html">Advanced Topics</a>), but there are two global variables you can access.</p>
+<h4>$gameBHellResult</h4>
+<p>At the end of each stage, this variable will hold the stage results, you can inspect it to check wheter the player has won or abandoned the stage, their score, etc.</p>
+<p>See <a href="tutorial-mechanics.html">Game Mechanics</a> for more details.</p>
+<h4>$gamePlayer.bhellPlayers</h4>
+<p>Each player's state is stored in this array, so that every upgrade is saved on save files.
+You can modify this array if you want to give a player some free upgrades/downgrades or a price discount, but otherwise you shouldn't really tamper with it.</p>
+<p>For example, if you want to change the fourth player's price you could call a script with:</p>
+<pre><code>$gamePlayer.bhellPlayers[3].price = 42000;
+</code></pre>
+<p>...or if you want to set the second player's bomb rank to <code>&quot;A&quot;</code>, you could use:</p>
+<pre><code>$gamePlayer.bhellPlayers[1].bombs = &quot;A&quot;; </code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
