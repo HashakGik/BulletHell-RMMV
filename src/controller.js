@@ -190,7 +190,7 @@ var BHell = (function (my) {
                     i--;
                 } else {
                     var enemiesHit = this.enemies.filter(e => {
-                        return e.checkCollision(b.x, b.y)
+                        return e.checkCollision(b.x, b.y);
                     });
 
                     if (enemiesHit.length > 0) {
