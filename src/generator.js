@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**
@@ -22,7 +19,7 @@ BHell_Generator.prototype.constructor = BHell_Generator;
  * 2. JSON configuration file,
  * 3. Game Event's comments.
  *
- * Each level overrides the previous one, to allow a fine grained control over each generator.
+ * Each level overrides the previous one, allowing a fine grained control over each generator.
  * @param x X spawning coordinate.
  * @param y Y spawning coordinate.
  * @param image Sprite for the spawned enemies.

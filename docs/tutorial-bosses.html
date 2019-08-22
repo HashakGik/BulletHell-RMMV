@@ -90,7 +90,7 @@ Finally we want it to move only along the horizontal axis, so we will set the <c
 <li>The forehead won't shoot any bullet, instead it will spawn some <code>Probe</code> enemies:</li>
 </ul>
 <p><img src="darklord_forehead.gif" alt="Darklord forehead"></p>
-<p>Let's consider each of these four as if they were each a single enemy.</p>
+<p>Let's consider each of these four as if they were a single enemy.</p>
 <h5>Forehead</h5>
 <p>We are going to make our forehead spawn a new <code>Probe</code> enemy every three seconds (180 frames).
 In order to do so, we need a frame counter.</p>
@@ -175,35 +175,29 @@ For the time being, let's assume <code>n = 45</code> and <code>bullet.speed = 0.
 </code></pre>
 <p>Unlike our boss' hands, the <code>update</code> method will be slightly more complicated:</p>
 <ul>
-<li>
-<p>our counter should reset every five seconds (300 frames),</p>
-</li>
-<li>
-<p>the emitters should shoot for the first three seconds (180 frames) of the counter,</p>
-</li>
-<li>
-<p>when the counter is reset we want to reset the rotation angles as well (in order to make the pattern more predictable),</p>
-</li>
-<li>
-<p>we want our left claw to swirl clockwise and our right one to swirl counterclockwise.</p>
-<p>BHell_Enemy_Darklord.prototype.updateClaws = function() {
-if (this.clawsCounter === 0) {
-this.clawsEmitters[0].a = Math.PI;
-this.clawsEmitters[0].b = 3 * Math.PI;
-this.clawsEmitters[1].a = 0;
-this.clawsEmitters[1].b = 2 * Math.PI;
-}
-this.shoot(this.clawsEmitters, this.clawsCounter &lt; 180);</p>
-<pre><code>  this.clawsEmitters[0].a += 0.004;
-  this.clawsEmitters[0].b += 0.004;
-  this.clawsEmitters[1].a -= 0.004;
-  this.clawsEmitters[1].b -= 0.004;
-
-  this.clawsCounter = (this.clawsCounter + 1) % 300;
-</code></pre>
-<p>};</p>
-</li>
+<li>our counter should reset every five seconds (300 frames),</li>
+<li>the emitters should shoot for the first three seconds (180 frames) of the counter,</li>
+<li>when the counter is reset we want to reset the rotation angles as well (in order to make the pattern more predictable),</li>
+<li>we want our left claw to swirl clockwise and our right one to swirl counterclockwise.</li>
 </ul>
+<p>Our claws' update method looks like this:</p>
+<pre><code>BHell_Enemy_Darklord.prototype.updateClaws = function() {
+    if (this.clawsCounter === 0) {
+        this.clawsEmitters[0].a = Math.PI;
+        this.clawsEmitters[0].b = 3 * Math.PI;
+        this.clawsEmitters[1].a = 0;
+        this.clawsEmitters[1].b = 2 * Math.PI;
+    }
+    this.shoot(this.clawsEmitters, this.clawsCounter &lt; 180);
+
+    this.clawsEmitters[0].a += 0.004;
+    this.clawsEmitters[0].b += 0.004;
+    this.clawsEmitters[1].a -= 0.004;
+    this.clawsEmitters[1].b -= 0.004;
+
+    this.clawsCounter = (this.clawsCounter + 1) % 300;
+};
+</code></pre>
 <h5>Wings</h5>
 <p>Our wings should shoot a continuous streak of bullets, aimed left (for the left wing) and right (for the right wing) of the player, in order to limit its movements.</p>
 <p>In order to achieve this, we are going to use two <a href="BHell.BHell_Emitter_Angle.html"><code>BHell.BHell_Emitter_Angle</code></a> with the <code>aim</code> and <code>alwaysAim</code> parameters set to true and the <code>aimX</code> parameter set to 100 pixels (with a different sign for each emitter).</p>
@@ -521,38 +515,32 @@ BHell_Enemy_Darklord.prototype.initialize = function(x, y, image, params, parent
 <p>We already wrote our <code>update</code> method, which handles our states in the way we want, and our auxiliary methods which are tailored for our needs.
 All we need to do now is to initialise our boss. We have to:</p>
 <ul>
-<li>
-<p>set some default parameters (for example hit points and speed),</p>
-</li>
-<li>
-<p>initialise our emitters,</p>
-</li>
-<li>
-<p>set the initial state,</p>
-</li>
-<li>
-<p>set the mover.</p>
-<p>BHell_Enemy_Darklord.prototype.initialize = function(x, y, image, params, parent, enemyList) {
-params.hp = 10000;
-params.speed = 0.3;
-params.hitbox_w = 399;
-params.hitbox_h = 350;
-params.animated = false;
-my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);</p>
-<pre><code>  this.initializeForehead();
-  this.initializeHands(parent);
-  this.initializeClaws(parent);
-  this.initializeWings(parent);
-
-  this.j = 0;
-  this.state = &quot;started&quot;;
-  this.receivedDamage = 0;
-
-  this.mover = new my.BHell_Mover_Bounce(Graphics.width / 2, 200, 0, this.hitboxW, this.hitboxH);
-</code></pre>
-<p>};</p>
-</li>
+<li>set some default parameters (for example hit points and speed),</li>
+<li>initialise our emitters,</li>
+<li>set the initial state,</li>
+<li>set the mover.</li>
 </ul>
+<p>This is our initialisation method:</p>
+<pre><code>BHell_Enemy_Darklord.prototype.initialize = function(x, y, image, params, parent, enemyList) {
+    params.hp = 10000;
+    params.speed = 0.3;
+    params.hitbox_w = 399;
+    params.hitbox_h = 350;
+    params.animated = false;
+    my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+
+    this.initializeForehead();
+    this.initializeHands(parent);
+    this.initializeClaws(parent);
+    this.initializeWings(parent);
+
+    this.j = 0;
+    this.state = &quot;started&quot;;
+    this.receivedDamage = 0;
+
+    this.mover = new my.BHell_Mover_Bounce(Graphics.width / 2, 200, 0, this.hitboxW, this.hitboxH);
+};
+</code></pre>
 <p>It looks like we have finished, but there is still one problem: if we test our class now, the emitters won't move with the boss!</p>
 <p>By inspecting <a href="BHell.BHell_Enemy_Base.html#move"><code>BHell.BHell_Enemy_Base#move</code></a> we can easily spot the problem: that method moves only the emitters contained in <code>this.emitters</code>, but our emitters are divided into three arrays.
 Let's fix this problem by rewriting the <code>move</code> method:</p>
@@ -900,7 +888,7 @@ Let's fix this problem by rewriting the <code>move</code> method:</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 22 2019 12:08:08 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

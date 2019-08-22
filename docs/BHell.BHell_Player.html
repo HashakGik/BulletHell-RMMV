@@ -94,7 +94,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line13">line 13</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -169,7 +169,7 @@
 
 
 <div class="description">
-    <p>Checks if the player collidesat given coordinates.</p>
+    <p>Checks if the player collides at given coordinates.</p>
 </div>
 
 
@@ -275,7 +275,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line144">line 144</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -429,7 +429,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line331">line 331</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -465,7 +465,7 @@
     
 
     
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(id, lives, bombs, parent)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(id, lives, unlimitedBombs, parent)</span><span class="type-signature"></span></h4>
     
 
     
@@ -479,17 +479,17 @@
 <li>name: Player's name,</li>
 <li>sprite: Charset image,</li>
 <li>speed: Player's speed rank (D = 1, C = 2, B = 3, A = 4, S = 5. The actual speed is 2 * rank pixels per frame),</li>
-<li>rate: Player's rate of fire rank (D, C, B, A, S. {@see BHell.BHell_Emitter_Factory}).</li>
-<li>power: Player's power rank (D, C, B, A, S. {@see BHell.BHell_Emitter_Factory}),</li>
+<li>rate: Player's rate of fire rank (D, C, B, A, S. See <a href="BHell.BHell_Emitter_Factory.html"><code>BHell.BHell_Emitter_Factory</code></a>).</li>
+<li>power: Player's power rank (D, C, B, A, S. See <a href="BHell.BHell_Emitter_Factory.html"><code>BHell.BHell_Emitter_Factory</code></a>),</li>
 <li>bombs: Player's initial stock of bombs (D = 1, C = 2, B = 3, A = 4, S = 5),</li>
-<li>autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit the player will automatically counterattacks with a bomb, up to rank times per life),</li>
+<li>autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit, the player will automatically counterattack with a bomb, up to rank times per life),</li>
 <li>unlocked: If true the player can be used on a stage,</li>
 <li>can_be_bought: If true the player can be bought at the shop,</li>
 <li>price: The player's price at the shop,</li>
 <li>hitbox_w: Width of the player's hitbox,</li>
 <li>hitbox_h: Height of the player's hitbox,</li>
 <li>index: Charset index,</li>
-<li>direction: Charset direction (note: lives will always use direction 2),</li>
+<li>direction: Charset direction (note: lives displayed on the HUD will always use direction 2),</li>
 <li>frame: Initial charset frame index (0-2),</li>
 <li>animation_speed: Number of updates required for frame change,</li>
 <li>animated: If true the sprite will be animated,</li>
@@ -546,7 +546,7 @@
 
             
 
-            <td class="description last"><p>Id of the player to deserialize.</p></td>
+            <td class="description last"><p>Id of the player to create.</p></td>
         </tr>
 
     
@@ -571,7 +571,7 @@
 
         <tr>
             
-                <td class="name"><code>bombs</code></td>
+                <td class="name"><code>unlimitedBombs</code></td>
             
 
             <td class="type">
@@ -646,7 +646,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line54">line 54</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -734,7 +734,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line319">line 319</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -826,7 +826,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line219">line 219</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -976,7 +976,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line196">line 196</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -1108,7 +1108,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line309">line 309</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line305">line 305</a>
     </li></ul></dd>
     
 
@@ -1196,7 +1196,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line372">line 372</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -1346,7 +1346,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line206">line 206</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line202">line 202</a>
     </li></ul></dd>
     
 
@@ -1439,7 +1439,7 @@ If the player has just been spawned, moves it towards the starting position, oth
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line153">line 153</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -1530,7 +1530,7 @@ bonus lives accordingly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line181">line 181</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -1623,7 +1623,7 @@ bonus lives accordingly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sprite.js.html">sprite.js</a>, <a href="sprite.js.html#line78">line 78</a>
+        <a href="sprite.js.html">sprite.js</a>, <a href="sprite.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -1711,7 +1711,7 @@ bonus lives accordingly.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="player.js.html">player.js</a>, <a href="player.js.html#line356">line 356</a>
+        <a href="player.js.html">player.js</a>, <a href="player.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -1763,7 +1763,7 @@ bonus lives accordingly.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 22 2019 12:08:08 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

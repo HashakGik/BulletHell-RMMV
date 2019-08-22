@@ -1,19 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spline editor</title>
+</head>
 <body style="scroll-behavior: smooth">
 <div id="container" style="width: 5000px; height: 5000px">
 
-<form style="position: fixed;z-index: 9; resize:both">
-    <textarea id="coords" rows="4" cols="30">
-    </textarea>
-    <br />
-    <input id="junk" type="checkbox" /> Draw junk spline
-</form>
+    <form style="position: fixed;z-index: 9; resize:both">
+        <textarea id="coords" rows="4" cols="30">
+        </textarea>
+        <br/>
+        <input id="junk" type="checkbox"/> Draw junk spline
+        <br/>
+        <button id="vMirror" type="button">
+            Mirror vertically
+        </button>
+        <br/>
+        <button id="hMirror" type="button">
+            Mirror horizontally
+        </button>
+        <br/>
+        <button id="translate" type="button">
+            Translate
+        </button>
+        <br/>
+        <button id="rotate" type="button">
+            Rotate
+        </button>
+        <br/>
+        <button id="clear" type="button">
+            Clear
+        </button>
+    </form>
 
-
-<canvas id="myCanvas">
-Your browser does not support the HTML5 canvas tag.</canvas>
-
+    <canvas id="myCanvas">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
 
 </div>
 

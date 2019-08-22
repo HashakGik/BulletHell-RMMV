@@ -70,35 +70,31 @@ We want to cast the same nightmare upon the enemies, so we want to create an emi
 </code></pre>
 <p>Let's initialise our class, we need to retrieve the parameters and initialise the following properties:</p>
 <ul>
-<li>
-<p>position and destination should be set to the player's position (plus the specified offset),</p>
-</li>
-<li>
-<p>the initial phase should be set to moving (we define a <code>stopped</code> flag set to <code>false</code> when moving and to <code>true</code> when shooting, since a <code>shooting</code> flag is already defined and used by <a href="BHell.BHell_Emitter_Base.html"><code>BHell.BHell_Emitter_Base</code></a>),</p>
-</li>
-<li>
-<p>we also need a frame counter for our shooting phase.</p>
-<p>BHell_Emitter_Probe.prototype.initialize = function (x, y, params, parent, bulletList) {
-my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
-this.radius = 20;
-this.speed = 5;
-this.shootingFrames = 60;</p>
-<pre><code>  if (params != null) {
-      this.radius = params.radius || this.radius;
-      this.speed = params.speed || this.speed;
-      this.shootingFrames = params.shootingFrames || this.shootingFrames;
-  }
-
-  this.x = my.player.x + this.offsetX;
-  this.y = my.player.y + this.offsetY;
-  this.destX = this.x;
-  this.destY = this.y;
-  this.stopped = false;
-  this.k = 0;
-</code></pre>
-<p>};</p>
-</li>
+<li>position and destination should be set to the player's position (plus the specified offset),</li>
+<li>the initial phase should be set to moving (we define a <code>stopped</code> flag set to <code>false</code> when moving and to <code>true</code> when shooting, since a <code>shooting</code> flag is already defined and used by <a href="BHell.BHell_Emitter_Base.html"><code>BHell.BHell_Emitter_Base</code></a>),</li>
+<li>we also need a frame counter for our shooting phase.</li>
 </ul>
+<p>Our initialisation method looks like this:</p>
+<pre><code>BHell_Emitter_Probe.prototype.initialize = function (x, y, params, parent, bulletList) {
+    my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    this.radius = 20;
+    this.speed = 5;
+    this.shootingFrames = 60;
+
+    if (params != null) {
+        this.radius = params.radius || this.radius;
+        this.speed = params.speed || this.speed;
+        this.shootingFrames = params.shootingFrames || this.shootingFrames;
+    }
+
+    this.x = my.player.x + this.offsetX;
+    this.y = my.player.y + this.offsetY;
+    this.destX = this.x;
+    this.destY = this.y;
+    this.stopped = false;
+    this.k = 0;
+};
+</code></pre>
 <p>The default <a href="BHell.BHell_Emitter_Base.html#update"><code>BHell.BHell_Emitter_Base#update</code></a> implementation updates the shooting state every frame, but we want our emitter not to shoot when it's moving, so we need to reimplement it:</p>
 <pre><code>BHell_Emitter_Probe.prototype.update = function () {
     // Don't forget to update the sprite!
@@ -123,90 +119,87 @@ this.shootingFrames = 60;</p>
 </code></pre>
 <p>Our <code>move</code> method will need to deal with a complex behaviour:</p>
 <ul>
-<li>
-<p>if the player has just spawned follow it (taking the offset into account),</p>
-</li>
-<li>
-<p>otherwise if the emitter is <strong>not</strong> shooting:</p>
+<li>if the player has just spawned follow it (taking the offset into account),</li>
+<li>otherwise if the emitter is <strong>not</strong> shooting:
 <ul>
 <li>if the emitter is <em>close enough</em> (i.e. two pixels) to the destination, pick a new destination and start shooting,</li>
 <li>otherwise move towards the destination (limiting the space traveled each frame by the emitter's speed).</li>
 </ul>
-<p>BHell_Emitter_Probe.prototype.move = function (x, y) {</p>
-<pre><code>      if (my.player.justSpawned) {
-          this.x = my.player.x + this.offsetX;
-          this.y = my.player.y + this.offsetY;
-          this.destX = my.player.x + this.offsetX;
-          this.destY = my.player.y + this.offsetY;
-      }
-
-      if (!this.stopped) {
-          var dx = this.destX - this.x;
-          var dy = this.destY - this.y;
-
-          if (Math.abs(dx) &lt; 2 &amp;&amp; Math.abs(dy) &lt; 2) {
-              var phi = Math.random() * 2 * Math.PI;
-              var r = Math.random() * this.radius;
-
-              this.destX = x + Math.round(Math.cos(phi) * r) + this.offsetX;
-              this.destY = y + Math.round(Math.sin(phi) * r) + this.offsetY;
-              this.stopped = true;
-          }
-          else {
-              var angle = Math.atan2(dy, dx);
-
-              if (dx &gt; 0) {
-                  this.x += Math.cos(angle) * Math.min(dx, this.speed);
-              }
-              else if (dx &lt; 0) {
-                  this.x += Math.cos(angle) * Math.max(dx, this.speed);
-              }
-
-              if (dy &gt; 0) {
-                  this.y += Math.sin(angle) * Math.min(dy, this.speed);
-              }
-              else if (dy &lt; 0) {
-                  this.y += Math.sin(angle) * Math.max(dy, this.speed);
-              }
-          }
-      }
-  };
-</code></pre>
 </li>
 </ul>
+<p>This is our move method:</p>
+<pre><code>BHell_Emitter_Probe.prototype.move = function (x, y) {
+
+        if (my.player.justSpawned) {
+            this.x = my.player.x + this.offsetX;
+            this.y = my.player.y + this.offsetY;
+            this.destX = my.player.x + this.offsetX;
+            this.destY = my.player.y + this.offsetY;
+        }
+
+        if (!this.stopped) {
+            var dx = this.destX - this.x;
+            var dy = this.destY - this.y;
+
+            if (Math.abs(dx) &lt; 2 &amp;&amp; Math.abs(dy) &lt; 2) {
+                var phi = Math.random() * 2 * Math.PI;
+                var r = Math.random() * this.radius;
+
+                this.destX = x + Math.round(Math.cos(phi) * r) + this.offsetX;
+                this.destY = y + Math.round(Math.sin(phi) * r) + this.offsetY;
+                this.stopped = true;
+            }
+            else {
+                var angle = Math.atan2(dy, dx);
+
+                if (dx &gt; 0) {
+                    this.x += Math.cos(angle) * Math.min(dx, this.speed);
+                }
+                else if (dx &lt; 0) {
+                    this.x += Math.cos(angle) * Math.max(dx, this.speed);
+                }
+
+                if (dy &gt; 0) {
+                    this.y += Math.sin(angle) * Math.min(dy, this.speed);
+                }
+                else if (dy &lt; 0) {
+                    this.y += Math.sin(angle) * Math.max(dy, this.speed);
+                }
+            }
+        }
+    };
+</code></pre>
 <p>The shooting behaviour (enabled only when the emitter is not moving) is the following:</p>
 <ul>
-<li>
-<p>if there are enemies on screen spawn a bullet aimed at every one of them,</p>
-</li>
-<li>
-<p>otherwise (there are no enemies on stage or we are previewing the player in the shop or player selection screens), spawn a bullet aimed at a random direction.</p>
-<p>BHell_Emitter_Probe.prototype.shoot = function () {
-if (this.stopped) {
-if (my.controller != null &amp;&amp; my.controller.enemies != null) {
-for (var l = 0; l &lt; my.controller.enemies.length; l++) {
-var enemy = my.controller.enemies[l];
-var angle = Math.atan2(enemy.y - this.y, enemy.x - this.x);
-var bullet = new my.BHell_Bullet(this.x, this.y, angle, this.bulletParams, this.bulletList);</p>
-<pre><code>              this.parent.addChild(bullet);
-              this.bulletList.push(bullet);
-          }
-      }
-      else {
-          var angle = Math.random() * 2 * Math.PI;
-          var bullet = new my.BHell_Bullet(this.x, this.y, angle, this.bulletParams, this.bulletList);
-
-          this.parent.addChild(bullet);
-          this.bulletList.push(bullet);
-      }
-  }
-</code></pre>
-<p>};</p>
-</li>
+<li>if there are enemies on screen spawn a bullet aimed at every one of them,</li>
+<li>otherwise (there are no enemies on stage or we are previewing the player in the shop or player selection screens), spawn a bullet aimed at a random direction.</li>
 </ul>
+<p>Our shoot method looks like this:</p>
+<pre><code>BHell_Emitter_Probe.prototype.shoot = function () {
+    if (this.stopped) {
+        if (my.controller != null &amp;&amp; my.controller.enemies != null) {
+            for (var l = 0; l &lt; my.controller.enemies.length; l++) {
+                var enemy = my.controller.enemies[l];
+                var angle = Math.atan2(enemy.y - this.y, enemy.x - this.x);
+                var bullet = new my.BHell_Bullet(this.x, this.y, angle, this.bulletParams, this.bulletList);
+
+                this.parent.addChild(bullet);
+                this.bulletList.push(bullet);
+            }
+        }
+        else {
+            var angle = Math.random() * 2 * Math.PI;
+            var bullet = new my.BHell_Bullet(this.x, this.y, angle, this.bulletParams, this.bulletList);
+
+            this.parent.addChild(bullet);
+            this.bulletList.push(bullet);
+        }
+    }
+};
+</code></pre>
 <p>If we were dealing with an enemy emitter, we could stop here and equip an enemy class with it, but for player's use we need to do something more.
 Player's emitters are parsed by <a href="BHell.BHell_Emitter_Factory.html"><code>BHell.BHell_Emitter_Factory</code></a>, which takes care of properly parsing parameters and, most importantly, to implement the ranking mechanics for the emitters (i.e. the <code>rate</code> rank will modify the emitter's <code>period</code>, while the <code>power</code> rank will determine if the emitter should be created or not).</p>
-<p>To allow our players to use our <code>BHell_Emitter_Probe</code>, we need to extend <a href="BHell.BHell_Emitter_Factory.html#.create"><code>BHell.BHell_Emitter_Factory.create</code></a> so that it will return an instance of our emitter when it receives a <code>emitter.type</code> parameter equal to <code>&quot;probe&quot;</code>.
+<p>To allow our players to use our <code>BHell_Emitter_Probe</code>, we need to extend <a href="BHell.BHell_Emitter_Factory.html#.create"><code>BHell.BHell_Emitter_Factory.create</code></a> so that it will return an instance of our emitter when it receives an <code>emitter.type</code> parameter equal to <code>&quot;probe&quot;</code>.
 Since this method is static, we need to extend it by saving the previous implementation in a variable and then call it from the new method:</p>
 <pre><code>var _Emitter_Factory_Create = my.BHell_Emitter_Factory.create;
 my.BHell_Emitter_Factory.create = function (emitter, x, y, w, h, params, parent, bulletList) {
@@ -422,61 +415,45 @@ Just like <a href="BHell.BHell_Emitter_Angle.html"><code>BHell.BHell_Emitter_Ang
 </code></pre>
 <p>We need to initialise our parameters, and an additional variable, required for aiming purposes:</p>
 <ul>
-<li>
-<p><code>n</code>: the number of bullets we want to spawn in our circle,</p>
-</li>
-<li>
-<p><code>duty_cycle</code>: the percentage of circle which will be filled with bullets,</p>
-</li>
-<li>
-<p><code>pulses</code>: how many arcs should the circle be divided into,</p>
-</li>
-<li>
-<p><code>invert</code>: whether the <code>on</code> and <code>off</code> parts of each pulse should be inverted,</p>
-</li>
-<li>
-<p><code>aim</code>: if <code>true</code> aims towards the player,</p>
-</li>
-<li>
-<p><code>always_aim</code>: if <code>true</code> recalculates the aiming angle every time,</p>
-</li>
-<li>
-<p><code>aim_x</code>: aiming x offset,</p>
-</li>
-<li>
-<p><code>aim_y</code>: aiming y offset,</p>
-</li>
-<li>
-<p><code>aimingAngle</code>: required for storing the angle between shots if <code>aim</code> is set to <code>true</code> but <code>always_aim</code> is set to <code>false</code>.</p>
-<p>BHell_Emitter_Circle.prototype.initialize = function (x, y, params, parent, bulletList) {
-my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
-this.n = 360;
-this.dutyCycle = 0.25;
-this.pulses = 20;
-this.invert = false;</p>
-<pre><code>  this.aim = false;
-  this.alwaysAim = false;
-  this.aimX = 0;
-  this.aimY = 0;
-
-  this.aimingAngle = 0;
-
-  if (params != null) {
-      this.n = params.n || this.n;
-      this.dutyCycle = params.duty_cycle || this.dutyCycle;
-      this.pulses = params.pulses || this.pulses;
-      this.invert = params.invert || this.invert;
-      this.aim = params.aim || this.aim;
-      this.alwaysAim = params.always_aim || this.alwaysAim;
-      this.aimX = params.aim_x || this.aimX;
-      this.aimY = params.aim_y || this.aimY;
-  }
-</code></pre>
-<p>};</p>
-</li>
+<li><code>n</code>: the number of bullets we want to spawn in our circle,</li>
+<li><code>duty_cycle</code>: the percentage of circle which will be filled with bullets,</li>
+<li><code>pulses</code>: how many arcs should the circle be divided into,</li>
+<li><code>invert</code>: whether the <code>on</code> and <code>off</code> parts of each pulse should be inverted,</li>
+<li><code>aim</code>: if <code>true</code> aims towards the player,</li>
+<li><code>always_aim</code>: if <code>true</code> recalculates the aiming angle every time,</li>
+<li><code>aim_x</code>: aiming x offset,</li>
+<li><code>aim_y</code>: aiming y offset,</li>
+<li><code>aimingAngle</code>: required for storing the angle between shots if <code>aim</code> is set to <code>true</code> but <code>always_aim</code> is set to <code>false</code>.</li>
 </ul>
+<p>Our initialisation method looks like this:</p>
+<pre><code>BHell_Emitter_Circle.prototype.initialize = function (x, y, params, parent, bulletList) {
+    my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    this.n = 360;
+    this.dutyCycle = 0.25;
+    this.pulses = 20;
+    this.invert = false;
+
+    this.aim = false;
+    this.alwaysAim = false;
+    this.aimX = 0;
+    this.aimY = 0;
+
+    this.aimingAngle = 0;
+
+    if (params != null) {
+        this.n = params.n || this.n;
+        this.dutyCycle = params.duty_cycle || this.dutyCycle;
+        this.pulses = params.pulses || this.pulses;
+        this.invert = params.invert || this.invert;
+        this.aim = params.aim || this.aim;
+        this.alwaysAim = params.always_aim || this.alwaysAim;
+        this.aimX = params.aim_x || this.aimX;
+        this.aimY = params.aim_y || this.aimY;
+    }
+};
+</code></pre>
 <p>If we are shooting with <code>duty_cycle = 1</code> (100%), our circle will contain exactly <code>n</code> bullets, fired with a <code>2 * Math.PI / n</code> angle between each other.</p>
-<p>To achieve a different duty cycle, we need to &quot;erase&quot; some of those bullets (and obtaining an actual number of bullets on screen less than <code>n</code>, e.g. for a 40% duty cycle we would have <code>n * 0.4</code> bullets and <code>n * 0.6</code> &quot;empty spaces&quot;).</p>
+<p>To achieve a different duty cycle, we need to &quot;erase&quot; some of those bullets (obtaining an actual number of bullets on screen less than <code>n</code>, e.g. for a 40% duty cycle we would have <code>n * 0.4</code> bullets and <code>n * 0.6</code> &quot;empty spaces&quot;).</p>
 <p>Since we want our bullets to be evenly spaced, we divide our <code>on</code> and <code>off</code> areas into <code>pulses</code>, each one containing <code>pulseWidth = n / pulses</code> &quot;slots&quot;, with only <code>dutyCount = pulseWidth * dutyCycle</code> bullets in them (and therefore <code>pulseWidth - dutyCount</code> &quot;empty spaces&quot; after the bullets).</p>
 <p>If the <code>invert</code> flag is not set, we want the <strong>first</strong> part (following our arc in a clockwise fashion) of each pulse to contain our bullets, otherwise (if the <code>invert</code> flag is set), we want the <strong>second</strong> part. The <code>xor</code> (<code>^</code>) operator can allow us to shorten our condition a little.</p>
 <p>To &quot;center&quot; our ring in the middle of the <code>on</code> part of the first pulse, we need to rotate <em>counterclockwise</em> every angle by <code>2 * Math.PI / (dutyCount / 2)</code>.</p>
@@ -589,7 +566,7 @@ this.invert = false;</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 22 2019 12:08:08 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

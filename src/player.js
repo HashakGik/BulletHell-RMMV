@@ -1,7 +1,3 @@
-/**
- /**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
@@ -25,17 +21,17 @@ var BHell = (function (my) {
      * - name: Player's name,
      * - sprite: Charset image,
      * - speed: Player's speed rank (D = 1, C = 2, B = 3, A = 4, S = 5. The actual speed is 2 * rank pixels per frame),
-     * - rate: Player's rate of fire rank (D, C, B, A, S. {@see BHell.BHell_Emitter_Factory}).
-     * - power: Player's power rank (D, C, B, A, S. {@see BHell.BHell_Emitter_Factory}),
+     * - rate: Player's rate of fire rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}).
+     * - power: Player's power rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}),
      * - bombs: Player's initial stock of bombs (D = 1, C = 2, B = 3, A = 4, S = 5),
-     * - autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit the player will automatically counterattacks with a bomb, up to rank times per life),
+     * - autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit, the player will automatically counterattack with a bomb, up to rank times per life),
      * - unlocked: If true the player can be used on a stage,
      * - can_be_bought: If true the player can be bought at the shop,
      * - price: The player's price at the shop,
      * - hitbox_w: Width of the player's hitbox,
      * - hitbox_h: Height of the player's hitbox,
      * - index: Charset index,
-     * - direction: Charset direction (note: lives will always use direction 2),
+     * - direction: Charset direction (note: lives displayed on the HUD will always use direction 2),
      * - frame: Initial charset frame index (0-2),
      * - animation_speed: Number of updates required for frame change,
      * - animated: If true the sprite will be animated,
@@ -46,9 +42,9 @@ var BHell = (function (my) {
      * - bomb: Bomb parameters (see {@link BHell.BHell_Bomb_Base} and derived classes),
      * - emitters: Array of emitters (see {@link BHell.BHell_Emitter_Base} and derived classes).
      *
-     * @param id Id of the player to deserialize.
+     * @param id Id of the player to create.
      * @param lives Initial number of lives (-1: unlimited).
-     * @param bombs If true, the bombs are infinite.
+     * @param unlimitedBombs If true, the bombs are infinite.
      * @param parent Container for the sprites.
      */
     BHell_Player.prototype.initialize = function (id, lives, unlimitedBombs, parent) {
@@ -136,7 +132,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Checks if the player collidesat given coordinates.
+     * Checks if the player collides at given coordinates.
      * @param x X coordinate.
      * @param y Y coordinate.
      * @returns {boolean} True if (x, y) is inside the player's hitbox.

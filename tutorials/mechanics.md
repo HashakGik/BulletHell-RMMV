@@ -18,7 +18,7 @@ If no player has been `unlocked` when a stage starts, the stage is automatically
 
 ![Player selection](playerselect.gif)
 
-A player will be killed if a single bullet enters its `hitbox` or if an enemy crashes against it, but its movements are precise enough to easily dodge most bullets and enemies and throwing a bomb (as well as other special actions like stunning a boss) will cause every enemy bullet on screen to disappear.
+A player will be killed if a single bullet enters its `hitbox` or if an enemy crashes against it, throwing a bomb (as well as other special actions like stunning a boss) will cause every enemy bullet on screen to disappear.
 
 If there are bombs available and the autobombs rank allows it (i.e. C or above), when a bullet hits the player, it will automatically throw a bomb to prevent its own death.
 When the bombs stock is exhausted or the number of panic attacks already dealt exceeds the autobombs rank (e.g. if the rank is B and the player has already panicked two times), no counterattack is possible and the player will die.
@@ -37,7 +37,7 @@ There are nine predefined enemy classes (see {@tutorial enemies}), but more can 
 
 ### Stage
 A stage is an RPG Maker MV map handled by the engine in a particular way: the player start at the bottom and moves upwards,
-the map appearance depends entirely on the tiles placed on the Map Editor, while the  scrolling speed is determined by the map's note (see {@tutorial plugin}). A scrolling speed of 0.1 means that the map will scroll down of a single tile every 10 frames.
+the map appearance depends entirely on the tiles placed on the Map Editor, while the  scrolling speed is determined by the map's note (see {@tutorial plugin}). A scrolling speed of 0.1 means that the map will scroll down by a single tile every 10 frames.
 
 When the top of the map is reached, the behaviour depends on the `Scroll Type` attribute of the map properties:
 * If set to `Loop Vertically` or `Loop Both`, the map will loop,

@@ -52,7 +52,7 @@ For example if you want to set the fourth player's price to `42000G` you could c
     
 ... or if you want the first player's speed to be upgraded to `"S"` (for example as a side quest's reward):
     
-    $gamePlayer.bhellPlayers[3].speed = "S";    
+    $gamePlayer.bhellPlayers[0].speed = "S";    
     
 **Note**: Since `$gamePlayer` is stored in the save file, you won't loose any change when you reload a game.
 

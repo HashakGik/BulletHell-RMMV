@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**
@@ -10,7 +7,7 @@ var BHell = (function (my) {
  * Parameters shared between all enemies:
  *
  * - hp: Hitpoints of the enemy,
- * - speed: Movement's speed (the unit is determined by the specific mover used,
+ * - speed: Movement's speed (the unit is determined by the specific mover used),
  * - period: Emitters' period,
  * - hitbox_w: Width of the hitbox used for collisions with bullets and the player,
  * - hitbox_h: Height of the hitbox,
@@ -140,7 +137,7 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
  * In case of collision, stores the coordinates into this.lastX and this.lastY (useful for spawning explosions, for example).
  * @param x X coordinate.
  * @param y Y coordinate.
- * @returns {boolean} true if (x, y) is inside hitbox.
+ * @returns {boolean} true if (x, y) is inside the hitbox.
  */
 BHell_Enemy_Base.prototype.checkCollision = function (x, y) {
     var dx = Math.abs(this.x - x);
@@ -193,7 +190,7 @@ BHell_Enemy_Base.prototype.shoot = function (t) {
 
 
 /**
- * Makes the enemy loose hit points, possibly killing it.
+ * Makes the enemy lose one hit point, possibly killing it.
  */
 BHell_Enemy_Base.prototype.hit = function () {
     this.hp--;
@@ -210,12 +207,12 @@ BHell_Enemy_Base.prototype.hit = function () {
 };
 
 /**
- * Checks if the enemy has left the map. The upper side is not checked to avoid triggering the enemy's destruction when
- * it's just spawned.
+ * Checks if the enemy has left the map, but only after it has appeared on screen to avoid triggering the enemy's
+ * destruction when it's just spawned.
  *
  * The controller relies on this method to destroy enemies, so enemies which shouldn't be destroyed when leaving the map
- * should override this method with a return false.
- * @returns {boolean} True if the enemy has appeared on the screen and then left (in order to avoid destroying enemies spawned outside the screen).
+ * should always return false.
+ * @returns {boolean} True if the enemy has appeared on the screen and is currently outside the screen.
  */
 BHell_Enemy_Base.prototype.isOutsideMap = function () {
     var outside = (this.x < -this.width / 2) || (this.x > Graphics.width + this.width / 2) || (this.y >= Graphics.height + this.height / 2) || (this.y < -this.height / 2);
@@ -242,7 +239,7 @@ BHell_Enemy_Base.prototype.hasCrashed = function(player) {
 
 /**
  * Crashes the enemy, destroying it.
- * @returns {boolean} True if the crash has succeded (e.g. bosses should never crash).
+ * @returns {boolean} True if the crash has succeded (e.g. bosses immune to crashing will return false).
  */
 BHell_Enemy_Base.prototype.crash = function() {
     if (this.boss !== true) {
@@ -347,7 +344,7 @@ BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
 
 /**
  * Probe enemy class. Switches between two states: moving and shooting. In the first state it moves in a straight line
- * towards a random point on screen and never shoots, in the second state it shoots without moving, then restarts.
+ * towards a random point on screen and never shoots, in the second state it shoots without moving.
  * Due to the moving behavior, it's impossible for it to leave the screen.
  *
  * Additional parameters:
@@ -452,7 +449,7 @@ BHell_Enemy_Probe.prototype.update = function () {
 
 /**
  * Blocker enemy class. It moves horizontally trying to stop the player (as long as its speed can keep up) and slowly
- * towards the bottom, shooting downwards.
+ *  creeps towards the bottom, shooting downwards.
  *
  * Added parameters:
  *
@@ -601,7 +598,7 @@ BHell_Enemy_Smallfry.prototype.initialize = function (x, y, image, params, paren
  *
  * - cooldown: Length (in frames) of the cooldown phase,
  * - shooting: Length (in frames) of the shooting phase,
- * - stop_on_shooting: if true the enemy stops its movements while shooting.
+ * - stop_on_shooting: if true the enemy halts its movements while shooting.
  * @constructor
  * @memberOf BHell
  * @extends BHell.BHell_Enemy_Spline
@@ -753,7 +750,7 @@ BHell_Enemy_Sprayer.prototype.initialize = function (x, y, image, params, parent
  *
  * Additional parameters:
  *
- * - shots: number of bullets to fire on one burst,
+ * - shots: number of bullets to fire in one burst,
  * - dispersion: radius of the dispersion circle.
  * @constructor
  * @memberOf BHell
@@ -797,7 +794,7 @@ BHell_Enemy_Burster.prototype.initialize = function (x, y, image, params, parent
  *
  * Additional parameters:
  *
- * - n: number of star points.
+ * - n: number of points for the star.
  * @constructor
  * @memberOf BHell
  * @extends BHell.BHell_Enemy_Gunner_Base

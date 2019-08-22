@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
@@ -136,6 +133,7 @@ var BHell = (function (my) {
      *
      * - x: X offset for the emitter's movement,
      * - y: Y offset for the emitter's movement,
+     * - period: shooting period,
      * - charset: Character set for the emitter (null if the emitter should be invisible),
      * - index: Character index for the emitter (ignored if charset is null, or a big character),
      * - direction: Character direction for the emitter (Uses RPGMaker's 2-4-6-8 convention),
@@ -229,7 +227,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Rotating emitter. It still spawns a single bullet moving upwards, but the emitter moves in a circular pattern.
+     * Rotating emitter. It spawns a single bullet moving upwards, while moving in a circular pattern.
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Emitter_Base

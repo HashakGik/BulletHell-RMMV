@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**

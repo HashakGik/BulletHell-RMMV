@@ -86,7 +86,7 @@ For simplicity's sake let's say we want our emitters to be symmetric, so let's e
 ![Darklord forehead](darklord_forehead.gif)
 
 
-Let's consider each of these four as if they were each a single enemy.
+Let's consider each of these four as if they were a single enemy.
 
 ##### Forehead
 
@@ -186,6 +186,7 @@ Unlike our boss' hands, the `update` method will be slightly more complicated:
 - when the counter is reset we want to reset the rotation angles as well (in order to make the pattern more predictable),
 - we want our left claw to swirl clockwise and our right one to swirl counterclockwise.
 
+Our claws' update method looks like this:
 
     BHell_Enemy_Darklord.prototype.updateClaws = function() {
         if (this.clawsCounter === 0) {
@@ -536,6 +537,7 @@ All we need to do now is to initialise our boss. We have to:
 - set the initial state,
 - set the mover.
 
+This is our initialisation method:
 
     BHell_Enemy_Darklord.prototype.initialize = function(x, y, image, params, parent, enemyList) {
         params.hp = 10000;

@@ -161,7 +161,7 @@ Lets' create our `bomb_thunder.js` plugin in the usual way:
         return my;
     }(BHell || {})); 
     
-Since we are going to use bullets which most likely will never leave the screen, we need to store them on a separate array, so we can destroy them during the bomb's deactivation. Let's start by initialise it:
+Since we are going to use bullets which will never leave the screen on their own, we need to store them on a separate array, so we can destroy them during the bomb's deactivation. Let's start by initialise it:
 
     BHell_Bomb_Thunder.prototype.initialize = function (parent, params, bulletList) {
         my.BHell_Bomb_Base.prototype.initialize.call(this, parent, params, bulletList);

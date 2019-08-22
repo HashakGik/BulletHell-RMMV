@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
@@ -228,7 +225,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Callback for the "Buy upgrades" command".
+     * Callback for the "Buy upgrades" command.
      */
     Scene_BHell_Shop.prototype.commandBuyUpgrades = function () {
         this.dummyWindow.hide();

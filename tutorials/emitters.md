@@ -35,7 +35,7 @@ The `ranks` parameter determines when the emitter will be enabled, for example:
 
 You can increase a player's firepower by disabling weak emitters and enabling strong ones at higher ranks.
 
-There are four types of emitters which can be configured for player's use (if you are interested in creating more, see {@tutorial emitters_js}).
+There are four types of emitters which can be configured for player's use (if you are interested in creating more, see {@tutorial emitter_js}).
 
 **Note**: Each of the additional parameters must be explicitly defined.
 

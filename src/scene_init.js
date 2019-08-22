@@ -1,10 +1,7 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**
- * Initial scene for the bullet hell minigame. Allows to choose a player, displaying its shooting and bombing behaviours.
+ * Initial scene for the bullet hell minigame. Allows to choose a player, displaying its shooting and bombing patterns.
  * @constructor
  * @memberOf BHell
  */

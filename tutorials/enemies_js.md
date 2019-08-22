@@ -30,7 +30,7 @@ Since we don't need any of the peculiarities of the already defined enemies (e.g
             my.BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
         };
 
->**Important**: The game engine will consider enemies only classes called `BHell_Enemy_*`, so follow this convention.
+**Important**: The game engine will consider enemies only classes called `BHell_Enemy_*`, so follow this convention.
     
 Our enemy won't shoot and the default {@link BHell.BHell_Enemy_Base#update} (as well as every other method already defined) behaviour will work just fine for us, so we simply need to initialise our mover:
 

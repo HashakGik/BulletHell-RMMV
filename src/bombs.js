@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
@@ -138,7 +135,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Water bomb class. Creates 5 concentric rings of bullets centered at the activation point (not the player). Lasts 5 seconds.
+     * Water bomb class. Creates 5 concentric rings of bullets centered at the activation point. Lasts 5 seconds.
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Bomb_Base

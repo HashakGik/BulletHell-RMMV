@@ -49,6 +49,7 @@ Let's initialise our class, we need to retrieve the parameters and initialise th
 - the initial phase should be set to moving (we define a `stopped` flag set to `false` when moving and to `true` when shooting, since a `shooting` flag is already defined and used by {@link BHell.BHell_Emitter_Base}),
 - we also need a frame counter for our shooting phase.
 
+Our initialisation method looks like this:
 
     BHell_Emitter_Probe.prototype.initialize = function (x, y, params, parent, bulletList) {
         my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
@@ -99,6 +100,7 @@ Our `move` method will need to deal with a complex behaviour:
     - if the emitter is *close enough* (i.e. two pixels) to the destination, pick a new destination and start shooting,
     - otherwise move towards the destination (limiting the space traveled each frame by the emitter's speed).
 
+This is our move method:
 
     BHell_Emitter_Probe.prototype.move = function (x, y) {
     
@@ -145,6 +147,7 @@ The shooting behaviour (enabled only when the emitter is not moving) is the foll
 - if there are enemies on screen spawn a bullet aimed at every one of them,
 - otherwise (there are no enemies on stage or we are previewing the player in the shop or player selection screens), spawn a bullet aimed at a random direction.
 
+Our shoot method looks like this:
 
     BHell_Emitter_Probe.prototype.shoot = function () {
         if (this.stopped) {
@@ -171,7 +174,7 @@ The shooting behaviour (enabled only when the emitter is not moving) is the foll
 If we were dealing with an enemy emitter, we could stop here and equip an enemy class with it, but for player's use we need to do something more.
 Player's emitters are parsed by {@link BHell.BHell_Emitter_Factory}, which takes care of properly parsing parameters and, most importantly, to implement the ranking mechanics for the emitters (i.e. the `rate` rank will modify the emitter's `period`, while the `power` rank will determine if the emitter should be created or not).
 
-To allow our players to use our `BHell_Emitter_Probe`, we need to extend {@link BHell.BHell_Emitter_Factory.create} so that it will return an instance of our emitter when it receives a `emitter.type` parameter equal to `"probe"`.
+To allow our players to use our `BHell_Emitter_Probe`, we need to extend {@link BHell.BHell_Emitter_Factory.create} so that it will return an instance of our emitter when it receives an `emitter.type` parameter equal to `"probe"`.
 Since this method is static, we need to extend it by saving the previous implementation in a variable and then call it from the new method:
 
     var _Emitter_Factory_Create = my.BHell_Emitter_Factory.create;
@@ -410,6 +413,7 @@ We need to initialise our parameters, and an additional variable, required for a
 - `aim_y`: aiming y offset,
 - `aimingAngle`: required for storing the angle between shots if `aim` is set to `true` but `always_aim` is set to `false`.
 
+Our initialisation method looks like this:
 
     BHell_Emitter_Circle.prototype.initialize = function (x, y, params, parent, bulletList) {
         my.BHell_Emitter_Base.prototype.initialize.call(this, x, y, params, parent, bulletList);
@@ -439,7 +443,7 @@ We need to initialise our parameters, and an additional variable, required for a
     
 If we are shooting with `duty_cycle = 1` (100%), our circle will contain exactly `n` bullets, fired with a `2 * Math.PI / n` angle between each other.
 
-To achieve a different duty cycle, we need to "erase" some of those bullets (and obtaining an actual number of bullets on screen less than `n`, e.g. for a 40% duty cycle we would have `n * 0.4` bullets and `n * 0.6` "empty spaces").
+To achieve a different duty cycle, we need to "erase" some of those bullets (obtaining an actual number of bullets on screen less than `n`, e.g. for a 40% duty cycle we would have `n * 0.4` bullets and `n * 0.6` "empty spaces").
 
 Since we want our bullets to be evenly spaced, we divide our `on` and `off` areas into `pulses`, each one containing `pulseWidth = n / pulses` "slots", with only `dutyCount = pulseWidth * dutyCycle` bullets in them (and therefore `pulseWidth - dutyCount` "empty spaces" after the bullets).
 

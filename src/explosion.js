@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**
@@ -17,7 +14,7 @@ BHell_Explosion.prototype = Object.create(my.BHell_Sprite.prototype);
 BHell_Explosion.prototype.constructor = BHell_Explosion;
 
 /**
- * Constructor. Creates the sprite and sets the speed to 0.
+ * Constructor. Creates the sprite and initialises the speed (which is handled by the controller) to 0.
  * @param x X coordinate.
  * @param y Y coordinate.
  * @param parent Container for the sprite.

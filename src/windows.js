@@ -1,6 +1,3 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
@@ -192,7 +189,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Command window for the bullet hell shop.
+     * Command window for the shop.
      * @constructor
      * @memberOf BHell
      */
@@ -224,7 +221,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Player purchase window for the bullet hell shop.
+     * Player purchase window for the shop.
      * @constructor
      * @memberOf BHell
      */
@@ -340,7 +337,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Player selection window ("Buy upgrades" submenu) for the bullet hell shop.
+     * Player selection window ("Buy upgrades" submenu) for the shop.
      * @constructor
      * @memberOf BHell
      */
@@ -419,7 +416,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Upgrades purchase window for the bullet hell shop.
+     * Upgrade purchase window for the shop.
      * @constructor
      * @memberOf BHell
      */
@@ -549,7 +546,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Player preview window for the bullet hell shop. The preview behaves like {@see BHell.Scene_BHell_Init}.
+     * Player preview window for the shop. The preview behaves like {@link BHell.Scene_BHell_Init}.
      * @constructor
      * @memberOf BHell
      */
@@ -593,7 +590,7 @@ var BHell = (function (my) {
 
     /**
      * Selects the player to be displayed.
-     * @param playerId
+     * @param playerId Id of the player to be displayed.
      */
     BHell_Window_Preview.prototype.setPlayer = function (playerId) {
         if (playerId != null) {
@@ -628,7 +625,7 @@ var BHell = (function (my) {
 
 
     /**
-     * Ranks window for the bullet hell shop. Displays the values for each player parameter and, optionally, how one of them will be upgraded.
+     * Rank window for the shop. Displays the values for each player parameter and, optionally, how one of them will be upgraded.
      * @constructor
      * @memberOf BHell
      */

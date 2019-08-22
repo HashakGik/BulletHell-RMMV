@@ -13,7 +13,7 @@
 
     Spline.prototype.push = function (x, y) {
         if (this.i < 4) {
-            this.pts.push({x: Math.round(x), y: Math.round(y)});
+            this.pts.push({x: Math.round(x), y: Math.round(y), initX: Math.round(x), initY: Math.round(y)});
             this.i++;
         }
 
@@ -34,10 +34,48 @@
     };
 
     Spline.prototype.moveSelected = function (x, y) {
-        if (this.selected != -1) {
+        if (this.selected !== -1) {
             this.pts[this.selected].x = Math.round(x);
             this.pts[this.selected].y = Math.round(y);
+            this.pts[this.selected].initX = Math.round(x);
+            this.pts[this.selected].initY = Math.round(y);
         }
+    };
+
+    Spline.prototype.mirrorVertically = function (center) {
+        this.pts.forEach(p => {
+            p.y = center - p.y;
+            p.initY = p.y;
+        });
+    };
+    Spline.prototype.mirrorHorizontally = function (center) {
+        this.pts.forEach(p => {
+            p.x = center - p.x;
+            p.initX = p.x;
+        });
+    };
+
+    Spline.prototype.rotate = function (cx, cy, angle) {
+        this.pts.forEach(p => {
+            var x = p.initX - cx;
+            var y = p.initY - cy;
+            p.x = x * Math.cos(angle) - y * Math.sin(angle) + cx;
+            p.y = x * Math.sin(angle) + y * Math.cos(angle) + cy;
+        });
+    };
+
+    Spline.prototype.translate = function (x, y) {
+        this.pts.forEach(p => {
+            p.x += x;
+            p.y += y;
+        });
+    };
+
+    Spline.prototype.fix = function () {
+        this.pts.forEach(p => {
+            p.initX = p.x;
+            p.initY = p.y;
+        });
     };
 
     Spline.prototype.drawSpline = function (ctx, drawJunk) {
@@ -116,7 +154,7 @@
         }
     };
 
-    var redraw = function (c, coords, points, drawJunk) {
+    var redraw = function (c, coords, points, drawJunk, rotate, translate, angle) {
         var ctx = c.getContext("2d");
 
         var offX = (c.width - 48 * 17) / 2;
@@ -128,6 +166,52 @@
         ctx.strokeStyle = "black";
         drawGrid(offX, offY, ctx);
 
+        if (rotate) {
+            ctx.beginPath();
+            ctx.strokeStyle = "blue";
+            ctx.arc(offX + 48 * 8.5, offY + 48 * 6.5, 100, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(offX + 48 * 8.5, offY + 48 * 6.5);
+            ctx.lineTo(offX + 48 * 8.5 + Math.cos(angle) * 100, offY + 48 * 6.5 + Math.sin(angle) * 100);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        if (translate) {
+            ctx.beginPath();
+            ctx.fillStyle = "blue";
+            ctx.moveTo(offX + 48 * 8.5 - 50, offY + 48 * 6.5 + 20);
+            ctx.lineTo(offX + 48 * 8.5 - 70, offY + 48 * 6.5);
+            ctx.lineTo(offX + 48 * 8.5 - 50, offY + 48 * 6.5 - 20);
+            ctx.lineTo(offX + 48 * 8.5 - 50, offY + 48 * 6.5 + 20);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(offX + 48 * 8.5 + 50, offY + 48 * 6.5 + 20);
+            ctx.lineTo(offX + 48 * 8.5 + 70, offY + 48 * 6.5);
+            ctx.lineTo(offX + 48 * 8.5 + 50, offY + 48 * 6.5 - 20);
+            ctx.lineTo(offX + 48 * 8.5 + 50, offY + 48 * 6.5 + 20);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(offX + 48 * 8.5 + 20, offY + 48 * 6.5 + 50);
+            ctx.lineTo(offX + 48 * 8.5, offY + 48 * 6.5 + 70);
+            ctx.lineTo(offX + 48 * 8.5 - 20, offY + 48 * 6.5 + 50);
+            ctx.lineTo(offX + 48 * 8.5 + 20, offY + 48 * 6.5 + 50);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(offX + 48 * 8.5 + 20, offY + 48 * 6.5 - 50);
+            ctx.lineTo(offX + 48 * 8.5, offY + 48 * 6.5 - 70);
+            ctx.lineTo(offX + 48 * 8.5 - 20, offY + 48 * 6.5 - 50);
+            ctx.lineTo(offX + 48 * 8.5 + 20, offY + 48 * 6.5 - 50);
+            ctx.closePath();
+            ctx.fill();
+
+        }
+
         for (var i = 0; i < points.i; i++) {
             ctx.beginPath();
             if (points.selected === i) {
@@ -138,8 +222,8 @@
             }
             ctx.arc(points.pts[i].x - 5, points.pts[i].y - 5, 10, 0, Math.PI * 2, false);
 
-            var str = "\"" + String.fromCharCode("A".charCodeAt() + i) + "\": {\"x\": " + (points.pts[i].x - offX);
-            str += ", \"y\": " + (points.pts[i].y - offY) + "}";
+            var str = "\"" + String.fromCharCode("A".charCodeAt(0) + i) + "\": {\"x\": " + (points.pts[i].x - offX).toFixed(2);
+            str += ", \"y\": " + (points.pts[i].y - offY).toFixed(2) + "}";
             coordsStr.push(str);
 
             ctx.font = "20px Arial";
@@ -152,7 +236,7 @@
             points.drawSpline(ctx, drawJunk);
             coords.value = coordsStr.join(",\n");
         }
-    }
+    };
 
     var initPage = function () {
         window.scrollTo((document.getElementById("container").clientWidth - window.innerWidth) / 2, (document.getElementById("container").clientHeight - window.innerHeight) / 2);
@@ -161,7 +245,6 @@
         c.height = document.getElementById("container").clientHeight;
 
         var ctx = c.getContext("2d");
-
 
         var offX = (c.width - 48 * 17) / 2;
         var offY = (c.height - 48 * 13) / 2;
@@ -173,19 +256,33 @@
 
         var points = new Spline();
         var mouseDown = false;
+        var translate = false;
+        var rotate = false;
+        var initX = 0;
+        var initY = 0;
+        var angle = 0;
 
         // When the mouse is pressed, place the next spline point. If all points are placed, start moving a point (if it's under the mouse)
         c.addEventListener("mousedown", e => {
             var x = e.clientX - c.getBoundingClientRect().left;
             var y = e.clientY - c.getBoundingClientRect().top;
 
-            if (points.push(x, y) == false) {
+            initX = x;
+            initY = y;
+            if (translate) {
+                mouseDown = true;
+            }
+            else if (rotate) {
+                mouseDown = true;
+
+            }
+            else if (points.push(x, y) === false) {
                 if (points.select(x, y)) {
                     mouseDown = true;
                 }
             }
 
-            redraw(c, coords, points, junk.checked);
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
         });
 
         // When the mouse is released, deselect the point (if there was one selected) and update the spline.
@@ -195,7 +292,11 @@
                 points.deselect();
             }
 
-            redraw(c, coords, points, junk.checked);
+            if (!rotate) {
+                points.fix();
+            }
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
         });
 
         // If the mouse is dragging a point, update the spline.
@@ -203,14 +304,69 @@
             if (mouseDown) {
                 var x = e.clientX - c.getBoundingClientRect().left;
                 var y = e.clientY - c.getBoundingClientRect().top;
-                points.moveSelected(x, y);
-                redraw(c, coords, points, junk.checked);
+
+                if (translate) {
+                    points.translate(x - initX, y - initY);
+
+                }
+                else if (rotate) {
+                    angle = Math.atan2(y - offY - 48 * 6.5, x - offX - 48 * 8.5);
+                    points.rotate(offX + 48 * 8.5, offY + 48 * 6.5, angle);
+                }
+                else {
+                    points.moveSelected(x, y);
+                }
+
+                redraw(c, coords, points, junk.checked, rotate, translate, angle);
+                initX = x;
+                initY = y;
             }
         });
 
         junk.addEventListener("change", e => {
-            redraw(c, coords, points, junk.checked);
-        })
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
+
+        document.getElementById("vMirror").addEventListener("click", e => {
+            points.mirrorVertically(2 * offY + 48 * 13);
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
+
+        document.getElementById("hMirror").addEventListener("click", e => {
+            points.mirrorHorizontally(2 * offX + 48 * 17);
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
+
+        document.getElementById("rotate").addEventListener("click", e => {
+            rotate = !rotate;
+            if (rotate) {
+                translate = false;
+            }
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
+
+        document.getElementById("translate").addEventListener("click", e => {
+            translate = !translate;
+            if (translate) {
+                rotate = false;
+            }
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
+
+        document.getElementById("clear").addEventListener("click", e => {
+            junk.checked = 0;
+            rotate = false;
+            translate = false;
+            angle = 0;
+            coords.value = "";
+            points = new Spline();
+
+            redraw(c, coords, points, junk.checked, rotate, translate, angle);
+        });
     };
 
     initPage();

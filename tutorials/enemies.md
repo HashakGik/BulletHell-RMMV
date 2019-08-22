@@ -83,7 +83,7 @@ This class inherits parameters from {@link BHell.BHell_Enemy_Spline} and adds pa
 
 ### Predefined enemies
 
-These are the predefined nine enemy types, if you are interested in creating more of them, see {@tutorial enemies_js}, if you want to create a boss see {@tutorial bosses}.
+These are the nine predefined enemy types, if you are interested in creating more of them, see {@tutorial enemies_js}, if you want to create a boss see {@tutorial bosses}.
 
 #### {@link BHell.BHell_Enemy_Smallfry Small fry}
 Small fries move along a fixed path and shoot once in a while.
@@ -107,7 +107,7 @@ Suicide enemies move towards the player until they crash.
 None.
 
 ##### Strategy
-Suicide enemies are not capable of shooting and usually have very little health, however they tend to follow you and catch up very quickly. When there is many of them, your best bet is to maneuver them into your firing range while keeping your distance. If everything else fails, a bomb might come in handy.  
+Suicide enemies are not capable of shooting and usually have very little health, however they tend to follow you and catch up very quickly. When there are many of them, your best bet is to maneuver them into your firing range while keeping your distance. If everything else fails, a bomb might come in handy.  
 
 
 #### {@link BHell.BHell_Enemy_Orbiter Orbiter}
@@ -239,4 +239,4 @@ Swirlers inherit their parameters from {@link BHell.BHell_Enemy_Starshooter} and
 
 
 ##### Strategy
-Swirlers are starshooters with a fetish for vortexes, you need to keep yourself between two streaks and rotate along them until they drop their guards to reload.
+Swirlers are starshooters with a fetish for vortexes, you need to keep yourself between two streaks and rotate along with them until they drop their guards to reload.

@@ -1,10 +1,7 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
     /**
-     * Movers base class. Handles complex movements for other objects (mostly enemies).
+     * Mover base class. Handles complex movements for other objects (mostly enemies).
      * @constructor
      * @memberOf BHell
      */
@@ -122,8 +119,11 @@ var BHell = (function (my) {
     /**
      * Harmonic movement class. Moves in a straight line until a starting position is reached, then follows an harmonic
      * trajectory in the form:
+     *
      * x(t) = A * cos(phi * t + alpha);
+     *
      * y(t) = B * cos(theta * t + beta);
+     *
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Mover_Base
@@ -194,7 +194,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Orbit movement class. Goes towards the player until a given distance, then starts orbiting around it.
+     * Orbit movement class. Moves towards the player up to a given distance, then starts orbiting around it.
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Mover_Base
@@ -218,7 +218,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * If the player is not ready yet (e.g. it just resurrected) remains still, otherwise chases the player until the set
+     * If the player is not ready yet (e.g. it's just been resurrected) remains still, otherwise chases the player until the set
      * radius is reached, then starts orbiting.
      * @param oldX Old x coordinate.
      * @param oldY Old y coordinate.
@@ -266,7 +266,6 @@ var BHell = (function (my) {
     /**
      * Uniform Catmull-Rom spline movement class. Given four points, determines a smooth path which passes between the two innermost ones.
      *
-     * More informations are available at: https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Mover_Base
@@ -342,8 +341,8 @@ var BHell = (function (my) {
     };
 
     /**
-     * Bounce movement class. Moves in a straight line until a starting position is reached, then bounces on the
-     * screen's borders.
+     * Bounce movement class. Moves to the starting position, then moves in a straight line at a given angle,
+     * bouncing on the screen's borders.
      * @constructor
      * @memberOf BHell
      * @extends BHell.BHell_Mover_Base
@@ -377,7 +376,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Moves in a straight line until the starting position is reached, then bounces on the screen.
+     * Moves to the starting position, then moves at this.angle, bouncing on the screen's borders.
      * @param oldX Old x coordinate.
      * @param oldY Old y coordinate.
      * @param speed Movement speed. In pixels per frame.

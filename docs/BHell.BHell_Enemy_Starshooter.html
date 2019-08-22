@@ -53,7 +53,7 @@
     <p>Starshooter enemy class. Gunner with a star pattern (360 degrees Spray emitter).</p>
 <p>Additional parameters:</p>
 <ul>
-<li>n: number of star points.</li>
+<li>n: number of points for the star.</li>
 </ul>
 </div>
 
@@ -98,7 +98,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line805">line 805</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line802">line 802</a>
     </li></ul></dd>
     
 
@@ -285,7 +285,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line145">line 145</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line142">line 142</a>
     </li></ul></dd>
     
 
@@ -314,7 +314,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
 
         
 <div class="param-desc">
-    <p>true if (x, y) is inside hitbox.</p>
+    <p>true if (x, y) is inside the hitbox.</p>
 </div>
 
 
@@ -400,7 +400,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line247">line 247</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -429,7 +429,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
 
         
 <div class="param-desc">
-    <p>True if the crash has succeded (e.g. bosses should never crash).</p>
+    <p>True if the crash has succeded (e.g. bosses immune to crashing will return false).</p>
 </div>
 
 
@@ -515,7 +515,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line270">line 270</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -608,7 +608,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line260">line 260</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line257">line 257</a>
     </li></ul></dd>
     
 
@@ -745,7 +745,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line234">line 234</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -811,7 +811,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
 
 
 <div class="description">
-    <p>Makes the enemy loose hit points, possibly killing it.</p>
+    <p>Makes the enemy lose one hit point, possibly killing it.</p>
 </div>
 
 
@@ -860,7 +860,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line198">line 198</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -1087,7 +1087,7 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line47">line 47</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -1131,10 +1131,10 @@ In case of collision, stores the coordinates into this.lastX and this.lastY (use
 
 
 <div class="description">
-    <p>Checks if the enemy has left the map. The upper side is not checked to avoid triggering the enemy's destruction when
-it's just spawned.</p>
+    <p>Checks if the enemy has left the map, but only after it has appeared on screen to avoid triggering the enemy's
+destruction when it's just spawned.</p>
 <p>The controller relies on this method to destroy enemies, so enemies which shouldn't be destroyed when leaving the map
-should override this method with a return false.</p>
+should always return false.</p>
 </div>
 
 
@@ -1183,7 +1183,7 @@ should override this method with a return false.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line220">line 220</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -1212,7 +1212,7 @@ should override this method with a return false.</p>
 
         
 <div class="param-desc">
-    <p>True if the enemy has appeared on the screen and then left (in order to avoid destroying enemies spawned outside the screen).</p>
+    <p>True if the enemy has appeared on the screen and is currently outside the screen.</p>
 </div>
 
 
@@ -1298,7 +1298,7 @@ should override this method with a return false.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line172">line 172</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -1435,7 +1435,7 @@ should override this method with a return false.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line188">line 188</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -1529,7 +1529,7 @@ during cooldown.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line637">line 637</a>
+        <a href="enemies.js.html">enemies.js</a>, <a href="enemies.js.html#line634">line 634</a>
     </li></ul></dd>
     
 
@@ -1622,7 +1622,7 @@ during cooldown.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sprite.js.html">sprite.js</a>, <a href="sprite.js.html#line78">line 78</a>
+        <a href="sprite.js.html">sprite.js</a>, <a href="sprite.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -1674,7 +1674,7 @@ during cooldown.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 01 2019 22:41:18 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Aug 22 2019 12:08:08 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

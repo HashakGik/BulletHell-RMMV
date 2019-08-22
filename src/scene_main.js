@@ -1,11 +1,7 @@
-/**
- * @namespace BHell
- */
 var BHell = (function (my) {
 
 /**
  * Bullet hell minigame main scene class. Handles the user input and displays every minigame's object on screen.
- * It's an heavily modified Scene_Map.
  * @constructor
  * @memberOf BHell
  */
@@ -276,7 +272,7 @@ Scene_BHell.prototype.updateHUD = function() {
 };
 
 /**
- * Creates the HUD (the score sprite and a life template for correct placement of lives and bombs during the update).
+ * Creates the HUD (the score sprite and a life template).
  */
 Scene_BHell.prototype.createHUD = function() {
     this.lives = [];

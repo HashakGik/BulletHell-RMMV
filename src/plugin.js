@@ -135,11 +135,11 @@ Plugin commands:
  * @property {boolean} won True if the player has won.
  * @property {boolean} gaveUp True if the player gave up.
  * @property {number} retries Number of retries for the current stage.
- * @property {number} score Final score (reset for each retry).
- * @property {number} hitRatio % of bullets hitting a target (reset for each retry).
- * @property {number} enemiesKilled Number of enemies killed (reset for each retry).
- * @property {number} enemiesMissed Number of enemies escaped (reset for each retry).
- * @property {number} enemiesCrashed Number of enemies crashed against the player (reset for each retry).
+ * @property {number} score Final score (reset at each retry).
+ * @property {number} hitRatio % of bullets hitting a target (reset at each retry).
+ * @property {number} enemiesKilled Number of enemies killed (reset at each retry).
+ * @property {number} enemiesMissed Number of enemies escaped (reset at each retry).
+ * @property {number} enemiesCrashed Number of enemies crashed against the player (reset at each retry).
  * @property {number} livesLost Number of lives lost (cumulated for all retries).
  * @property {number} bombsUsed Number of bombs used (cumulated for all retries).
  */
@@ -158,7 +158,7 @@ var $gameBHellResult;
  * @property {number} price Shop price for the player.
  * @property {string} speed Current speed rank (how fast the player can move).
  * @property {string} rate Current rate of fire rank (how fast bullets are shot).
- * @property {string} power Current power rank (how strong the helpers are).
+ * @property {string} power Current power rank (how strong the emitters are).
  * @property {string} bombs Current bomb rank (how many bombs can be stored).
  * @property {string} autobombs Current autobombs rank (how many times a panic attack can be performed).
  */

@@ -10,10 +10,10 @@ The available parameters are the following:
 |-----------|--------|---------------|
 | speed | Speed of the bullet in pixels per frame | 3 |
 | sprite | Bullet charset | (Plugin parameter) |
-| index | Charset index (ignored if the charset begins with $) | 0 | 
+| index | Charset index (ignored if the charset filename begins with $) | 0 | 
 | direction | Charset direction (2-4-6-8) | 2 |
 | frame | Charset initial frame (0-1-2) | 0 |
-| animated | If `true` the frame will be updated (in the order 1-2-3-2) | false |
+| animated | If `true` the frame will be updated (in the order 0-1-2-1) | false |
 | animation_speed | Number of updates required for a frame change | 25 |
 
 When a bullet is spawned, it's shooting angle also determines the sprite's `rotation`, so the charset should show bullets traveling at an angle of 0 radians (i.e. pointing to the right), like the following:
