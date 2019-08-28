@@ -41,7 +41,7 @@ The controls are simple:
 
 Each stage scrolls vertically with enemies spawning in front of the player, a stage is cleared when there are no more enemies, or lost when the player looses their stock of lives.
 
-The player can shoot from its main gun or drop a bomb, which causes all enemy bullets to explode and to deliver heavy damage to enemies. The autobombing feature makes the player throw automatically a bomb when in a dangerous situation.
+The player can shoot from its main gun or drop a bomb, which causes all enemy bullets to explode while delivering heavy damage to enemies. The autobombing feature makes the player throw automatically a bomb when in a dangerous situation.
 
 A ranking system allows to customise five parameters for each player:
 

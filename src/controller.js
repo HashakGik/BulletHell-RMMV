@@ -41,6 +41,8 @@ var BHell = (function (my) {
         my.bossHp = 0;
         my.bossOnScreen = false;
 
+        this.messages = [];
+
         // Create the generators from the map's events.
         this.stage.events().forEach(e => {
             var regex = /<(.+):([0-9]+):([0-9]+):((?:true)|(?:false))(?::((?:true)|(?:false)))?>/i;
@@ -51,6 +53,15 @@ var BHell = (function (my) {
             }).forEach(l => {
                 comments += l.parameters[0] + " ";
             });
+
+            // If an event has some message, store it in the messages array.
+            var message = {};
+            message.list = e.event().pages[0].list.filter(l => {
+                return l.code === 101 || l.code === 401;
+            });
+            message.y = e.event().y;
+
+            this.messages.push(message);
 
             var grps = regex.exec(e.event().note);
             if (grps != null) {
@@ -95,6 +106,7 @@ var BHell = (function (my) {
         var g;
         var e;
         var b;
+        var m;
 
         if (this.generators.length === 0 && this.activeGenerators.length === 0 && this.enemies.length === 0) {
             // Victory.
@@ -106,7 +118,7 @@ var BHell = (function (my) {
             $gameBHellResult.won = false;
             my.playing = false;
         }
-        else if (my.playing && !this.paused) { // Main update loop.
+        else if (my.playing && !this.paused && !$gameMessage.isBusy()) { // Main update loop.
             // Scroll the stage if there are no stopping generators.
             if (this.activeGenerators.filter(g => {
                 return g.stop === true;
@@ -142,6 +154,26 @@ var BHell = (function (my) {
                     }
                 }
 
+                // If it's time to show a message, display it and remove it from the message list.
+                for (i = 0; i < this.messages.length; i++) {
+                    m = this.messages[i];
+                    if (m.y >= this.stageY) {
+                        m.list.forEach(l => {
+                            if (l.code === 101) {
+                                $gameMessage.setFaceImage(l.parameters[0], l.parameters[1]);
+                                $gameMessage.setBackground(l.parameters[2]);
+                                $gameMessage.setPositionType(l.parameters[3]);
+                            }
+                            else {
+                                $gameMessage.add(l.parameters[0]);
+                            }
+                        });
+
+                        this.messages.splice(this.messages.indexOf(m), 1);
+                        i--;
+                    }
+                }
+
                 // Update the active generators. If a generator is synchronized, wait until there are no more enemies to remove it.
                 for (i = 0; i < this.activeGenerators.length; i++) {
                     g = this.activeGenerators[i];
@@ -155,15 +187,10 @@ var BHell = (function (my) {
                 }
             }
 
-            // Update the player.
-            my.player.update();
-
             // Update the enemies.
             for (i = 0; i < this.enemies.length; i++) {
                 if (i >= 0) {
                     e = this.enemies[i];
-
-                    e.update();
 
                     if (e.isOutsideMap()) {
                         e.destroy();
@@ -182,7 +209,7 @@ var BHell = (function (my) {
             // Update the player's bullets.
             for (i = 0; i < my.friendlyBullets.length; i++) {
                 b = my.friendlyBullets[i];
-                if (b.update()) {
+                if (b.isOutsideMap()) {
                     my.bulletsLost++;
                     i--;
                 } else {
@@ -204,7 +231,7 @@ var BHell = (function (my) {
             // Update the enemy bullets.
             for (i = 0; i < my.enemyBullets.length; i++) {
                 b = my.enemyBullets[i];
-                if (b.update()) {
+                if (b.isOutsideMap()) {
                     i--;
                 }
                 if (!this.playerHit && my.player.checkCollision(b.x, b.y)) {
@@ -224,7 +251,6 @@ var BHell = (function (my) {
                 else {
                     e.speed = 0;
                 }
-                e.update();
             }
         }
     };

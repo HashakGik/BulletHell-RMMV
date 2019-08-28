@@ -48,6 +48,10 @@ Game events with a specific note are handled as enemy `generators` and the stage
 Except for synchronisation mechanics (see below), as soon as the player reaches a generator's y coordinate, the generator becomes active and starts spawning enemies.
 When all the enemies produced by a generator are destroyed (they either left the screen or were killed), the generator is discarded.
 
+Messages (`Show Text` commands) inside events (either `generators` or "normal" events) are displayed on stage, pausing the game while shown.
+
+Message's timing and synchronisation work in the same way as generators'.
+
 A stage can be paused with the `escape` button.
 If the `retry` or `quit` flags are set for the current stage, from the pause menu, it's possible to restart the current stage or give up entirely.
 Some stage results (see below) are reset at each retry.

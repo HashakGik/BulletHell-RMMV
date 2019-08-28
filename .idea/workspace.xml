@@ -28,86 +28,65 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="scene_main.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scene_main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="127">
+              <caret line="181" column="20" lean-forward="true" selection-start-line="181" selection-start-column="20" selection-end-line="181" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rpg_objects.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/js/rpg_objects.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2382">
+              <caret line="478" column="13" selection-start-line="478" selection-end-line="478" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="70">
+              <caret line="120" column="48" selection-start-line="120" selection-start-column="48" selection-end-line="120" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mechanics.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tutorials/mechanics.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="137">
-                <caret line="39" column="223" selection-start-line="39" selection-start-column="223" selection-end-line="39" selection-end-column="223" />
+              <first_editor relative-caret-position="323">
+                <caret line="52" column="72" selection-start-line="52" selection-start-column="72" selection-end-line="52" selection-end-column="72" />
               </first_editor>
               <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="player.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/player.md">
+      <file leaf-file-name="stage.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/stage.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="171">
-                <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
+              <first_editor relative-caret-position="360">
+                <caret line="69" column="103" selection-start-line="69" selection-start-column="103" selection-end-line="69" selection-end-column="103" />
               </first_editor>
               <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="emitters.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/emitters.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="137">
-                <caret line="37" column="137" lean-forward="true" selection-start-line="37" selection-start-column="137" selection-end-line="37" selection-end-column="137" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bullets.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/bullets.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="204">
-                <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bombs.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/bombs.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="34">
-                <caret line="2" column="228" lean-forward="true" selection-start-line="2" selection-start-column="228" selection-end-line="2" selection-end-column="228" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="enemies.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/enemies.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="FIRST">
-              <first_editor relative-caret-position="296">
-                <caret line="241" column="121" selection-start-line="241" selection-start-column="121" selection-end-line="241" selection-end-column="121" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="spline.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tutorials/spline.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="473">
-                <caret line="33" column="111" selection-start-line="33" selection-start-column="111" selection-end-line="33" selection-end-column="111" />
-              </first_editor>
-              <second_editor />
+      <file leaf-file-name="BulletHell.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/js/plugins/BulletHell.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="963" column="48" selection-start-line="963" selection-start-column="48" selection-end-line="963" selection-end-column="48" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,39 +95,38 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_paintUpperCanvas</find>
-      <find>_loadingImage</find>
-      <find>mirrorV</find>
-      <find>redraw(</find>
-      <find>coords =</find>
-      <find>coords.</find>
-      <find>remember that</find>
-      <find>Rotate</find>
-      <find>Water</find>
-      <find>move = f</find>
-      <find>number of star</find>
-      <find>.speed</find>
-      <find>this.speed</find>
-      <find>More inform</find>
-      <find>{@see</find>
-      <find>to allow</find>
-      <find>counteratta</find>
-      <find>bullet hell</find>
-      <find>life template</find>
-      <find>buy upgrades</find>
-      <find>most likely</find>
-      <find>counterclockwise</find>
-      <find>scheduledState</find>
-      <find>set the mover</find>
-      <find>and obtaining</find>
-      <find>each o</find>
-      <find>scroll down of</find>
-      <find>first players</find>
-      <find>see</find>
-      <find>when there is</find>
+      <find>AudioManager.is</find>
+      <find>AudioManager.playME</find>
+      <find>AudioManager.playSe</find>
+      <find>isPlaying</find>
+      <find>_meBuffer</find>
+      <find>isPlaying</find>
+      <find>BHell_Player</find>
+      <find>e.update()</find>
+      <find>update</find>
+      <find>my.player.update</find>
+      <find>isDestro</find>
+      <find>BHell_Bullet.prot</find>
+      <find>isOutsideMap</find>
+      <find>playing = false</find>
+      <find>update()</find>
+      <find>Scene_Map</find>
+      <find>TODO</find>
+      <find>m.forE</find>
+      <find>m.for</find>
+      <find>isBusy</find>
+      <find>Game_Message.prototype.hasText</find>
+      <find>$game</find>
+      <find>createWind</find>
+      <find>$gameMessage.add</find>
+      <find>Scene_BHell</find>
+      <find>Game_Message.</find>
+      <find>createHUD</find>
+      <find>if ($gameMessage</find>
+      <find>stageY</find>
+      <find>my.playing &amp;&amp;</find>
     </findStrings>
     <replaceStrings>
-      <replace>buyUpgradesWindow.setStatuswindow</replace>
       <replace>setPlayer</replace>
       <replace>;</replace>
       <replace>,</replace>
@@ -178,6 +156,7 @@
       <replace>this.bresenhamLineLow</replace>
       <replace>this.bresenhamLineHigh</replace>
       <replace>BHell_Bullet.prototype.bresenhamLineHigh</replace>
+      <replace>messageWindow</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -186,14 +165,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/demo - copy/data/BulletHell.json" />
         <option value="$PROJECT_DIR$/demo - copy/js/plugins/scene_shop.js" />
         <option value="$PROJECT_DIR$/demo - copy/js/plugins/windows.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/bomb_gravity.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/bomb_thunder.js" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/demo/js/plugins/rammer.js" />
-        <option value="$PROJECT_DIR$/demo/js/plugins/darklord.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/emitter_probe.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/emitter_circle.js" />
         <option value="$PROJECT_DIR$/tutorials/tutorials.json" />
@@ -201,19 +178,13 @@
         <option value="$PROJECT_DIR$/demo/data/BulletHell.json" />
         <option value="$PROJECT_DIR$/tutorials/getting_started.md" />
         <option value="$PROJECT_DIR$/tutorials/json.md" />
-        <option value="$PROJECT_DIR$/tutorials/stage.md" />
         <option value="$PROJECT_DIR$/tutorials/override.md" />
         <option value="$PROJECT_DIR$/tutorials/plugin.md" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/demo/js/plugins/BulletHell.js" />
-        <option value="$PROJECT_DIR$/demo/js/rpg_objects.js" />
         <option value="$PROJECT_DIR$/tutorial_files/spline_editor.html" />
         <option value="$PROJECT_DIR$/tutorial_files/spline.js" />
-        <option value="$PROJECT_DIR$/src/bullet.js" />
-        <option value="$PROJECT_DIR$/src/controller.js" />
         <option value="$PROJECT_DIR$/src/parse.js" />
         <option value="$PROJECT_DIR$/src/sprite.js" />
-        <option value="$PROJECT_DIR$/src/spriteset.js" />
         <option value="$PROJECT_DIR$/src/bombs.js" />
         <option value="$PROJECT_DIR$/src/emitters.js" />
         <option value="$PROJECT_DIR$/src/enemies.js" />
@@ -221,22 +192,30 @@
         <option value="$PROJECT_DIR$/src/plugin.js" />
         <option value="$PROJECT_DIR$/src/generator.js" />
         <option value="$PROJECT_DIR$/src/movers.js" />
-        <option value="$PROJECT_DIR$/src/player.js" />
         <option value="$PROJECT_DIR$/src/windows.js" />
-        <option value="$PROJECT_DIR$/src/scene_main.js" />
         <option value="$PROJECT_DIR$/src/scene_init.js" />
         <option value="$PROJECT_DIR$/src/scene_shop.js" />
         <option value="$PROJECT_DIR$/tutorials/bombs_js.md" />
         <option value="$PROJECT_DIR$/tutorials/emitter_js.md" />
         <option value="$PROJECT_DIR$/tutorials/enemies_js.md" />
         <option value="$PROJECT_DIR$/tutorials/bosses.md" />
-        <option value="$PROJECT_DIR$/tutorials/mechanics.md" />
         <option value="$PROJECT_DIR$/tutorials/player.md" />
         <option value="$PROJECT_DIR$/tutorials/emitters.md" />
         <option value="$PROJECT_DIR$/tutorials/bullets.md" />
         <option value="$PROJECT_DIR$/tutorials/bombs.md" />
         <option value="$PROJECT_DIR$/tutorials/enemies.md" />
         <option value="$PROJECT_DIR$/tutorials/spline.md" />
+        <option value="$PROJECT_DIR$/demo/js/rpg_objects.js" />
+        <option value="$PROJECT_DIR$/src/spriteset.js" />
+        <option value="$PROJECT_DIR$/demo/js/rpg_managers.js" />
+        <option value="$PROJECT_DIR$/src/player.js" />
+        <option value="$PROJECT_DIR$/src/bullet.js" />
+        <option value="$PROJECT_DIR$/demo/js/plugins/darklord.js" />
+        <option value="$PROJECT_DIR$/tutorials/mechanics.md" />
+        <option value="$PROJECT_DIR$/tutorials/stage.md" />
+        <option value="$PROJECT_DIR$/src/scene_main.js" />
+        <option value="$PROJECT_DIR$/demo/js/plugins/BulletHell.js" />
+        <option value="$PROJECT_DIR$/src/controller.js" />
       </list>
     </option>
   </component>
@@ -261,7 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -301,6 +279,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -394,27 +373,33 @@
       <workItem from="1566406255038" duration="11375000" />
       <workItem from="1566421271358" duration="3504000" />
       <workItem from="1566459269027" duration="7861000" />
+      <workItem from="1566486380186" duration="539000" />
+      <workItem from="1566501205246" duration="7000" />
+      <workItem from="1566503243514" duration="16000" />
+      <workItem from="1566504169460" duration="697000" />
+      <workItem from="1566506806523" duration="13000" />
+      <workItem from="1567018212896" duration="9082000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="295119000" />
+    <option name="totallyTimeSpent" value="305473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.43926555" visible="true" weight="0.31233245" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.43926555" visible="true" weight="0.21782842" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="right" id="Database" order="3" weight="0.3297587" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.2980226" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info id="Structure" order="1" sideWeight="0.56073445" side_tool="true" weight="0.30428955" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32909605" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -433,14 +418,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/demo/js/plugins/BulletHell.js</url>
-          <line>744</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="14" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -485,41 +463,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/getting_started.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor>
-            <caret column="51" selection-start-column="51" selection-end-column="51" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/override.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="170">
             <caret line="58" column="29" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/stage.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="262">
-            <caret line="61" column="50" selection-start-line="61" selection-start-column="50" selection-end-line="61" selection-end-column="50" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/plugin.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="122">
-            <caret line="109" selection-start-line="109" selection-end-line="109" />
           </first_editor>
           <second_editor />
         </state>
@@ -542,56 +490,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/plugins/BulletHell.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="132" column="3" selection-start-line="132" selection-start-column="3" selection-end-line="132" selection-end-column="28" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/rpg_windows.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/rpg_objects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/rpg_scenes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/js/rpg_sprites.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/rpg_core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="2559" lean-forward="true" selection-start-line="2559" selection-end-line="2559" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/rpg_managers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="1824" column="28" selection-start-line="1824" selection-start-column="13" selection-end-line="1824" selection-end-column="28" />
-        </state>
+        <state relative-caret-position="-30" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tutorial_files/spline.gif" />
@@ -609,9 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bullet.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/parse.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -622,20 +520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="53">
           <caret line="229" column="79" selection-start-line="229" selection-start-column="79" selection-end-line="229" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3757">
-          <caret line="221" column="27" selection-start-line="221" selection-start-column="21" selection-end-line="221" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="160" column="71" selection-start-line="160" selection-start-column="71" selection-end-line="160" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -660,13 +544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/generator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/movers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -674,31 +551,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spriteset.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="79" selection-start-line="30" selection-start-column="75" selection-end-line="30" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/windows.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="418" column="38" selection-start-line="418" selection-start-column="38" selection-end-line="418" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scene_main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="274" column="56" selection-start-line="274" selection-start-column="56" selection-end-line="274" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -716,38 +572,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/advanced.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor>
-            <caret column="115" selection-start-column="115" selection-end-column="115" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/bombs_js.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="207">
             <caret line="163" column="80" selection-start-line="163" selection-start-column="80" selection-end-line="163" selection-end-column="80" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/plugins/darklord.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="170" column="56" selection-start-line="170" selection-start-column="42" selection-end-line="170" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/bosses.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="171">
-            <caret line="539" column="26" selection-start-line="539" selection-start-column="26" selection-end-line="539" selection-end-column="26" />
           </first_editor>
           <second_editor />
         </state>
@@ -773,20 +602,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/mechanics.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="137">
-            <caret line="39" column="223" selection-start-line="39" selection-start-column="223" selection-end-line="39" selection-end-column="223" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/player.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="171">
+          <first_editor relative-caret-position="918">
             <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
           </first_editor>
           <second_editor />
@@ -797,7 +616,7 @@
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="137">
-            <caret line="37" column="137" lean-forward="true" selection-start-line="37" selection-start-column="137" selection-end-line="37" selection-end-column="137" />
+            <caret line="37" column="137" selection-start-line="37" selection-start-column="137" selection-end-line="37" selection-end-column="137" />
           </first_editor>
           <second_editor />
         </state>
@@ -817,7 +636,7 @@
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="34">
-            <caret line="2" column="228" lean-forward="true" selection-start-line="2" selection-start-column="228" selection-end-line="2" selection-end-column="228" />
+            <caret line="2" column="228" selection-start-line="2" selection-start-column="228" selection-end-line="2" selection-end-column="228" />
           </first_editor>
           <second_editor />
         </state>
@@ -826,7 +645,7 @@
     <entry file="file://$PROJECT_DIR$/tutorials/enemies.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="296">
+          <first_editor relative-caret-position="537">
             <caret line="241" column="121" selection-start-line="241" selection-start-column="121" selection-end-line="241" selection-end-column="121" />
           </first_editor>
           <second_editor />
@@ -836,10 +655,171 @@
     <entry file="file://$PROJECT_DIR$/tutorials/spline.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="473">
+          <first_editor relative-caret-position="503">
             <caret line="33" column="111" selection-start-line="33" selection-start-column="111" selection-end-line="33" selection-end-column="111" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="101" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/rpg_windows.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="152" column="32" selection-start-line="152" selection-start-column="22" selection-end-line="152" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/rpg_scenes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="632" column="4" lean-forward="true" selection-start-line="632" selection-start-column="4" selection-end-line="634" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spriteset.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="29" column="80" selection-start-line="29" selection-start-column="80" selection-end-line="29" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/rpg_managers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="1500" column="42" selection-start-line="1500" selection-start-column="33" selection-end-line="1500" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/rpg_core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="8039" column="29" selection-start-line="8039" selection-start-column="19" selection-end-line="8039" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bullet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="84" column="2" selection-start-line="84" selection-start-column="2" selection-end-line="84" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="257" column="31" selection-start-line="257" selection-start-column="31" selection-end-line="257" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/advanced.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret column="115" selection-start-column="115" selection-end-column="115" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/plugins/darklord.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="114" column="53" selection-start-line="114" selection-start-column="53" selection-end-line="114" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/getting_started.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret column="73" selection-start-column="73" selection-end-column="73" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/bosses.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-1818">
+            <caret line="539" column="26" selection-start-line="539" selection-start-column="26" selection-end-line="539" selection-end-column="26" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/plugin.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1853">
+            <caret line="109" selection-start-line="109" selection-end-line="109" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/mechanics.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="323">
+            <caret line="52" column="72" selection-start-line="52" selection-start-column="72" selection-end-line="52" selection-end-column="72" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/stage.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="360">
+            <caret line="69" column="103" selection-start-line="69" selection-start-column="103" selection-end-line="69" selection-end-column="103" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/rpg_objects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2382">
+          <caret line="478" column="13" selection-start-line="478" selection-end-line="478" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scene_main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="181" column="20" lean-forward="true" selection-start-line="181" selection-start-column="20" selection-end-line="181" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/plugins/BulletHell.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="963" column="48" selection-start-line="963" selection-start-column="48" selection-end-line="963" selection-end-column="48" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="120" column="48" selection-start-line="120" selection-start-column="48" selection-end-line="120" selection-end-column="48" />
         </state>
       </provider>
     </entry>

@@ -66,3 +66,5 @@ Now all you have to do is to call the plugin's command from a regular event on a
 ...And we are done!
 
 ![Stage](stage.png)
+
+**Note**: Remember you can add a `Show Text` command to any event to display messages during the stage.

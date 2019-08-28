@@ -115,6 +115,7 @@ var BHell = (function (my) {
                 if (this.mover.inPosition === true) {
                     AudioManager.playSe({name: "Monster5", volume: 100, pitch: 100, pan: 0});
                     this.changeState("pattern 1");
+
                 }
                 break;
             case "pattern 1": // Shoots from the hands and the claws for 10 seconds, then switches to pattern 2

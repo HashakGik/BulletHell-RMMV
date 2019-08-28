@@ -62,26 +62,26 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
     this.angle = angle;
     this.speed = speed;
     this.bulletList = bulletList;
+    this.outsideMap = false;
 };
 
 /**
  * Updates the bullet's position. If it leaves the screen, it's destroyed.
- * @returns {boolean} True if the bullet has left the screen, false otherwise.
  */
 BHell_Bullet.prototype.update = function () {
     my.BHell_Sprite.prototype.update.call(this);
-
-   var ret = false;
 
     this.x += Math.cos(this.angle) * this.speed;
     this.y += Math.sin(this.angle) * this.speed;
 
     if (this.y < -this.height || this.y > Graphics.height + this.height || this.x < -this.width || this.x > Graphics.width + this.width) {
         this.destroy();
-        ret = true;
+        this.outsideMap = true;
     }
+};
 
-    return ret;
+BHell_Bullet.prototype.isOutsideMap = function() {
+    return this.outsideMap;
 };
 
 /**

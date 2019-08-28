@@ -254,6 +254,14 @@ var BHell = (function (my) {
 
             if (this.y < -this.height) {
                 my.playing = false;
+                if (this.victory_se != null) {
+                 my.playing |= AudioManager._seBuffers != null && AudioManager._seBuffers.filter(function(audio) {
+                     return audio.isPlaying();
+                 }).length !== 0;
+                }
+                if (my.victoryMe != null) {
+                    my.playing |= AudioManager._meBuffer != null && AudioManager._meBuffer.isPlaying();
+                }
             }
         }
         else { // Otherwise move towards the destination.

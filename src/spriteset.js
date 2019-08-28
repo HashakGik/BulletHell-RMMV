@@ -27,7 +27,7 @@ BHell_Spriteset.prototype.createLowerLayer = function () {
  * Since the implementation of Sprite.update was unsuitable, the base classes' behaviour is rewritten.
  */
 BHell_Spriteset.prototype.update = function () {
-    if (my.controller != null && !my.controller.paused) {
+    if (my.controller != null && !my.controller.paused && !$gameMessage.isBusy()) {
         // Reimplementation of Sprite.update(), since the forEach wouldn't work.
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i];
