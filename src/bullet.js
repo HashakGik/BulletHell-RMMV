@@ -75,12 +75,11 @@ BHell_Bullet.prototype.update = function () {
     this.y += Math.sin(this.angle) * this.speed;
 
     if (this.y < -this.height || this.y > Graphics.height + this.height || this.x < -this.width || this.x > Graphics.width + this.width) {
-        this.destroy();
         this.outsideMap = true;
     }
 };
 
-BHell_Bullet.prototype.isOutsideMap = function() {
+BHell_Bullet.prototype.isOutsideMap = function () {
     return this.outsideMap;
 };
 

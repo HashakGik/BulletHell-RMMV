@@ -170,7 +170,7 @@ var BHell = (function (my) {
      * "Escape" button: toggle pause.
      */
     Scene_BHell.prototype.updateInput = function () {
-        if (!my.controller.paused) {
+        if (!my.controller.paused && !$gameMessage.isBusy()) {
             if (Input.isTriggered('escape')) {
                 my.controller.paused = true;
                 this.bgm = AudioManager.saveBgm();
@@ -229,34 +229,33 @@ var BHell = (function (my) {
      * For a more dynamic "effect", the score is added "slowly" with small increments.
      */
     Scene_BHell.prototype.updateHUD = function () {
+        this.hud.bitmap.clear();
+
         var player = $dataBulletHell.players[my.playerId];
+
+        var x;
+        var y;
+        var i;
+
         // Update lives:
-        if (my.player.lives !== -1 && my.player.lives > this.lives.length) { // Some lives were earned
-            var life = new my.BHell_Sprite(player.sprite, player.index, 2, player.frame, false, 0);
-            life.y = Graphics.height - life.height / 2 - 10;
-            life.x = this.lives.length * (life.width / 2) + life.width / 2;
-            this.lives.push(life);
-            this.addChild(life);
-        }
-        if (my.player.lives !== -1 && my.player.lives < this.lives.length) { // Some lives were lost
-            this.removeChild(this.lives.pop());
+        var w = this.life.patternWidth();
+        var h = this.life.patternHeight();
+        var sx = (this.life.characterBlockX() + this.life.characterPatternX()) * w;
+        var sy = (this.life.characterBlockY() + this.life.characterPatternY()) * h;
+        for (i = 0; i < my.player.lives; i++) {
+            x = i * w / 2 + 10;
+            y = Graphics.height - h - 10;
+            this.hud.bitmap.blt(this.life.bitmap, sx, sy, w, h, x, y, w, h);
         }
 
-        if (my.player.bombs !== -1 && my.player.bombs > this.bombs.length) { // Some bombs were added
-            var bomb = new Sprite_Base();
-
-            bomb.bitmap = ImageManager.loadSystem(player.bomb.icon, 0);
-            bomb.anchor.x = 0.5;
-            bomb.anchor.y = 0.5;
-            bomb.setFrame(bomb.width / 16 * (player.bomb.icon_index % 16), bomb.height / 20 * Math.floor(player.bomb.icon_index / 16), bomb.width / 16, bomb.height / 20);
-            bomb.y = Graphics.height - bomb.height - this.lifeH;
-            bomb.x = this.bombs.length * (bomb.width) + this.lifeW / 2;
-
-            this.bombs.push(bomb);
-            this.addChild(bomb);
-        }
-        if (my.player.bombs !== -1 && my.player.bombs < this.bombs.length) { // Some bombs were used
-            this.removeChild(this.bombs.pop());
+        sx = this.bomb.width / 16 * (player.bomb.icon_index % 16);
+        sy = this.bomb.height / 20 * Math.floor(player.bomb.icon_index / 16);
+        w = this.bomb.width / 16;
+        h = this.bomb.height / 20;
+        for (i = 0; i < my.player.bombs; i++) {
+            x = i * w + 10;
+            y = Graphics.height - h - 10 - this.life.height;
+            this.hud.bitmap.blt(this.bomb, sx, sy, w, h, x, y, w, h);
         }
 
         // Update score: Graphic effect for score accumulation.
@@ -265,43 +264,32 @@ var BHell = (function (my) {
             my.scoreAccumulator += delta / 10;
         }
 
-        my.scoreSprite.bitmap.clear();
-        my.scoreSprite.bitmap.drawText(Number(Math.round(my.scoreAccumulator)), 10, 10, Graphics.width - 20, 36, "right");
 
-        my.bossLife.bitmap.clear();
+        this.hud.bitmap.drawText(Number(Math.round(my.scoreAccumulator)), 10, 10, Graphics.width - 20, 36, "right");
+
         if (my.bossOnScreen === true) {
-            my.bossLife.bitmap.fillRect(0, 0, my.bossLife.width, my.bossLife.height, "rgba(0, 0,0, 0.8)");
-            my.bossLife.bitmap.clearRect(1, 1, my.bossLife.width - 2, my.bossLife.height - 2);
+            this.hud.bitmap._context.lineWidth = 1;
+            this.hud.bitmap._context.strokeStyle = "rgba(0, 0, 0, 0.8)";
+            this.hud.bitmap._context.strokeRect(10, 3, Graphics.width - 20, 10);
             if (my.bossMaxHp !== 0) {
                 var red = Math.round(255 * my.bossHp / my.bossMaxHp);
                 var green = 255 - red;
-                my.bossLife.bitmap.fillRect(1, 1, (my.bossLife.width - 2) * my.bossHp / my.bossMaxHp, my.bossLife.height - 2, "rgba(" + red + ", " + green + ", 0, 0.8)");
+                this.hud.bitmap.fillRect(11, 4, (Graphics.width - 22) * my.bossHp / my.bossMaxHp, 8, "rgba(" + red + ", " + green + ", 0, 0.8)");
             }
         }
-
     };
 
     /**
      * Creates the HUD (the score sprite and a life template).
      */
     Scene_BHell.prototype.createHUD = function () {
-        this.lives = [];
-        this.bombs = [];
-
         var player = $dataBulletHell.players[my.playerId];
-        var life = new my.BHell_Sprite(player.sprite, player.index, 2, player.frame, false, 0);
-        this.lifeW = life.width;
-        this.lifeH = life.height;
-        my.scoreSprite = new Sprite(new Bitmap(Graphics.width, 46));
-        my.scoreSprite.x = 0;
-        my.scoreSprite.y = 0;
-        my.scoreAccumulator = 0;
-        this.addChild(my.scoreSprite);
+        this.life = new my.BHell_Sprite(player.sprite, player.index, 2, player.frame, false, 0);
+        this.bomb = ImageManager.loadSystem(player.bomb.icon, 0);
 
-        my.bossLife = new Sprite(new Bitmap(Graphics.width - 20, 10));
-        my.bossLife.x = 10;
-        my.bossLife.y = 3;
-        this.addChild(my.bossLife);
+        my.scoreAccumulator = 0;
+        this.hud = new Sprite(new Bitmap(Graphics.width, Graphics.height));
+        this.addChild(this.hud);
     };
 
     /**

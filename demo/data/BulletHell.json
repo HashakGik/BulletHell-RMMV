@@ -7,7 +7,7 @@
       "can_be_bought": false,
       "price": 0,
       "speed": "S",
-      "rate": "D",
+      "rate": "B",
       "power": "D",
       "bombs": "C",
       "autobombs": "D",
@@ -57,7 +57,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 25,
+            "period": 10,
             "sprite": null,
             "ranks": ["D", "C", "B"],
             "index": 0,
@@ -78,7 +78,7 @@
           "params": {
             "x": "-w/2",
             "y": 0,
-            "period": 50,
+            "period": 25,
             "ranks": ["C"],
             "sprite": null,
             "index": 0,
@@ -98,7 +98,7 @@
           "params": {
             "x": "w/2",
             "y": 0,
-            "period": 50,
+            "period": 25,
             "ranks": ["C"],
             "sprite": null,
             "index": 0,
@@ -118,7 +118,7 @@
           "params": {
             "x": "-w/2",
             "y": 0,
-            "period": 25,
+            "period": 10,
             "ranks": ["B"],
             "sprite": null,
             "index": 0,
@@ -139,7 +139,7 @@
           "params": {
             "x": "w/2",
             "y": 0,
-            "period": 25,
+            "period": 10,
             "ranks": ["B"],
             "sprite": null,
             "index": 0,
@@ -163,7 +163,7 @@
             "a": "3 * pi / 2 - pi / 16",
             "b": "3 * pi / 2 + pi / 16",
             "n": 3,
-            "period": 25,
+            "period": 10,
             "sprite": null,
             "ranks": ["A"],
             "index": 0,
@@ -187,7 +187,7 @@
             "a": "3 * pi / 2 - pi / 16",
             "b": "3 * pi / 2 + pi / 16",
             "n": 5,
-            "period": 25,
+            "period": 10,
             "sprite": null,
             "ranks": ["S"],
             "index": 0,
@@ -455,7 +455,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 25,
+            "period": 10,
             "sprite": "$Helpers",
             "index": 0,
             "direction": 8,
@@ -479,7 +479,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 25,
+            "period": 10,
             "sprite": "$Helpers",
             "index": 0,
             "direction": 8,
@@ -503,7 +503,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 75,
+            "period": 30,
             "sprite": "$Helpers",
             "ranks": ["B", "A", "S"],
             "index": 0,
@@ -528,7 +528,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 75,
+            "period": 30,
             "sprite": "$Helpers",
             "ranks": ["B", "A", "S"],
             "index": 0,
@@ -553,7 +553,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 75,
+            "period": 30,
             "sprite": "$Helpers",
             "ranks": ["S"],
             "index": 0,
@@ -578,7 +578,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 75,
+            "period": 30,
             "sprite": "$Helpers",
             "ranks": ["S"],
             "index": 0,
@@ -603,7 +603,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 25,
+            "period": 30,
             "sprite": "$Helpers",
             "ranks": ["S"],
             "index": 0,
@@ -628,7 +628,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 25,
+            "period": 10,
             "ranks": ["S"],
             "sprite": "$Helpers",
             "index": 0,
@@ -707,7 +707,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["D"],
             "angle": "3 * pi / 2",
             "sprite": null,
@@ -730,7 +730,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["C"],
             "angle": "3 * pi / 2",
             "sprite": null,
@@ -753,7 +753,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["B"],
             "angle": "3 * pi / 2",
             "sprite": null,
@@ -776,7 +776,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["A"],
             "angle": "3 * pi / 2",
             "sprite": null,
@@ -799,7 +799,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["S"],
             "angle": "3 * pi / 2 - pi / 64",
             "sprite": null,
@@ -822,7 +822,7 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 300,
+            "period": 120,
             "ranks": ["S"],
             "angle": "3 * pi / 2 + pi / 64",
             "sprite": null,
@@ -899,7 +899,7 @@
           "params": {
             "x": -47,
             "y": -15,
-            "period": 120,
+            "period": 60,
             "radius": 50,
             "shooting_frames": 60,
             "speed": 4,
@@ -912,7 +912,7 @@
               "index": 0,
               "direction": 2,
               "frame": 1,
-              "speed": 9,
+              "speed": 40,
               "animated": false
             }
           }
@@ -922,7 +922,7 @@
           "params": {
             "x": 47,
             "y": -15,
-            "period": 120,
+            "period": 60,
             "radius": 50,
             "ranks": ["C", "B", "A", "S"],
             "shooting_frames": 60,
@@ -936,7 +936,7 @@
               "index": 0,
               "direction": 2,
               "frame": 1,
-              "speed": 9,
+              "speed": 40,
               "animated": false
             }
           }
@@ -946,7 +946,7 @@
           "params": {
             "x": 29,
             "y": 40,
-            "period": 120,
+            "period": 60,
             "radius": 50,
             "ranks": ["B", "A", "S"],
             "shooting_frames": 60,
@@ -960,7 +960,7 @@
               "index": 0,
               "direction": 2,
               "frame": 1,
-              "speed": 9,
+              "speed": 40,
               "animated": false
             }
           }
@@ -970,7 +970,7 @@
           "params": {
             "x": -29,
             "y": 40,
-            "period": 120,
+            "period": 60,
             "radius": 50,
             "ranks": ["A", "S"],
             "shooting_frames": 60,
@@ -984,7 +984,7 @@
               "index": 0,
               "direction": 2,
               "frame": 1,
-              "speed": 9,
+              "speed": 40,
               "animated": false
             }
           }
@@ -994,7 +994,7 @@
           "params": {
             "x": 0,
             "y": -50,
-            "period": 120,
+            "period": 60,
             "radius": 50,
             "ranks": ["S"],
             "shooting_frames": 60,
@@ -1008,7 +1008,7 @@
               "index": 0,
               "direction": 2,
               "frame": 1,
-              "speed": 9,
+              "speed": 40,
               "animated": false
             }
           }
@@ -1022,7 +1022,7 @@
       "class": "BHell_Enemy_Suicide",
       "params": {
         "hp": 1,
-        "speed": 4
+        "speed": 5
       }
     },
     {
@@ -1076,7 +1076,7 @@
         "stop_on_shooting": false,
         "n": 10,
         "bullet": {
-          "speed": 0.5
+          "speed": 1
         }
       }
     },
@@ -1086,24 +1086,24 @@
       "params": {
         "hp": 10,
         "speed": 3,
-        "period": 2,
+        "period": 5,
         "cooldown": 120,
-        "shooting": 100,
+        "shooting": 60,
         "aim": false,
         "stop_on_shooting": true,
         "n": 5,
         "rotation": -0.01,
         "bullet": {
-          "direction": 8,
-          "frame": 2,
-          "speed": 0.5
+          "speed": 1
         }
       }
     },
     {
       "name": "sprayer",
       "class": "BHell_Enemy_Sprayer",
-      "params": null
+      "params": {
+        "period": 60
+      }
     },
     {
       "name": "burst",
@@ -1125,7 +1125,7 @@
         "hp": 50,
         "speed": 3,
         "radius": 250,
-        "period": 180,
+        "period": 120,
         "aim": true
       }
     },
@@ -1139,7 +1139,7 @@
         "period": 120,
         "aim": true,
         "bullet": {
-          "speed": 0.5
+          "speed": 1
         }
       }
     },

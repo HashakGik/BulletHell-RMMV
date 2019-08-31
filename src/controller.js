@@ -160,6 +160,7 @@ var BHell = (function (my) {
                     if (m.y >= this.stageY) {
                         m.list.forEach(l => {
                             if (l.code === 101) {
+                                $gameMessage.newPage();
                                 $gameMessage.setFaceImage(l.parameters[0], l.parameters[1]);
                                 $gameMessage.setBackground(l.parameters[2]);
                                 $gameMessage.setPositionType(l.parameters[3]);
@@ -210,6 +211,7 @@ var BHell = (function (my) {
             for (i = 0; i < my.friendlyBullets.length; i++) {
                 b = my.friendlyBullets[i];
                 if (b.isOutsideMap()) {
+                    b.destroy();
                     my.bulletsLost++;
                     i--;
                 } else {
@@ -232,6 +234,7 @@ var BHell = (function (my) {
             for (i = 0; i < my.enemyBullets.length; i++) {
                 b = my.enemyBullets[i];
                 if (b.isOutsideMap()) {
+                    b.destroy();
                     i--;
                 }
                 if (!this.playerHit && my.player.checkCollision(b.x, b.y)) {
