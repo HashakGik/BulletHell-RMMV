@@ -56,7 +56,7 @@ The shop allows to buy new players and upgrade them using the game's currency (n
 Additional resources
 --------------------
 
-A demo can be downloaded in the [release section](releases/latest), or can be played online [here](https://strontiumaluminate.altervista.org/bullethell).
+A demo can be downloaded in the [release section](https://github.com/HashakGik/BulletHell-RMMV/releases/latest), or can be played online [here](https://strontiumaluminate.altervista.org/bullethell).
 
 A demonstration video is available on [YouTube](https://www.youtube.com/watch?v=D5rxpICS198).
 
