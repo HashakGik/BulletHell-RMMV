@@ -997,10 +997,15 @@ var BHell = (function (my) {
                 }
 
                 // If it's time to show a message, display it and remove it from the message list.
-                for (i = 0; i < this.messages.length; i++) {
-                    m = this.messages[i];
-                    if (m.y >= this.stageY) {
-                        m.list.forEach(l => {
+                var msg = this.messages.filter(m => {
+                    return m.y >= this.stageY;
+                });
+
+                if (!$gameMessage.isBusy()) {
+                    if (msg.length > 0) {
+                        m = msg[0];
+                        while (m.list.length > 0) {
+                            var l = m.list[0];
                             if (l.code === 101) {
                                 $gameMessage.newPage();
                                 $gameMessage.setFaceImage(l.parameters[0], l.parameters[1]);
@@ -1010,10 +1015,9 @@ var BHell = (function (my) {
                             else {
                                 $gameMessage.add(l.parameters[0]);
                             }
-                        });
-
+                            m.list.splice(0, 1);
+                        }
                         this.messages.splice(this.messages.indexOf(m), 1);
-                        i--;
                     }
                 }
 
@@ -1097,6 +1101,37 @@ var BHell = (function (my) {
                     e.speed = 0;
                 }
             }
+        }
+    };
+
+    /**
+     * Pushes a new message on the message list.
+     * @param face Faceset.
+     * @param index Index of the face to display.
+     * @param background Background window format (0: window, 1: shadow, 2: transparent).
+     * @param position Window position (0: bottom, 1: middle, 2: top).
+     * @param lines Array of lines to display with the given settings.
+     */
+    BHell_Controller.prototype.pushMessage = function (face, index, background, position, lines) {
+        for (var i = 0; i < lines.length / 4; i++) {
+            var msg = {};
+            msg.list = [];
+            var tmp = {};
+            tmp.code = 101;
+            tmp.parameters = [face, index, background, position];
+            msg.list.push(tmp);
+
+            for (var j = 0; j < 4; j++) {
+                if (i * 4 + j < lines.length) {
+                    tmp = {};
+                    tmp.code = 401;
+                    tmp.parameters = [lines[i * 4 + j]];
+                    msg.list.push(tmp);
+                }
+            }
+
+            msg.y = this.stageY;
+            this.messages.push(msg);
         }
     };
 
@@ -2633,7 +2668,7 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     this.stop = stop;
     this.enemies = enemies;
     this.parent = parent;
-    this.params = null;
+    this.params = {};
     this.enemyClass = null;
 
     // Fetch the correct enemy class from the JSON file.

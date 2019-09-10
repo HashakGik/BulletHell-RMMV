@@ -43,7 +43,7 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     this.stop = stop;
     this.enemies = enemies;
     this.parent = parent;
-    this.params = null;
+    this.params = {};
     this.enemyClass = null;
 
     // Fetch the correct enemy class from the JSON file.
