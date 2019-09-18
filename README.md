@@ -23,6 +23,8 @@ The engine can be extended easily, allowing bosses design and customisation of e
 
 ![Boss battle](screenshots/gameplay2.gif)
 
+![Boss battle 2](screenshots/darklordfinal.gif)
+
 An in-game shop allows to buy new players (each with their own unique shooting patterns and bombing abilities) and upgrade them.
 
 ![Shop](screenshots/gameplay3.gif)
@@ -59,6 +61,8 @@ Additional resources
 A demo can be downloaded in the [release section](https://github.com/HashakGik/BulletHell-RMMV/releases/latest), or can be played online [here](https://strontiumaluminate.altervista.org/bullethell).
 
 A demonstration video is available on [YouTube](https://www.youtube.com/watch?v=D5rxpICS198).
+
+A boss-rush gameplay, with more interesting patterns, can be seen [here](https://youtube.com/watch?v=hWj_7gTi194).
 
 The internal JSDoc documentation is available [here](https://HashakGik.github.io/BulletHell-RMMV).
 
