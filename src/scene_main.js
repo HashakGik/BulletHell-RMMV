@@ -188,21 +188,34 @@ var BHell = (function (my) {
                         my.player.moveTo(TouchInput.x, TouchInput.y);
                     }
 
-                    if (Input.isPressed('up')) {
+                    if (Input.isLastInputGamepad()) {
                         this.usingTouch = false;
-                        my.player.step(0, -1);
+
+                        var dx = Input.readAxis(0);
+                        var dy = Input.readAxis(1);
+
+                        dx /= 2;
+                        dy /= 2;
+                        
+                        my.player.step(dx, dy);
                     }
-                    if (Input.isPressed('down')) {
-                        this.usingTouch = false;
-                        my.player.step(0, +1);
-                    }
-                    if (Input.isPressed('left')) {
-                        this.usingTouch = false;
-                        my.player.step(-1, 0);
-                    }
-                    if (Input.isPressed('right')) {
-                        this.usingTouch = false;
-                        my.player.step(+1, 0);
+                    else {
+                        if (Input.isPressed('up')) {
+                            this.usingTouch = false;
+                            my.player.step(0, -1);
+                        }
+                        if (Input.isPressed('down')) {
+                            this.usingTouch = false;
+                            my.player.step(0, +1);
+                        }
+                        if (Input.isPressed('left')) {
+                            this.usingTouch = false;
+                            my.player.step(-1, 0);
+                        }
+                        if (Input.isPressed('right')) {
+                            this.usingTouch = false;
+                            my.player.step(+1, 0);
+                        }
                     }
 
                     if (TouchInput.isPressed()) {

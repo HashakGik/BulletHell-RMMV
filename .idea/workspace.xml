@@ -28,11 +28,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="scene_main.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="scene_main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/scene_main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2499">
-              <caret line="147" column="35" selection-start-line="147" selection-start-column="22" selection-end-line="147" selection-end-column="35" />
+            <state relative-caret-position="209">
+              <caret line="198" column="24" selection-start-line="198" selection-start-column="24" selection-end-line="198" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/plugin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="370" column="91" selection-start-line="370" selection-start-column="91" selection-end-line="370" selection-end-column="91" />
             </state>
           </provider>
         </entry>
@@ -46,7 +55,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="458">
@@ -168,7 +177,6 @@
         <option value="$PROJECT_DIR$/src/emitters.js" />
         <option value="$PROJECT_DIR$/src/enemies.js" />
         <option value="$PROJECT_DIR$/src/explosion.js" />
-        <option value="$PROJECT_DIR$/src/plugin.js" />
         <option value="$PROJECT_DIR$/src/movers.js" />
         <option value="$PROJECT_DIR$/src/windows.js" />
         <option value="$PROJECT_DIR$/src/scene_init.js" />
@@ -195,9 +203,10 @@
         <option value="$PROJECT_DIR$/demo/data/BulletHell.json" />
         <option value="$PROJECT_DIR$/demo/data/MapInfos.json" />
         <option value="$PROJECT_DIR$/demo/js/plugins/BulletHell.js" />
-        <option value="$PROJECT_DIR$/src/scene_main.js" />
         <option value="$PROJECT_DIR$/src/generator.js" />
         <option value="$PROJECT_DIR$/src/controller.js" />
+        <option value="$PROJECT_DIR$/src/plugin.js" />
+        <option value="$PROJECT_DIR$/src/scene_main.js" />
       </list>
     </option>
   </component>
@@ -222,6 +231,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -249,20 +259,12 @@
             <path>
               <item name="BulletHell" type="b2602c69:ProjectViewProjectNode" />
               <item name="BulletHell" type="462c0819:PsiDirectoryNode" />
-              <item name="demo" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BulletHell" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BulletHell" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -385,28 +387,29 @@
       <workItem from="1568136228510" duration="1278000" />
       <workItem from="1568150819616" duration="2011000" />
       <workItem from="1568182808710" duration="1101000" />
+      <workItem from="1568842209962" duration="203000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="326773000" />
+    <option name="totallyTimeSpent" value="326976000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.43926555" visible="true" weight="0.26541555" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.43926555" visible="true" weight="0.26876676" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="right" id="Database" order="3" weight="0.3297587" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.2980226" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info id="Structure" order="1" sideWeight="0.56073445" side_tool="true" weight="0.30428955" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32909605" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -429,7 +432,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tutorial_files/spline.gif" />
     <entry file="file://$PROJECT_DIR$/tutorial_files/spline_editor.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
@@ -576,13 +578,6 @@
             <caret line="33" column="111" selection-start-line="33" selection-start-column="111" selection-end-line="33" selection-end-column="111" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="101" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -807,17 +802,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scene_main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2499">
-          <caret line="147" column="35" selection-start-line="147" selection-start-column="22" selection-end-line="147" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="458">
           <caret line="177" column="74" selection-start-line="177" selection-start-column="74" selection-end-line="177" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="370" column="91" selection-start-line="370" selection-start-column="91" selection-end-line="370" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scene_main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="198" column="24" selection-start-line="198" selection-start-column="24" selection-end-line="198" selection-end-column="24" />
         </state>
       </provider>
     </entry>

@@ -308,5 +308,74 @@ var BHell = (function (my) {
         }
     };
 
+    // Rewrite Input._updateGamepadState to include axes informations and whether the last input came from a gamepad or the keyboard.
+    Input._updateGamepadState = function(gamepad) {
+        var lastState = this._gamepadStates[gamepad.index] || [];
+        var newState = [];
+        var buttons = gamepad.buttons;
+        var axes = gamepad.axes;
+        var threshold = 0.5;
+        newState[12] = false;
+        newState[13] = false;
+        newState[14] = false;
+        newState[15] = false;
+        for (var i = 0; i < buttons.length; i++) {
+            newState[i] = buttons[i].pressed;
+        }
+        if (axes[1] < -threshold) {
+            newState[12] = true;    // up
+        } else if (axes[1] > threshold) {
+            newState[13] = true;    // down
+        }
+        if (axes[0] < -threshold) {
+            newState[14] = true;    // left
+        } else if (axes[0] > threshold) {
+            newState[15] = true;    // right
+        }
+        for (var j = 0; j < newState.length; j++) {
+            if (newState[j] !== lastState[j]) {
+                var buttonName = this.gamepadMapper[j];
+                if (buttonName) {
+                    this._currentState[buttonName] = newState[j];
+                }
+            }
+        }
+        this._gamepadStates[gamepad.index] = newState;
+        this._axes = gamepad.axes;
+
+        this._lastInputIsGamepad = newState.filter(b => {return b === true;}).length > 0;
+    };
+
+    // Rewrite Input._onKeyDown to include whether the last input came from a gamepad or the keyboard.
+    Input._onKeyDown = function(event) {
+        if (this._shouldPreventDefault(event.keyCode)) {
+            event.preventDefault();
+        }
+        if (event.keyCode === 144) {    // Numlock
+            this.clear();
+        }
+        var buttonName = this.keyMapper[event.keyCode];
+        if (ResourceHandler.exists() && buttonName === 'ok') {
+            ResourceHandler.retry();
+        } else if (buttonName) {
+            this._currentState[buttonName] = true;
+        }
+        this._lastInputIsGamepad = false;
+    };
+
+    // Checks where the last input came from.
+    Input.isLastInputGamepad = function() {
+        return !!this._lastInputIsGamepad;
+    };
+
+    // Returns the value for a given axis. If the value is below the deadzone it returns 0.
+    Input.readAxis = function(axis, deadzone = 0.20) {
+        var ret = 0;
+        if (this._axes && Math.abs(this._axes[axis]) >= deadzone) {
+            ret = this._axes[axis];
+        }
+        return ret;
+    };
+
     return my;
 }(BHell || {}));
