@@ -183,7 +183,6 @@ var BHell = (function (my) {
         }
     };
 
-
     /**
      * Sets a destination for the player.
      * @param x X coordinate of the destination.
@@ -192,6 +191,16 @@ var BHell = (function (my) {
     BHell_Player.prototype.moveTo = function (x, y) {
         this.dx = x - this.x;
         this.dy = y - this.y;
+    };
+
+    /**
+     * Sets a relative destination for the player.
+     * @param dx Relative x coordinate of the destination.
+     * @param dy Relative y coordinate of the destination.
+     */
+    BHell_Player.prototype.deltaTo = function (dx, dy) {
+        this.dx = dx;
+        this.dy = dy;
     };
 
     /**

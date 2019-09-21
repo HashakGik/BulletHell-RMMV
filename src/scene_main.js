@@ -184,42 +184,48 @@ var BHell = (function (my) {
                     Input.clear();
                 }
                 else {
-                    if (this.usingTouch) {
+                    if (this.usingTouch === "touch") {
+                        my.player.deltaTo(TouchInput.dx, TouchInput.dy);
+                    }
+                    else if (this.usingTouch === "mouse") {
                         my.player.moveTo(TouchInput.x, TouchInput.y);
                     }
 
                     if (Input.isLastInputGamepad()) {
-                        this.usingTouch = false;
+                        var dx = Input.readAxis(0, $gameSystem.controllerDeadzone);
+                        var dy = Input.readAxis(1, $gameSystem.controllerDeadzone);
 
-                        var dx = Input.readAxis(0);
-                        var dy = Input.readAxis(1);
+                        dx *= $gameSystem.controllerSpeedMultiplier;
+                        dy *= $gameSystem.controllerSpeedMultiplier;
 
-                        dx /= 2;
-                        dy /= 2;
-                        
                         my.player.step(dx, dy);
+
                     }
                     else {
                         if (Input.isPressed('up')) {
-                            this.usingTouch = false;
                             my.player.step(0, -1);
                         }
                         if (Input.isPressed('down')) {
-                            this.usingTouch = false;
                             my.player.step(0, +1);
                         }
                         if (Input.isPressed('left')) {
-                            this.usingTouch = false;
                             my.player.step(-1, 0);
                         }
                         if (Input.isPressed('right')) {
-                            this.usingTouch = false;
                             my.player.step(+1, 0);
                         }
                     }
 
                     if (TouchInput.isPressed()) {
-                        this.usingTouch = true;
+                        if (TouchInput._screenPressed) {
+                            this.usingTouch = "touch";
+                        }
+                        else {
+                            this.usingTouch = "mouse";
+                        }
+                    }
+                    else {
+                        this.usingTouch = "no";
                     }
 
                     if (TouchInput.isPressed() || Input.isPressed('ok')) {
@@ -319,6 +325,8 @@ var BHell = (function (my) {
             this.pauseWindow = new my.BHell_Window_Pause();
             this.pauseWindow.setHandler("cancel", this.resume.bind(this));
             this.pauseWindow.setHandler("retry", this.retry.bind(this));
+            this.pauseWindow.setHandler("deadzone", this.setDeadzone.bind(this));
+            this.pauseWindow.setHandler("speed", this.setSpeed.bind(this));
             this.pauseWindow.setHandler("quit", this.quit.bind(this));
         }
 
@@ -361,7 +369,33 @@ var BHell = (function (my) {
     };
 
     /**
-     * Quit command, invoked by the pause window's third option. Asks for confirmation.
+     * Deadzone command, invoked by the pause window's third option.
+     */
+    Scene_BHell.prototype.setDeadzone = function () {
+        $gameSystem.controllerDeadzone += 0.05;
+        if ($gameSystem.controllerDeadzone >= 1) {
+            $gameSystem.controllerDeadzone = 0;
+        }
+        this.pauseWindow.activate();
+        this.pauseWindow.refresh();
+    };
+
+
+    /**
+     * Speed command, invoked by the pause window's fourth option.
+     */
+    Scene_BHell.prototype.setSpeed = function () {
+        $gameSystem.controllerSpeedMultiplier += 0.05;
+        if ($gameSystem.controllerSpeedMultiplier >= 1.05) {
+            $gameSystem.controllerSpeedMultiplier = 0.1;
+        }
+        this.pauseWindow.activate();
+        this.pauseWindow.refresh();
+    };
+
+
+    /**
+     * Quit command, invoked by the pause window's fifth option. Asks for confirmation.
      */
     Scene_BHell.prototype.quit = function () {
         this.pauseWindow.deactivate();

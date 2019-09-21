@@ -18,6 +18,14 @@
 @desc Retry string.
 @default Retry
 
+@param deadzone
+@desc Deadzone string.
+@default Analog deadzone
+
+@param speed_multiplier
+@desc Speed multiplier string for analog sticks.
+@default Analog scale
+
 @param quit
 @desc Quit string.
 @default Quit
@@ -164,6 +172,24 @@ var $gameBHellResult;
  */
 
 /**
+ * Stores the controller's speed multiplier setting in $gameSystem (which is persistently serialised in save files).
+ * When moving the player using a controller, the actual speed will be scaled by this value.
+ *
+ * @typedef controllerSpeedMultiplier
+ * @type {Number}
+ */
+
+/**
+ * Stores the controller's deadzone setting in $gameSystem (which is persistently serialised in save files).
+ *
+ * Note: this value is not used outside the Bullet Hell engine and therefore does not interfere with the normal Input
+ * class' (rpg_core.js) behaviour.
+ *
+ * @typedef deadzone
+ * @type {Number}
+ */
+
+/**
  * @namespace BHell
  */
 var BHell = (function (my) {
@@ -185,6 +211,8 @@ var BHell = (function (my) {
 
     my.resume = String(parameters['resume'] || "Resume");
     my.retry = String(parameters['retry'] || "Retry");
+    my.deadzone = String(parameters['deadzone'] || "Analog deadzone");
+    my.speedMul = String(parameters['speed_multiplier'] || "Analog scale");
     my.quit = String(parameters['quit'] || "Quit");
     my.yes = String(parameters['yes'] || "Yes");
     my.no = String(parameters['no'] || "No");
@@ -216,6 +244,11 @@ var BHell = (function (my) {
     Game_Interpreter.prototype.pluginCommand = function (command, args) {
         _Game_Interpreter_pluginCommand.call(this, command, args);
         if (command === 'Bullethell') {
+            // Set the default value for the player's speed multiplier when using a controller.
+            $gameSystem.controllerSpeedMultiplier = $gameSystem.controllerSpeedMultiplier || 0.5;
+
+            // Set the default value for the controller's analog deadzone.
+            $gameSystem.controllerDeadzone = $gameSystem.controllerDeadzone || 0.25;
 
             // If the players' settings aren't loaded yet, load them from the JSON.
             $gamePlayer.bhellPlayers = $gamePlayer.bhellPlayers || [];
@@ -225,7 +258,7 @@ var BHell = (function (my) {
                 $gamePlayer.bhellPlayers[i].index = i;
                 $gamePlayer.bhellPlayers[i].unlocked = $gamePlayer.bhellPlayers[i].unlocked || $dataBulletHell.players[i].unlocked || false;
                 if ($gamePlayer.bhellPlayers[i].canBeBought !== false) {
-                    $gamePlayer.bhellPlayers[i].canBeBought = true && ($gamePlayer.bhellPlayers[i].canBeBought || $dataBulletHell.players[i].can_be_bought);
+                    $gamePlayer.bhellPlayers[i].canBeBought = $gamePlayer.bhellPlayers[i].canBeBought || $dataBulletHell.players[i].can_be_bought;
                 }
                 $gamePlayer.bhellPlayers[i].price = $gamePlayer.bhellPlayers[i].price || $dataBulletHell.players[i].price || 50000;
                 $gamePlayer.bhellPlayers[i].speed = $gamePlayer.bhellPlayers[i].speed || $dataBulletHell.players[i].speed || 1;
@@ -376,6 +409,34 @@ var BHell = (function (my) {
         }
         return ret;
     };
+
+    var _ti_onTouchMove = TouchInput._onTouchMove;
+    TouchInput._onTouchMove = function(event) {
+        var oldX = this._x;
+        var oldY = this._y;
+        _ti_onTouchMove.call(this, event);
+
+        this._dx = this._x - oldX;
+        this._dy = this._y - oldY;
+    };
+
+    TouchInput.isLastInputTouch = function() {
+        return this._screenPressed;
+    };
+
+    Object.defineProperty(TouchInput, 'dx', {
+        get: function() {
+            return this._dx;
+        },
+        configurable: true
+    });
+
+    Object.defineProperty(TouchInput, 'dy', {
+        get: function() {
+            return this._dy;
+        },
+        configurable: true
+    });
 
     return my;
 }(BHell || {}));

@@ -137,7 +137,7 @@ var BHell = (function (my) {
     };
 
     BHell_Window_Pause.prototype.windowWidth = function () {
-        return 240;
+        return 360;
     };
 
     BHell_Window_Pause.prototype.updatePlacement = function () {
@@ -148,7 +148,27 @@ var BHell = (function (my) {
     BHell_Window_Pause.prototype.makeCommandList = function () {
         this.addCommand(my.resume, "cancel", true);
         this.addCommand(my.retry, "retry", my.canRetry);
+        this.addCommand(my.deadzone, "deadzone", true);
+        this.addCommand(my.speedMul, "speed", true);
         this.addCommand(my.quit, "quit", my.canQuit);
+    };
+
+    BHell_Window_Pause.prototype.drawItem = function (index) {
+        var rect = this.itemRectForText(index);
+        var statusWidth = 120;
+        var titleWidth = rect.width - statusWidth;
+        var str;
+        this.resetTextColor();
+        this.changePaintOpacity(this.isCommandEnabled(index));
+        this.drawText(this.commandName(index), rect.x, rect.y, titleWidth, 'left');
+        if (this.commandSymbol(index) === "deadzone") {
+            str = ($gameSystem.controllerDeadzone * 100).toFixed(0) + "%";
+            this.drawText(str, titleWidth, rect.y, statusWidth, 'right');
+        }
+        if (this.commandSymbol(index) === "speed") {
+            str = ($gameSystem.controllerSpeedMultiplier * 100).toFixed(0) + "%"
+            this.drawText(str, titleWidth, rect.y, statusWidth, 'right');
+        }
     };
 
     /**

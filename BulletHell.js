@@ -18,6 +18,14 @@
 @desc Retry string.
 @default Retry
 
+@param deadzone
+@desc Deadzone string.
+@default Analog deadzone
+
+@param speed_multiplier
+@desc Speed multiplier string for analog sticks.
+@default Analog scale
+
 @param quit
 @desc Quit string.
 @default Quit
@@ -164,6 +172,24 @@ var $gameBHellResult;
  */
 
 /**
+ * Stores the controller's speed multiplier setting in $gameSystem (which is persistently serialised in save files).
+ * When moving the player using a controller, the actual speed will be scaled by this value.
+ *
+ * @typedef controllerSpeedMultiplier
+ * @type {Number}
+ */
+
+/**
+ * Stores the controller's deadzone setting in $gameSystem (which is persistently serialised in save files).
+ *
+ * Note: this value is not used outside the Bullet Hell engine and therefore does not interfere with the normal Input
+ * class' (rpg_core.js) behaviour.
+ *
+ * @typedef deadzone
+ * @type {Number}
+ */
+
+/**
  * @namespace BHell
  */
 var BHell = (function (my) {
@@ -185,6 +211,8 @@ var BHell = (function (my) {
 
     my.resume = String(parameters['resume'] || "Resume");
     my.retry = String(parameters['retry'] || "Retry");
+    my.deadzone = String(parameters['deadzone'] || "Analog deadzone");
+    my.speedMul = String(parameters['speed_multiplier'] || "Analog scale");
     my.quit = String(parameters['quit'] || "Quit");
     my.yes = String(parameters['yes'] || "Yes");
     my.no = String(parameters['no'] || "No");
@@ -216,6 +244,11 @@ var BHell = (function (my) {
     Game_Interpreter.prototype.pluginCommand = function (command, args) {
         _Game_Interpreter_pluginCommand.call(this, command, args);
         if (command === 'Bullethell') {
+            // Set the default value for the player's speed multiplier when using a controller.
+            $gameSystem.controllerSpeedMultiplier = $gameSystem.controllerSpeedMultiplier || 0.5;
+
+            // Set the default value for the controller's analog deadzone.
+            $gameSystem.controllerDeadzone = $gameSystem.controllerDeadzone || 0.25;
 
             // If the players' settings aren't loaded yet, load them from the JSON.
             $gamePlayer.bhellPlayers = $gamePlayer.bhellPlayers || [];
@@ -225,7 +258,7 @@ var BHell = (function (my) {
                 $gamePlayer.bhellPlayers[i].index = i;
                 $gamePlayer.bhellPlayers[i].unlocked = $gamePlayer.bhellPlayers[i].unlocked || $dataBulletHell.players[i].unlocked || false;
                 if ($gamePlayer.bhellPlayers[i].canBeBought !== false) {
-                    $gamePlayer.bhellPlayers[i].canBeBought = true && ($gamePlayer.bhellPlayers[i].canBeBought || $dataBulletHell.players[i].can_be_bought);
+                    $gamePlayer.bhellPlayers[i].canBeBought = $gamePlayer.bhellPlayers[i].canBeBought || $dataBulletHell.players[i].can_be_bought;
                 }
                 $gamePlayer.bhellPlayers[i].price = $gamePlayer.bhellPlayers[i].price || $dataBulletHell.players[i].price || 50000;
                 $gamePlayer.bhellPlayers[i].speed = $gamePlayer.bhellPlayers[i].speed || $dataBulletHell.players[i].speed || 1;
@@ -376,6 +409,34 @@ var BHell = (function (my) {
         }
         return ret;
     };
+
+    var _ti_onTouchMove = TouchInput._onTouchMove;
+    TouchInput._onTouchMove = function(event) {
+        var oldX = this._x;
+        var oldY = this._y;
+        _ti_onTouchMove.call(this, event);
+
+        this._dx = this._x - oldX;
+        this._dy = this._y - oldY;
+    };
+
+    TouchInput.isLastInputTouch = function() {
+        return this._screenPressed;
+    };
+
+    Object.defineProperty(TouchInput, 'dx', {
+        get: function() {
+            return this._dx;
+        },
+        configurable: true
+    });
+
+    Object.defineProperty(TouchInput, 'dy', {
+        get: function() {
+            return this._dy;
+        },
+        configurable: true
+    });
 
     return my;
 }(BHell || {}));
@@ -3489,7 +3550,6 @@ var BHell = (function (my) {
         }
     };
 
-
     /**
      * Sets a destination for the player.
      * @param x X coordinate of the destination.
@@ -3498,6 +3558,16 @@ var BHell = (function (my) {
     BHell_Player.prototype.moveTo = function (x, y) {
         this.dx = x - this.x;
         this.dy = y - this.y;
+    };
+
+    /**
+     * Sets a relative destination for the player.
+     * @param dx Relative x coordinate of the destination.
+     * @param dy Relative y coordinate of the destination.
+     */
+    BHell_Player.prototype.deltaTo = function (dx, dy) {
+        this.dx = dx;
+        this.dy = dy;
     };
 
     /**
@@ -4069,42 +4139,48 @@ var BHell = (function (my) {
                     Input.clear();
                 }
                 else {
-                    if (this.usingTouch) {
+                    if (this.usingTouch === "touch") {
+                        my.player.deltaTo(TouchInput.dx, TouchInput.dy);
+                    }
+                    else if (this.usingTouch === "mouse") {
                         my.player.moveTo(TouchInput.x, TouchInput.y);
                     }
 
                     if (Input.isLastInputGamepad()) {
-                        this.usingTouch = false;
+                        var dx = Input.readAxis(0, $gameSystem.controllerDeadzone);
+                        var dy = Input.readAxis(1, $gameSystem.controllerDeadzone);
 
-                        var dx = Input.readAxis(0);
-                        var dy = Input.readAxis(1);
+                        dx *= $gameSystem.controllerSpeedMultiplier;
+                        dy *= $gameSystem.controllerSpeedMultiplier;
 
-                        dx /= 2;
-                        dy /= 2;
-                        
                         my.player.step(dx, dy);
+
                     }
                     else {
                         if (Input.isPressed('up')) {
-                            this.usingTouch = false;
                             my.player.step(0, -1);
                         }
                         if (Input.isPressed('down')) {
-                            this.usingTouch = false;
                             my.player.step(0, +1);
                         }
                         if (Input.isPressed('left')) {
-                            this.usingTouch = false;
                             my.player.step(-1, 0);
                         }
                         if (Input.isPressed('right')) {
-                            this.usingTouch = false;
                             my.player.step(+1, 0);
                         }
                     }
 
                     if (TouchInput.isPressed()) {
-                        this.usingTouch = true;
+                        if (TouchInput._screenPressed) {
+                            this.usingTouch = "touch";
+                        }
+                        else {
+                            this.usingTouch = "mouse";
+                        }
+                    }
+                    else {
+                        this.usingTouch = "no";
                     }
 
                     if (TouchInput.isPressed() || Input.isPressed('ok')) {
@@ -4204,6 +4280,8 @@ var BHell = (function (my) {
             this.pauseWindow = new my.BHell_Window_Pause();
             this.pauseWindow.setHandler("cancel", this.resume.bind(this));
             this.pauseWindow.setHandler("retry", this.retry.bind(this));
+            this.pauseWindow.setHandler("deadzone", this.setDeadzone.bind(this));
+            this.pauseWindow.setHandler("speed", this.setSpeed.bind(this));
             this.pauseWindow.setHandler("quit", this.quit.bind(this));
         }
 
@@ -4246,7 +4324,33 @@ var BHell = (function (my) {
     };
 
     /**
-     * Quit command, invoked by the pause window's third option. Asks for confirmation.
+     * Deadzone command, invoked by the pause window's third option.
+     */
+    Scene_BHell.prototype.setDeadzone = function () {
+        $gameSystem.controllerDeadzone += 0.05;
+        if ($gameSystem.controllerDeadzone >= 1) {
+            $gameSystem.controllerDeadzone = 0;
+        }
+        this.pauseWindow.activate();
+        this.pauseWindow.refresh();
+    };
+
+
+    /**
+     * Speed command, invoked by the pause window's fourth option.
+     */
+    Scene_BHell.prototype.setSpeed = function () {
+        $gameSystem.controllerSpeedMultiplier += 0.05;
+        if ($gameSystem.controllerSpeedMultiplier >= 1.05) {
+            $gameSystem.controllerSpeedMultiplier = 0.1;
+        }
+        this.pauseWindow.activate();
+        this.pauseWindow.refresh();
+    };
+
+
+    /**
+     * Quit command, invoked by the pause window's fifth option. Asks for confirmation.
      */
     Scene_BHell.prototype.quit = function () {
         this.pauseWindow.deactivate();
@@ -4899,7 +5003,7 @@ var BHell = (function (my) {
     };
 
     BHell_Window_Pause.prototype.windowWidth = function () {
-        return 240;
+        return 360;
     };
 
     BHell_Window_Pause.prototype.updatePlacement = function () {
@@ -4910,7 +5014,27 @@ var BHell = (function (my) {
     BHell_Window_Pause.prototype.makeCommandList = function () {
         this.addCommand(my.resume, "cancel", true);
         this.addCommand(my.retry, "retry", my.canRetry);
+        this.addCommand(my.deadzone, "deadzone", true);
+        this.addCommand(my.speedMul, "speed", true);
         this.addCommand(my.quit, "quit", my.canQuit);
+    };
+
+    BHell_Window_Pause.prototype.drawItem = function (index) {
+        var rect = this.itemRectForText(index);
+        var statusWidth = 120;
+        var titleWidth = rect.width - statusWidth;
+        var str;
+        this.resetTextColor();
+        this.changePaintOpacity(this.isCommandEnabled(index));
+        this.drawText(this.commandName(index), rect.x, rect.y, titleWidth, 'left');
+        if (this.commandSymbol(index) === "deadzone") {
+            str = ($gameSystem.controllerDeadzone * 100).toFixed(0) + "%";
+            this.drawText(str, titleWidth, rect.y, statusWidth, 'right');
+        }
+        if (this.commandSymbol(index) === "speed") {
+            str = ($gameSystem.controllerSpeedMultiplier * 100).toFixed(0) + "%"
+            this.drawText(str, titleWidth, rect.y, statusWidth, 'right');
+        }
     };
 
     /**
