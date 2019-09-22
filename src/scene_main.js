@@ -111,6 +111,9 @@ var BHell = (function (my) {
         SceneManager.clearStack();
 
         this.startFadeIn(this.fadeSpeed(), false);
+
+        window.addEventListener("blur", this.onBlur.bind(this));
+        document.addEventListener("touchstart", this.onTouchOutside.bind(this));
     };
 
     /**
@@ -160,7 +163,45 @@ var BHell = (function (my) {
     Scene_BHell.prototype.terminate = function () {
         Scene_Base.prototype.terminate.call(this);
         SceneManager.snapForBackground();
+        window.removeEventListener("blur", this.onBlur.bind(this));
+        document.removeEventListener("touchstart", this.onTouchOutside.bind(this));
     };
+
+    /**
+     * Stops the gameplay and opens the pause window.
+     */
+    Scene_BHell.prototype.pause = function () {
+        my.controller.paused = true;
+        this.bgm = AudioManager.saveBgm();
+        AudioManager.stopBgm();
+        this.pauseWindow.open();
+        this.pauseWindow.activate();
+    };
+
+    /**
+     * On blur event handler. If the window looses focus, pause the game.
+     * @param event Blur event.
+     */
+    Scene_BHell.prototype.onBlur = function (event) {
+        this.pause();
+    };
+
+    /**
+     * On touch start event handler. If a touch begins outside the game canvas, pause the game.
+     * @param event TouchEvent.
+     */
+    Scene_BHell.prototype.onTouchOutside = function(event) {
+        for (var i = 0; i < event.changedTouches.length; i++) {
+            var touch = event.changedTouches[i];
+            var x = Graphics.pageToCanvasX(touch.pageX);
+            var y = Graphics.pageToCanvasY(touch.pageY);
+            if (!Graphics.isInsideCanvas(x, y)) {
+                this.pause();
+            }
+        }
+    };
+
+
 
     /**
      * Handles the user input.
@@ -172,11 +213,7 @@ var BHell = (function (my) {
     Scene_BHell.prototype.updateInput = function () {
         if (!my.controller.paused && !$gameMessage.isBusy()) {
             if (Input.isTriggered('escape')) {
-                my.controller.paused = true;
-                this.bgm = AudioManager.saveBgm();
-                AudioManager.stopBgm();
-                this.pauseWindow.open();
-                this.pauseWindow.activate();
+                this.pause();
             }
             else {
                 if (this.messageWindow.isOpening()) {

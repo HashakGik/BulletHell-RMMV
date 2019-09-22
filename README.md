@@ -32,14 +32,18 @@ An in-game shop allows to buy new players (each with their own unique shooting p
 Gameplay
 --------
 
-Stages can be played either with a keyboard/joypad (not recommended) or a mouse/touchpad.
+Stages can be played with any of the following input devices:
 
-The controls are simple:
+- Mouse: `left` click shoots, `right` click throws a bomb, the player will follow the pointer (in an absolute fashion),
+- Touchscreen: `single` tap shoots, `double` tap throws a bomb, `swipe` moves the player (in a relative fashion),
+- Keyboard: `confirm` keys (`spacebar` or `enter`) shoot, `shift` key throws a bomb, `arrow` keys move the player,
+- Gamepad: `confirm` keys shoot, `shift` key throws a bomb, `left analog stick` move the player (movement precision and gamepad's deadzone can be configured from the pause menu).
 
-- Pause menu: `escape` key,
-- Movement: `arrow` keys, mouse `click` or touch `swipe`,
-- Shooting: `confirm` key (`spacebar` or `enter`), mouse `click` or touch `tap`,
-- Bombing: `shift` key, mouse `right click` or touch `two-fingers tap`.
+To open the pause menu you can:
+
+- Press the `escape` key,
+- Loose focus on the game window,
+- Tap outside the game area.
 
 Each stage scrolls vertically with enemies spawning in front of the player, a stage is cleared when there are no more enemies, or lost when the player looses their stock of lives.
 
