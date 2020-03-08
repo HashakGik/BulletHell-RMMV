@@ -23,9 +23,10 @@ Scene_BHell_Init.prototype.initialize = function() {
         console.error(error);
         Graphics.printError("Error", error);
     }
-    else if ($dataBulletHell.players.filter(p => {return p.unlocked === true;}).length === 0) {
+    else if ($gamePlayer.bhellPlayers.filter(p => {return p.unlocked === true;}).length === 0) {
         console.warn("No player available. Returning to Scene_Map.");
     }
+
 
 
     var regex = /"(?:bullet_)?sprite":(?:null|"([^"]*)")/g;
@@ -81,8 +82,12 @@ Scene_BHell_Init.prototype.start = function() {
  * If a different player is selected, displays the new one.
  */
 Scene_BHell_Init.prototype.update = function() {
-    if ($dataBulletHell.players.filter(p => {return p.unlocked === true;}).length === 0) {
+    if ($gamePlayer.bhellPlayers.filter(p => {return p.unlocked === true;}).length === 0) {
         SceneManager.goto(Scene_Map);
+    }
+    else if ($gamePlayer.bhellPlayers.filter(p => {return p.unlocked === true;}).length === 1) {
+        my.playerId = $gamePlayer.bhellPlayers.findIndex(p => {return p.unlocked === true;});
+        SceneManager.goto(my.Scene_BHell);
     }
 
     if (!this.isBusy()) {

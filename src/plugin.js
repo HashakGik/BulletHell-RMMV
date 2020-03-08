@@ -256,7 +256,9 @@ var BHell = (function (my) {
             {
                 $gamePlayer.bhellPlayers[i] = $gamePlayer.bhellPlayers[i] || {};
                 $gamePlayer.bhellPlayers[i].index = i;
-                $gamePlayer.bhellPlayers[i].unlocked = $gamePlayer.bhellPlayers[i].unlocked || $dataBulletHell.players[i].unlocked || false;
+                if ($gamePlayer.bhellPlayers[i].unlocked === undefined) {
+                    $gamePlayer.bhellPlayers[i].unlocked = $gamePlayer.bhellPlayers[i].unlocked || $dataBulletHell.players[i].unlocked || false;
+                }
                 if ($gamePlayer.bhellPlayers[i].canBeBought !== false) {
                     $gamePlayer.bhellPlayers[i].canBeBought = $gamePlayer.bhellPlayers[i].canBeBought || $dataBulletHell.players[i].can_be_bought;
                 }
