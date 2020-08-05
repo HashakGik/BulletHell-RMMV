@@ -129,6 +129,14 @@ Scene_BHell_Init.prototype.update = function() {
         else {
             my.player.shoot(false);
         }
+
+        for (i = 0; i < my.friendlyBullets.length; i++) {
+            b = my.friendlyBullets[i];
+            if (b.x < 0 || b.y < 0 || b.x > Graphics.width || b.y > Graphics.height) {
+                b.destroy();
+                i--;
+            }
+        }
     }
     Scene_Base.prototype.update.call(this);
 };

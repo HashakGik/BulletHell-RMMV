@@ -34,8 +34,15 @@ var BHell = (function (my) {
             this.shootingFrames = params.shootingFrames || this.shootingFrames;
         }
 
-        this.x = my.player.x + this.offsetX;
-        this.y = my.player.y + this.offsetY;
+        if (my.player) {
+            this.x = my.player.x + this.offsetX;
+            this.y = my.player.y + this.offsetY;
+        }
+        else {
+            this.x = 0;
+            this.y = 0;
+        }
+
         this.destX = this.x;
         this.destY = this.y;
         this.stopped = false;

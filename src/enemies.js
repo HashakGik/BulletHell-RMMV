@@ -18,6 +18,8 @@ var BHell = (function (my) {
  * - score: Score points awarded for each successful bullet hit,
  * - kill_score: Score points awarded on enemy's death,
  * - boss: If true, an hp bar will be shown,
+ * - boss_bgm: If defined, plays this BGM instead of the one defined on the map,
+ * - resume_bgm: If true, when the monster is defeated, resumes the previous BGM,
  * - bullet: bullet parameters (see {@link BHell.BHell_Bullet}).
  *
  * @constructor
@@ -95,31 +97,49 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
             this.hitboxH = tmp;
         }
         tmp = my.parse(params.angle, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.angle = tmp || this.angle;
+        if (tmp !== null) {
+            this.angle = tmp;
+        }
 
         tmp = my.parse(params.aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aim = tmp || this.aim;
+        if (tmp !== null) {
+            this.aim = tmp;
+        }
 
         tmp = my.parse(params.always_aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.alwaysAim = tmp || this.alwaysAim;
+        if (tmp !== null) {
+            this.alwaysAim = tmp;
+        }
 
         tmp = my.parse(params.aim_x, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimX = tmp || this.aimX;
+        if (tmp !== null) {
+            this.aimX = tmp;
+        }
 
         tmp = my.parse(params.aim_y, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimY = tmp || this.aimY;
+        if (tmp !== null) {
+            this.aimY = tmp;
+        }
 
         tmp = my.parse(params.rnd, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.rnd = tmp || this.rnd;
+        if (tmp !== null) {
+            this.rnd = tmp;
+        }
 
         tmp = my.parse(params.score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.score = tmp || this.score;
+        if (tmp !== null) {
+            this.score = tmp;
+        }
 
         tmp = my.parse(params.kill_score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.killScore = tmp || this.score;
+        if (tmp !== null) {
+            this.killScore = tmp;
+        }
 
         tmp = my.parse(params.boss, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.boss = tmp || this.boss;
+        if (tmp !== null) {
+            this.boss = tmp;
+        }
 
         if (params.bullet != null) {
             this.bullet = Object.assign({}, params.bullet);
@@ -158,7 +178,12 @@ BHell_Enemy_Base.prototype.update = function () {
     my.BHell_Sprite.prototype.update.call(this);
     this.move();
     this.shoot(true);
-    this.emitters.forEach(e => {
+
+    this.emitters.forEach(e => { // If not shooting, change the angle
+        if (this.aim === false && this.rnd === true) {
+            e.angle = Math.random() * 2 * Math.PI;
+        }
+
         e.update();
     });
 };
@@ -292,55 +317,62 @@ BHell_Enemy_Suicide.prototype.initialize = function (x, y, image, params, parent
     this.mover = new my.BHell_Mover_Chase();
 };
 
-/**
- * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
- *
- * Additional parameters:
- *
- * - radius: distance from the player.
- * @constructor
- * @memberOf BHell
- * @extends BHell.BHell_Enemy_Base
- */
-var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
-    this.initialize.apply(this, arguments);
-};
+    /**
+     * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
+     *
+     * Additional parameters:
+     *
+     * - radius: distance from the player.
+     * - counterclockwise: if true orbits counterclockwise.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Enemy_Base
+     */
+    var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
+        this.initialize.apply(this, arguments);
+    };
 
-BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
-BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
+    BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
+    BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
 
-BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
-    BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+    BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
+        BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    // Set default parameters for this class:
-    this.radius = 250;
+        // Set default parameters for this class:
+        this.radius = 250;
+        this.counterclockwise = false;
 
-    // Overrides default parameters:
-    if (params != null) {
-        var tmp;
+        // Overrides default parameters:
+        if (params != null) {
+            var tmp;
 
-        tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        if (tmp > 0) {
-            this.radius = Math.round(tmp);
+            tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp > 0) {
+                this.radius = Math.round(tmp);
+            }
+
+            tmp = my.parse(params.counterclockwise, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp !== null) {
+                this.counterclockwise = tmp;
+            }
         }
-    }
 
-    var emitterParams = {};
-    emitterParams.x = 0;
-    emitterParams.y = 0;
-    emitterParams.period = this.period;
-    emitterParams.angle = 0;
-    emitterParams.aim = true;
-    emitterParams.always_aim = true;
-    emitterParams.bullet = Object.assign({}, this.bullet);
+        var emitterParams = {};
+        emitterParams.x = 0;
+        emitterParams.y = 0;
+        emitterParams.period = this.period;
+        emitterParams.angle = 0;
+        emitterParams.aim = true;
+        emitterParams.always_aim = true;
+        emitterParams.bullet = Object.assign({}, this.bullet);
 
-    this.mover = new my.BHell_Mover_Orbit( 250);
-    this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
-};
+        this.mover = new my.BHell_Mover_Orbit(this.radius, this.counterclockwise);
+        this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
+    };
 
-BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
-    return false;
-};
+    BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
+        return false;
+    };
 
 /**
  * Probe enemy class. Switches between two states: moving and shooting. In the first state it moves in a straight line
@@ -813,6 +845,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
 
     if (params != null) {
         this.shots = params.shots || this.shots;
+        this.n = params.n || this.n;
     }
 
     var emitterParams = {};
@@ -837,7 +870,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
  *
  * Additional parameters:
  *
- * - rotation: rotation speed (in radians per frame) of the bullets' swirl.
+ * - rotation_angle: rotation speed (in radians per frame) of the bullets' swirl.
  * @constructor
  * @memberOf BHell
  * @extends BHell.BHell_Enemy_Starshooter
@@ -852,17 +885,17 @@ BHell_Enemy_Swirler.prototype.constructor = BHell_Enemy_Swirler;
 BHell_Enemy_Swirler.prototype.initialize = function (x, y, image, params, parent, enemyList) {
     BHell_Enemy_Starshooter.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    this.rotation = 0.01;
+    this.rotation_angle = 0.01;
 
     if (params != null) {
-        this.rotation = params.rotation || this.rotation;
+        this.rotation_angle = params.rotation_angle || this.rotation_angle;
     }
 };
 
 BHell_Enemy_Swirler.prototype.update = function () {
     this.emitters.forEach(e => {
-        e.a += this.rotation;
-        e.b += this.rotation;
+        e.a += this.rotation_angle;
+        e.b += this.rotation_angle;
     });
 
     BHell_Enemy_Starshooter.prototype.update.call(this);

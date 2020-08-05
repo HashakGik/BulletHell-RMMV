@@ -96,7 +96,8 @@ var BHell = (function (my) {
         my.controller = new my.BHell_Controller(my.stage, my.playerId, 3, this._spriteset._tilemap);
 
         if ($dataMap.autoplayBgm) {
-            AudioManager.playBgm($dataMap.bgm);
+            my.bgm = $dataMap.bgm;
+            AudioManager.playBgm(my.bgm);
         }
         if ($dataMap.autoplayBgs) {
             AudioManager.playBgs($dataMap.bgs);
@@ -171,11 +172,13 @@ var BHell = (function (my) {
      * Stops the gameplay and opens the pause window.
      */
     Scene_BHell.prototype.pause = function () {
-        my.controller.paused = true;
-        this.bgm = AudioManager.saveBgm();
-        AudioManager.stopBgm();
-        this.pauseWindow.open();
-        this.pauseWindow.activate();
+        if (!my.controller.paused) {
+            my.controller.paused = true;
+            my.bgm = AudioManager.saveBgm();
+            AudioManager.stopBgm();
+            this.pauseWindow.open();
+            this.pauseWindow.activate();
+        }
     };
 
     /**
@@ -388,8 +391,8 @@ var BHell = (function (my) {
         this.usingTouch = false;
         TouchInput.clear();
         my.controller.paused = false;
-        this.bgm = this.bgm || $dataMap.bgm;
-        AudioManager.replayBgm(this.bgm);
+        my.bgm = my.bgm || $dataMap.bgm;
+        AudioManager.replayBgm(my.bgm);
     };
 
     /**

@@ -86,7 +86,12 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
                         this.params[k].animation_speed = obj[k].animation_speed || this.params[k].animation_speed || null;
                         break;
                     default:
-                        this.params[k] = my.parse(obj[k], this.x, this.y, dummyEnemy.patternWidth(), dummyEnemy.patternHeight(), Graphics.width, Graphics.height);
+                        if (k !== "boss_bgm") {
+                            this.params[k] = my.parse(obj[k], this.x, this.y, dummyEnemy.patternWidth(), dummyEnemy.patternHeight(), Graphics.width, Graphics.height);
+                        }
+                        else {
+                            this.params[k] = obj[k];
+                        }
                         break;
                 }
             }
@@ -97,6 +102,16 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     }
 
     this.bossGenerator = this.params.boss || false;
+
+
+    this.bossBgm = this.params.boss_bgm || null;
+
+    if (this.params.resume_bgm === false || this.params.resume_bgm === "false") {
+        this.resumeBgm = false;
+    }
+    else {
+        this.resumeBgm = true;
+    }
 };
 
 /**

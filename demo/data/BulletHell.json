@@ -10,9 +10,9 @@
       "rate": "B",
       "power": "D",
       "bombs": "C",
-      "autobombs": "D",
-      "hitbox_w": "w/2",
-      "hitbox_h": "h/2",
+      "hitbox_w": "5",
+      "hitbox_h": "5",
+      "grazing_radius": "w/2",
       "index": 2,
       "direction": 8,
       "frame": 1,
@@ -37,10 +37,11 @@
         "pan": 0
       },
       "bomb": {
-        "sprite": "$Bullets",
-        "index": 0,
-        "direction": 2,
-        "frame": 1,
+        "sprite": "Bullets",
+        "index": 6,
+        "direction": 8,
+        "frame": 2,
+        "animated": false,
         "icon": "IconSet",
         "icon_index": 67,
         "class": "BHell_Bomb_Water",
@@ -57,19 +58,19 @@
           "params": {
             "x": 0,
             "y": 0,
-            "period": 10,
+            "period": 20,
             "sprite": null,
-            "ranks": ["D", "C", "B"],
+            "ranks": ["D", "C", "B", "A"],
             "index": 0,
             "direction": 2,
             "animated": false,
             "bullet": {
               "speed": 5,
-              "sprite": "$Bullets",
+              "sprite": "Bullets",
               "index": 0,
-              "direction": 2,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -85,11 +86,11 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
+              "sprite": "Bullets",
+              "index": 2,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -105,11 +106,11 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
+              "sprite": "Bullets",
+              "index": 2,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -118,7 +119,7 @@
           "params": {
             "x": "-w/2",
             "y": 0,
-            "period": 10,
+            "period": 20,
             "ranks": ["B"],
             "sprite": null,
             "index": 0,
@@ -126,11 +127,11 @@
             "animated": false,
             "bullet": {
               "speed": 5,
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
+              "sprite": "Bullets",
+              "index": 2,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -139,7 +140,7 @@
           "params": {
             "x": "w/2",
             "y": 0,
-            "period": 10,
+            "period": 20,
             "ranks": ["B"],
             "sprite": null,
             "index": 0,
@@ -147,57 +148,118 @@
             "animated": false,
             "bullet": {
               "speed": 5,
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
+              "sprite": "Bullets",
+              "index": 2,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
         {
-          "type": "spray",
+          "type": "angle",
           "params": {
-            "x": 0,
+            "x": "-w/2",
             "y": 0,
-            "a": "3 * pi / 2 - pi / 16",
-            "b": "3 * pi / 2 + pi / 16",
-            "n": 3,
-            "period": 10,
+            "period": 20,
             "sprite": null,
-            "ranks": ["A"],
+            "ranks": ["A", "S"],
             "index": 0,
+            "angle": "3 * pi / 2 + pi / 64",
             "direction": 2,
             "animated": false,
             "bullet": {
-              "speed": 5,
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "speed": 9,
+              "sprite": "Bullets",
+              "index": 6,
+              "direction": 8,
               "frame": 1,
               "animated": false
             }
           }
         },
         {
-          "type": "spray",
+          "type": "angle",
+          "params": {
+            "x": "w/2",
+            "y": 0,
+            "period": 20,
+            "sprite": null,
+            "ranks": ["A", "S"],
+            "index": 0,
+            "angle": "3 * pi / 2 - pi / 64",
+            "direction": 2,
+            "animated": false,
+            "bullet": {
+              "speed": 9,
+              "sprite": "Bullets",
+              "index": 6,
+              "direction": 8,
+              "frame": 1,
+              "animated": false
+            }
+          }
+        },
+        {
+          "type": "angle",
+          "params": {
+            "x": "w/2",
+            "y": 0,
+            "period": 20,
+            "sprite": null,
+            "ranks": ["S"],
+            "index": 0,
+            "angle": "3 * pi / 2 + pi / 64",
+            "direction": 2,
+            "animated": false,
+            "bullet": {
+              "speed": 9,
+              "sprite": "Bullets",
+              "index": 6,
+              "direction": 8,
+              "frame": 1,
+              "animated": false
+            }
+          }
+        },
+        {
+          "type": "angle",
+          "params": {
+            "x": "-w/2",
+            "y": 0,
+            "period": 20,
+            "sprite": null,
+            "ranks": ["S"],
+            "index": 0,
+            "angle": "3 * pi / 2 - pi / 64",
+            "direction": 2,
+            "animated": false,
+            "bullet": {
+              "speed": 9,
+              "sprite": "Bullets",
+              "index": 6,
+              "direction": 8,
+              "frame": 1,
+              "animated": false
+            }
+          }
+        },
+        {
+          "type": "base",
           "params": {
             "x": 0,
             "y": 0,
-            "a": "3 * pi / 2 - pi / 16",
-            "b": "3 * pi / 2 + pi / 16",
-            "n": 5,
-            "period": 10,
+            "period": 20,
             "sprite": null,
             "ranks": ["S"],
             "index": 0,
             "direction": 2,
             "animated": false,
             "bullet": {
-              "speed": 5,
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "speed": 9,
+              "sprite": "Bullets",
+              "index": 6,
+              "direction": 8,
               "frame": 1,
               "animated": false
             }
@@ -211,9 +273,9 @@
       "rate": "A",
       "power": "D",
       "bombs": "C",
-      "autobombs": "D",
-      "hitbox_w": "w/2",
-      "hitbox_h": "h/2",
+      "hitbox_w": "5",
+      "hitbox_h": "5",
+      "grazing_radius": "w/2",
       "sprite": "Actor1",
       "unlocked": true,
       "can_be_bought": false,
@@ -242,9 +304,9 @@
         "pan": 0
       },
       "bomb": {
-        "sprite": "$Bullets",
-        "index": 0,
-        "direction": 4,
+        "sprite": "Bullets",
+        "index": 4,
+        "direction": 8,
         "frame": 1,
         "icon": "IconSet",
         "icon_index": 69,
@@ -272,8 +334,8 @@
             "b": "3 * pi / 2 + pi / 16",
             "n": 10,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 5,
               "direction": 8,
               "frame": 1,
               "animated": false
@@ -281,22 +343,23 @@
           }
         },
         {
-          "type": "spray",
+          "type": "spray_alternate",
           "params": {
-            "x": "-w/4",
-            "y": 0,
+            "x": "0",
+            "y": "0",
             "period": 75,
             "sprite": null,
             "ranks": ["C"],
             "index": 0,
             "direction": 8,
             "animated": true,
-            "a": "3 * pi / 2 - pi / 16",
-            "b": "3 * pi / 2 + pi / 64",
-            "n": 10,
+            "a": "3 * pi / 2 - pi / 8",
+            "b": "3 * pi / 2 + pi / 8",
+            "n1": 10,
+            "n2": 5,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 5,
               "direction": 8,
               "frame": 1,
               "animated": false
@@ -304,34 +367,11 @@
           }
         },
         {
-          "type": "spray",
+          "type": "spray_random",
           "params": {
             "x": "w/4",
             "y": 0,
-            "period": 75,
-            "sprite": null,
-            "ranks": ["C"],
-            "index": 0,
-            "direction": 8,
-            "animated": true,
-            "a": "3 * pi / 2 - pi / 64",
-            "b": "3 * pi / 2 + pi / 16",
-            "n": 10,
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 8,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "spray",
-          "params": {
-            "x": "w/4",
-            "y": 0,
-            "period": 75,
+            "period": 150,
             "sprite": null,
             "ranks": ["B", "A"],
             "index": 0,
@@ -341,20 +381,20 @@
             "b": "3 * pi / 2 + pi / 8",
             "n": 10,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 5,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
         {
-          "type": "spray",
+          "type": "spray_random",
           "params": {
             "x": "-w/4",
             "y": 0,
-            "period": 75,
+            "period": 150,
             "sprite": null,
             "ranks": ["B", "A"],
             "index": 0,
@@ -364,8 +404,8 @@
             "b": "3 * pi / 2 + pi / 64",
             "n": 10,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 5,
               "direction": 8,
               "frame": 1,
               "animated": false
@@ -373,11 +413,11 @@
           }
         },
         {
-          "type": "spray",
+          "type": "spray_random",
           "params": {
             "x": 0,
             "y": 0,
-            "period": 75,
+            "period": 150,
             "sprite": null,
             "ranks": ["S"],
             "index": 0,
@@ -385,13 +425,15 @@
             "animated": true,
             "a": "3 * pi / 2 - pi / 4",
             "b": "3 * pi / 2 + pi / 4",
-            "n": 20,
+            "minspeed": 4,
+            "maxspeed": 8,
+            "n": 50,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 5,
+              "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         }
@@ -404,12 +446,12 @@
       "rate": "C",
       "power": "D",
       "bombs": "D",
-      "autobombs": "D",
       "unlocked": false,
       "can_be_bought": false,
       "price": 50000,
-      "hitbox_w": "w/2",
-      "hitbox_h": "h/2",
+      "hitbox_w": "5",
+      "hitbox_h": "5",
+      "grazing_radius": "w/2",
       "index": 0,
       "direction": 8,
       "frame": 0,
@@ -434,9 +476,9 @@
         "pan": 0
       },
       "bomb": {
-        "sprite": "$Bullets",
-        "index": 0,
-        "direction": 4,
+        "sprite": "Bullets",
+        "index": 2,
+        "direction": 8,
         "frame": 1,
         "speed": 9,
         "icon": "IconSet",
@@ -466,11 +508,11 @@
             "dt": 0.05,
             "bullet": {
               "speed": 7,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -490,11 +532,11 @@
             "dt": 0.05,
             "bullet": {
               "speed": 7,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -515,11 +557,11 @@
             "dt": -0.075,
             "bullet": {
               "speed": 4,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -540,11 +582,11 @@
             "dt": -0.075,
             "bullet": {
               "speed": 4,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -565,11 +607,11 @@
             "dt": -0.075,
             "bullet": {
               "speed": 4,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -590,11 +632,11 @@
             "dt": -0.075,
             "bullet": {
               "speed": 4,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -615,11 +657,11 @@
             "dt": 0.05,
             "bullet": {
               "speed": 7,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -640,203 +682,11 @@
             "dt": 0.05,
             "bullet": {
               "speed": 7,
-              "sprite": "$Bullets",
-              "index": 0,
+              "sprite": "Bullets",
+              "index": 7,
               "direction": 8,
               "frame": 1,
-              "animated": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Shotgun",
-      "sprite": "Actor1",
-      "speed": "D",
-      "rate": "D",
-      "power": "D",
-      "bombs": "C",
-      "autobombs": "S",
-      "unlocked": false,
-      "can_be_bought": true,
-      "price": 100000,
-      "hitbox_w": "w/2",
-      "hitbox_h": "h/2",
-      "index": 0,
-      "direction": 8,
-      "frame": 0,
-      "animation_speed": 30,
-      "animated": true,
-      "select_se": {
-        "name": "Sound1",
-        "volume": 100,
-        "pitch": 100,
-        "pan": 0
-      },
-      "spawn_se": {
-        "name": "Cat",
-        "volume": 100,
-        "pitch": 100,
-        "pan": 0
-      },
-      "death_se": {
-        "name": "Wolf",
-        "volume": 100,
-        "pitch": 100,
-        "pan": 0
-      },
-      "bomb": {
-        "sprite": "$Bullets",
-        "index": 0,
-        "direction": 4,
-        "icon": "IconSet",
-        "icon_index": 65,
-        "frame": 1,
-        "class": "BHell_Bomb_Ice",
-        "se": {
-          "name": "Explosion2",
-          "volume": 100,
-          "pitch": 100,
-          "pan": 0
-        }
-      },
-      "emitters": [
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["D"],
-            "angle": "3 * pi / 2",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 20,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["C"],
-            "angle": "3 * pi / 2",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 40,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["B"],
-            "angle": "3 * pi / 2",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 60,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["A"],
-            "angle": "3 * pi / 2",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 100,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["S"],
-            "angle": "3 * pi / 2 - pi / 64",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 100,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
-            }
-          }
-        },
-        {
-          "type": "burst",
-          "params": {
-            "x": 0,
-            "y": 0,
-            "period": 120,
-            "ranks": ["S"],
-            "angle": "3 * pi / 2 + pi / 64",
-            "sprite": null,
-            "index": 0,
-            "direction": 2,
-            "animated": false,
-            "shots": 100,
-            "dispersion": "w / 2",
-            "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 4,
-              "frame": 1,
-              "animated": false
+              "animated": true
             }
           }
         }
@@ -849,12 +699,12 @@
       "rate": "D",
       "power": "C",
       "bombs": "C",
-      "autobombs": "B",
       "unlocked": false,
       "can_be_bought": true,
       "price": 1000000,
-      "hitbox_w": "w/2",
-      "hitbox_h": "h/2",
+      "hitbox_w": "5",
+      "hitbox_h": "5",
+      "grazing_radius": "w/2",
       "index": 0,
       "direction": 8,
       "frame": 0,
@@ -879,9 +729,9 @@
         "pan": 0
       },
       "bomb": {
-        "sprite": "$Bullets",
+        "sprite": "Bullets",
         "index": 0,
-        "direction": 4,
+        "direction": 8,
         "icon": "IconSet",
         "frame": 1,
         "icon_index": 161,
@@ -908,12 +758,12 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 1,
+              "direction": 8,
               "frame": 1,
               "speed": 40,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -932,12 +782,12 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 1,
+              "direction": 8,
               "frame": 1,
               "speed": 40,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -956,12 +806,12 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 1,
+              "direction": 8,
               "frame": 1,
               "speed": 40,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -980,12 +830,12 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 1,
+              "direction": 8,
               "frame": 1,
               "speed": 40,
-              "animated": false
+              "animated": true
             }
           }
         },
@@ -1004,12 +854,12 @@
             "direction": 2,
             "animated": false,
             "bullet": {
-              "sprite": "$Bullets",
-              "index": 0,
-              "direction": 2,
+              "sprite": "Bullets",
+              "index": 1,
+              "direction": 8,
               "frame": 1,
               "speed": 40,
-              "animated": false
+              "animated": true
             }
           }
         }
@@ -1030,11 +880,11 @@
       "class": "BHell_Enemy_Smallfry",
       "params": {
         "hp": 5,
-        "speed": 3,
+        "speed": 4,
         "period": 120,
         "aim": true,
         "bullet": {
-          "speed": 3
+          "speed": 5
         }
       }
     },
@@ -1055,11 +905,11 @@
         "hp": 10,
         "speed": 3,
         "period": 4,
-        "cooldown": 120,
-        "shooting": 60,
+        "cooldown": 60,
+        "shooting": 30,
         "stop_on_shooting": true,
         "bullet": {
-          "speed": 1
+          "speed": 5
         }
       }
     },
@@ -1076,7 +926,7 @@
         "stop_on_shooting": false,
         "n": 10,
         "bullet": {
-          "speed": 1
+          "speed": 2.5
         }
       }
     },
@@ -1087,14 +937,14 @@
         "hp": 10,
         "speed": 3,
         "period": 5,
-        "cooldown": 120,
+        "cooldown": 30,
         "shooting": 60,
         "aim": false,
         "stop_on_shooting": true,
-        "n": 5,
-        "rotation": -0.01,
+        "n": 10,
+        "rotation_angle": -0.005,
         "bullet": {
-          "speed": 1
+          "speed": 3
         }
       }
     },

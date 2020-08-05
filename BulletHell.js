@@ -54,10 +54,6 @@
 @desc Bombs string.
 @default Bombs
 
-@param autobombs
-@desc Autobombs string.
-@default Autobombs
-
 @param buy_players
 @desc Buy new players string.
 @default Players
@@ -81,6 +77,10 @@
 @param explosion
 @desc Default explosion sprite.
 @default $Explosions
+
+@param grazing_score
+@desc Bonus points awarded for grazing (a bullet moves close to the player, but doesn't hit it).
+@default 50
 
 @param life_bonus_first
 @desc Number of points required for the first life bonus.
@@ -168,7 +168,6 @@ var $gameBHellResult;
  * @property {string} rate Current rate of fire rank (how fast bullets are shot).
  * @property {string} power Current power rank (how strong the emitters are).
  * @property {string} bombs Current bomb rank (how many bombs can be stored).
- * @property {string} autobombs Current autobombs rank (how many times a panic attack can be performed).
  */
 
 /**
@@ -220,10 +219,10 @@ var BHell = (function (my) {
     my.rate = String(parameters['rate'] || "Rate");
     my.power = String(parameters['power'] || "Power");
     my.bombs = String(parameters['bombs'] || "Bombs");
-    my.autobombs = String(parameters['autobombs'] || "Autobombs");
     my.buyPlayers = String(parameters['buy_players'] || "Players");
     my.buyUpgrades = String(parameters['buy_upgrades'] || "Upgrades");
 
+    my.grazingScore = Number(parameters['grazing_score'] || 50);
     my.lifeBonusFirst = Number(parameters['life_bonus_first'] || 30000);
     my.lifeBonusNext = Number(parameters['life_bonus_next'] || 80000);
     my.dcPrice = Number(parameters['DCprice'] || 5000);
@@ -267,7 +266,6 @@ var BHell = (function (my) {
                 $gamePlayer.bhellPlayers[i].rate = $gamePlayer.bhellPlayers[i].rate || $dataBulletHell.players[i].rate || 1;
                 $gamePlayer.bhellPlayers[i].power = $gamePlayer.bhellPlayers[i].power || $dataBulletHell.players[i].power || 1;
                 $gamePlayer.bhellPlayers[i].bombs = $gamePlayer.bhellPlayers[i].bombs || $dataBulletHell.players[i].bombs || 1;
-                $gamePlayer.bhellPlayers[i].autobombs = $gamePlayer.bhellPlayers[i].autobombs || $dataBulletHell.players[i].autobombs || 1;
             }
 
             switch (args[0]) {
@@ -441,8 +439,8 @@ var BHell = (function (my) {
     });
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -566,8 +564,8 @@ BHell_Sprite.prototype.patternHeight = function() {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -872,8 +870,8 @@ var BHell = (function (my) {
     };
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -914,7 +912,8 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
     var direction = 2;
     var frame = 0;
     var animated = false;
-    var animationSpeed = 25;
+    var animationSpeed = 15;
+    var grazed = false;
 
     if (params != null) {
         speed = params.speed || speed;
@@ -922,7 +921,9 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
         index = params.index || index;
         direction = params.direction || direction;
         frame = params.frame || frame;
-        animated = params.animated || animated;
+        if (params.animated !== false) {
+            animated = true;
+        }
         animationSpeed = params.animation_speed || animationSpeed;
     }
 
@@ -930,7 +931,7 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
 
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
-    this.rotation = angle;
+    this.rotation = angle + Math.PI / 2;
 
     this.x = x;
     this.y = y;
@@ -970,8 +971,8 @@ BHell_Bullet.prototype.destroy = function() {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -1029,13 +1030,29 @@ var BHell = (function (my) {
             });
 
             // If an event has some message, store it in the messages array.
-            var message = {};
-            message.list = e.event().pages[0].list.filter(l => {
+            var list = e.event().pages[0].list.filter(l => {
                 return l.code === 101 || l.code === 401;
             });
-            message.y = e.event().y;
 
-            this.messages.push(message);
+            var indexes = [];
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].code === 101) {
+                    indexes.push(i);
+                }
+            }
+
+            for (var i = 0; i < indexes.length; i++) {
+                var message = {};
+                message.y = e.event().y;
+                if (i < indexes.length - 1) {
+                    message.list = list.slice(indexes[i], indexes[i + 1]);
+                }
+                else {
+                    message.list = list.slice(indexes[i]);
+                }
+
+                this.messages.push(message);
+            }
 
             var grps = regex.exec(e.event().note);
             if (grps != null) {
@@ -1043,7 +1060,7 @@ var BHell = (function (my) {
             }
         });
 
-        var regex = /<bhell:([0-9]+(?:\.[0-9])*)>/i;
+        var regex = /<bhell:(-?[0-9]+(?:\.[0-9]*))>/i;
         var grps = regex.exec($dataMap.note);
         this.scrollSpeed = 0;
         this.stageY = this.stage.height();
@@ -1123,6 +1140,21 @@ var BHell = (function (my) {
                     g = this.generators[i];
                     if (g.y >= this.stageY) {
                         this.activeGenerators.push(g);
+
+                        // If the BGM needs to be changed, save the old one and play the new one.
+                        if (g.bossBgm !== null) {
+                            if (g.resumeBgm) {
+                                my.prevBossBgm = AudioManager.saveBgm();
+                            }
+
+                            my.bgm = my.bgm || {"name": "", "pan": 0, "pitch": 100, "volume": 90};
+                            my.bgm.name = g.bossBgm;
+
+                            AudioManager.fadeOutBgm(1);
+                            AudioManager.playBgm(my.bgm);
+                            AudioManager.fadeInBgm(1);
+                        }
+
                         this.generators.splice(this.generators.indexOf(g), 1);
                         i--;
                     }
@@ -1161,6 +1193,19 @@ var BHell = (function (my) {
                         if (g.sync === false || this.enemies.length === 0) {
                             this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
                             i--;
+
+                            // If the BGM needs to be restored to the previous one, do it.
+                            if (g.bossBgm !== null && g.resumeBgm) {
+                                if (my.prevBossBgm.name !== "") {
+                                    my.bgm = my.prevBossBgm;
+                                    AudioManager.fadeOutBgm(1);
+                                    AudioManager.playBgm(my.bgm);
+                                    AudioManager.fadeInBgm(1);
+                                }
+                                else {
+                                    AudioManager.fadeOutBgm(1);
+                                }
+                            }
                         }
                     }
                 }
@@ -1220,6 +1265,9 @@ var BHell = (function (my) {
                     b.destroy();
                     my.player.die(true);
                     i--;
+                } else if (!b.grazed && my.player.checkGrazing(b.x, b.y)) {
+                    b.grazed = true; // Avoid grazing the same bullet multiple times.
+                    $gameBHellResult.score += my.grazingScore;
                 }
             }
 
@@ -1279,8 +1327,8 @@ var BHell = (function (my) {
     };
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -1374,11 +1422,30 @@ var BHell = (function (my) {
             case "base":
                 ret = new BHell_Emitter_Base(x, y, params, parent, bulletList);
                 break;
+            case "angle":
+                params.angle = my.parse(emitter.params.angle, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Angle(x, y, params, parent, bulletList);
+                break;
             case "spray":
                 params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
                 params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
                 params.n = my.parse(emitter.params.n, x, y, w, h, Graphics.width, Graphics.height);
                 ret = new BHell_Emitter_Spray(x, y, params, parent, bulletList);
+                break;
+            case "spray_random":
+                params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
+                params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
+                params.n = my.parse(emitter.params.n, x, y, w, h, Graphics.width, Graphics.height);
+                params.min_speed = my.parse(emitter.params.min_speed, x, y, w, h, Graphics.width, Graphics.height);
+                params.max_speed = my.parse(emitter.params.max_speed, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Spray_Rnd(x, y, params, parent, bulletList);
+                break;
+            case "spray_alternate":
+                params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
+                params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
+                params.n1 = my.parse(emitter.params.n1, x, y, w, h, Graphics.width, Graphics.height);
+                params.n2 = my.parse(emitter.params.n2, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Spray_Alt(x, y, params, parent, bulletList);
                 break;
             case "rotate":
                 params.theta = my.parse(emitter.params.theta, x, y, w, h, Graphics.width, Graphics.height);
@@ -1643,6 +1710,247 @@ var BHell = (function (my) {
     };
 
     /**
+     * Alternating spraying emitter. Creates a series of bullets spreading in an arc from the initial position, alternating between two sets of bullets.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Spray_Alt = my.BHell_Emitter_Spray_Alt = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Spray_Alt.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Spray_Alt.prototype.constructor = BHell_Emitter_Spray_Alt;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - n1: Number of bullets to be spawned for odd shots,
+     * - n2: Number of bullets to be spawned for even shots.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Spray_Alt.prototype.initialize = function (x, y, params, parent, bulletList) {
+
+        this.n1 = 3;
+        this.n2 = 2;
+        this.odd = true;
+
+        if (params != null) {
+            this.n1 = params.n1 || this.n1;
+            this.n2 = params.n2 || this.n2;
+        }
+        params.n = this.n1;
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Spray_Alt.prototype.shoot = function () {
+        if (this.odd) {
+            this.n = this.n1;
+        }
+        else {
+            this.n = this.n2;
+        }
+
+        BHell_Emitter_Spray.prototype.shoot.call(this);
+
+        this.odd = !this.odd;
+    };
+
+    /**
+     * Random emitter. Creates a series of random bullets inside an arc from the initial position.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Spray_Rnd = my.BHell_Emitter_Spray_Rnd = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Spray_Rnd.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Spray_Rnd.prototype.constructor = BHell_Emitter_Spray_Rnd;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - min_speed: Minimum random speed for bullets,
+     * - max_speed: Maximum random speed for bullets.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Spray_Rnd.prototype.initialize = function (x, y, params, parent, bulletList) {
+        this.min_speed = 3;
+        this.max_speed = 4;
+
+        if (params != null) {
+            this.min_speed = params.min_speed || this.min_speed;
+            this.max_speed = params.max_speed || this.max_speed;
+        }
+
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Spray_Rnd.prototype.shoot = function () {
+        for (var k = 0; k < this.n; k++) {
+            var bullet;
+            var randomAngle = Math.random() * (this.b - this.a);
+            var randomSpeed = Math.random() * (this.max_speed - this.min_speed) + this.min_speed;
+            if (this.aim) {
+                if (this.alwaysAim || this.oldShooting === false) {
+                    var dx = my.player.x - this.x + this.aimX;
+                    var dy = my.player.y - this.y + this.aimY;
+                    this.aimingAngle = Math.atan2(dy, dx);
+                }
+
+                bullet = new my.BHell_Bullet(this.x, this.y, this.aimingAngle + this.a - (this.b - this.a) / 2 + randomAngle, this.bulletParams, this.bulletList);
+            }
+            else {
+                bullet = new my.BHell_Bullet(this.x, this.y, this.a + randomAngle, this.bulletParams, this.bulletList);
+            }
+
+            bullet.speed = randomSpeed;
+            this.parent.addChild(bullet);
+            this.bulletList.push(bullet);
+        }
+    };
+
+    /**
+     * Overcoming bullets emitter. Creates a series of bullets spreading in an arc from the initial position, with the later bullets faster than the earlier ones.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Overcome = my.BHell_Emitter_Overcome = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Overcome.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Overcome.prototype.constructor = BHell_Emitter_Overcome;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - min_speed: Speed for the bullets in the first wave,
+     * - max_speed: Speed for the bullets in the last wave,
+     * - waves: Number of waves to shoot.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Overcome.prototype.initialize = function (x, y, params, parent, bulletList) {
+
+        this.min_speed = 3;
+        this.max_speed = 4;
+        this.waves = 4;
+
+        if (params != null) {
+            this.min_speed = params.min_speed || this.min_speed;
+            this.max_speed = params.max_speed || this.max_speed;
+            this.waves = params.waves || this.waves;
+        }
+
+        this.d_speed = (this.max_speed - this.min_speed) / this.waves;
+        this.current_wave = 0;
+        params.bullet.speed = this.min_speed;
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Overcome.prototype.shoot = function () {
+        if (!this.oldShooting) {
+            this.bulletParams.speed = this.min_speed;
+            this.current_wave = 0;
+        }
+        this.bulletParams.speed = this.min_speed + this.current_wave * this.d_speed;
+
+        BHell_Emitter_Spray.prototype.shoot.call(this);
+
+        this.current_wave = (this.current_wave + 1) % this.waves;
+    };
+
+    /**
+     * Fanning bullets emitter. Creates a series of bullets spreading in an arc from the initial position, rotating like a fan.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Overcome
+     */
+    var BHell_Emitter_Fan = my.BHell_Emitter_Fan = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Fan.prototype = Object.create(BHell_Emitter_Overcome.prototype);
+    BHell_Emitter_Fan.prototype.constructor = BHell_Emitter_Fan;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - rotation_angle: Rotation angle between each wave.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Fan.prototype.initialize = function (x, y, params, parent, bulletList) {
+        this.rotation_angle = 0.05;
+
+        if (params != null) {
+            this.rotation_angle = params.rotation_angle || this.rotation_angle;
+        }
+
+        BHell_Emitter_Overcome.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Fan.prototype.shoot = function () {
+        if (!this.oldShooting) {
+            this.bulletParams.speed = this.min_speed;
+            this.current_wave = 0;
+        }
+
+        this.bulletParams.speed = this.min_speed + this.current_wave * this.d_speed;
+        for (var k = 0; k < this.n; k++) {
+            var bullet;
+
+            if (this.aim) {
+                if (this.alwaysAim || this.oldShooting === false) {
+                    var dx = my.player.x - this.x + this.aimX;
+                    var dy = my.player.y - this.y + this.aimY;
+                    this.aimingAngle = Math.atan2(dy, dx);
+                }
+
+                bullet = new my.BHell_Bullet(this.x, this.y, this.aimingAngle + this.rotation_angle * this.current_wave - (this.b - this.a) / 2 + (this.b - this.a) / this.n * (k + 0.5), this.bulletParams, this.bulletList);
+            }
+            else {
+                bullet = new my.BHell_Bullet(this.x, this.y, this.a + this.rotation_angle * this.current_wave + (this.b - this.a) / this.n * (k + 0.5), this.bulletParams, this.bulletList);
+            }
+
+            this.parent.addChild(bullet);
+            this.bulletList.push(bullet);
+        }
+
+        this.current_wave = (this.current_wave + 1) % this.waves;
+    };
+
+    /**
      * Angle emitter. Creates a single bullet traveling at an angle. Optionally aims at the player.
      * @constructor
      * @memberOf BHell
@@ -1798,8 +2106,8 @@ var BHell = (function (my) {
     };
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -1820,6 +2128,8 @@ var BHell = (function (my) {
  * - score: Score points awarded for each successful bullet hit,
  * - kill_score: Score points awarded on enemy's death,
  * - boss: If true, an hp bar will be shown,
+ * - boss_bgm: If defined, plays this BGM instead of the one defined on the map,
+ * - resume_bgm: If true, when the monster is defeated, resumes the previous BGM,
  * - bullet: bullet parameters (see {@link BHell.BHell_Bullet}).
  *
  * @constructor
@@ -1897,31 +2207,49 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
             this.hitboxH = tmp;
         }
         tmp = my.parse(params.angle, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.angle = tmp || this.angle;
+        if (tmp !== null) {
+            this.angle = tmp;
+        }
 
         tmp = my.parse(params.aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aim = tmp || this.aim;
+        if (tmp !== null) {
+            this.aim = tmp;
+        }
 
         tmp = my.parse(params.always_aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.alwaysAim = tmp || this.alwaysAim;
+        if (tmp !== null) {
+            this.alwaysAim = tmp;
+        }
 
         tmp = my.parse(params.aim_x, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimX = tmp || this.aimX;
+        if (tmp !== null) {
+            this.aimX = tmp;
+        }
 
         tmp = my.parse(params.aim_y, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimY = tmp || this.aimY;
+        if (tmp !== null) {
+            this.aimY = tmp;
+        }
 
         tmp = my.parse(params.rnd, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.rnd = tmp || this.rnd;
+        if (tmp !== null) {
+            this.rnd = tmp;
+        }
 
         tmp = my.parse(params.score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.score = tmp || this.score;
+        if (tmp !== null) {
+            this.score = tmp;
+        }
 
         tmp = my.parse(params.kill_score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.killScore = tmp || this.score;
+        if (tmp !== null) {
+            this.killScore = tmp;
+        }
 
         tmp = my.parse(params.boss, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.boss = tmp || this.boss;
+        if (tmp !== null) {
+            this.boss = tmp;
+        }
 
         if (params.bullet != null) {
             this.bullet = Object.assign({}, params.bullet);
@@ -1960,7 +2288,12 @@ BHell_Enemy_Base.prototype.update = function () {
     my.BHell_Sprite.prototype.update.call(this);
     this.move();
     this.shoot(true);
-    this.emitters.forEach(e => {
+
+    this.emitters.forEach(e => { // If not shooting, change the angle
+        if (this.aim === false && this.rnd === true) {
+            e.angle = Math.random() * 2 * Math.PI;
+        }
+
         e.update();
     });
 };
@@ -2094,55 +2427,62 @@ BHell_Enemy_Suicide.prototype.initialize = function (x, y, image, params, parent
     this.mover = new my.BHell_Mover_Chase();
 };
 
-/**
- * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
- *
- * Additional parameters:
- *
- * - radius: distance from the player.
- * @constructor
- * @memberOf BHell
- * @extends BHell.BHell_Enemy_Base
- */
-var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
-    this.initialize.apply(this, arguments);
-};
+    /**
+     * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
+     *
+     * Additional parameters:
+     *
+     * - radius: distance from the player.
+     * - counterclockwise: if true orbits counterclockwise.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Enemy_Base
+     */
+    var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
+        this.initialize.apply(this, arguments);
+    };
 
-BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
-BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
+    BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
+    BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
 
-BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
-    BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+    BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
+        BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    // Set default parameters for this class:
-    this.radius = 250;
+        // Set default parameters for this class:
+        this.radius = 250;
+        this.counterclockwise = false;
 
-    // Overrides default parameters:
-    if (params != null) {
-        var tmp;
+        // Overrides default parameters:
+        if (params != null) {
+            var tmp;
 
-        tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        if (tmp > 0) {
-            this.radius = Math.round(tmp);
+            tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp > 0) {
+                this.radius = Math.round(tmp);
+            }
+
+            tmp = my.parse(params.counterclockwise, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp !== null) {
+                this.counterclockwise = tmp;
+            }
         }
-    }
 
-    var emitterParams = {};
-    emitterParams.x = 0;
-    emitterParams.y = 0;
-    emitterParams.period = this.period;
-    emitterParams.angle = 0;
-    emitterParams.aim = true;
-    emitterParams.always_aim = true;
-    emitterParams.bullet = Object.assign({}, this.bullet);
+        var emitterParams = {};
+        emitterParams.x = 0;
+        emitterParams.y = 0;
+        emitterParams.period = this.period;
+        emitterParams.angle = 0;
+        emitterParams.aim = true;
+        emitterParams.always_aim = true;
+        emitterParams.bullet = Object.assign({}, this.bullet);
 
-    this.mover = new my.BHell_Mover_Orbit( 250);
-    this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
-};
+        this.mover = new my.BHell_Mover_Orbit(this.radius, this.counterclockwise);
+        this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
+    };
 
-BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
-    return false;
-};
+    BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
+        return false;
+    };
 
 /**
  * Probe enemy class. Switches between two states: moving and shooting. In the first state it moves in a straight line
@@ -2615,6 +2955,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
 
     if (params != null) {
         this.shots = params.shots || this.shots;
+        this.n = params.n || this.n;
     }
 
     var emitterParams = {};
@@ -2639,7 +2980,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
  *
  * Additional parameters:
  *
- * - rotation: rotation speed (in radians per frame) of the bullets' swirl.
+ * - rotation_angle: rotation speed (in radians per frame) of the bullets' swirl.
  * @constructor
  * @memberOf BHell
  * @extends BHell.BHell_Enemy_Starshooter
@@ -2654,25 +2995,25 @@ BHell_Enemy_Swirler.prototype.constructor = BHell_Enemy_Swirler;
 BHell_Enemy_Swirler.prototype.initialize = function (x, y, image, params, parent, enemyList) {
     BHell_Enemy_Starshooter.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    this.rotation = 0.01;
+    this.rotation_angle = 0.01;
 
     if (params != null) {
-        this.rotation = params.rotation || this.rotation;
+        this.rotation_angle = params.rotation_angle || this.rotation_angle;
     }
 };
 
 BHell_Enemy_Swirler.prototype.update = function () {
     this.emitters.forEach(e => {
-        e.a += this.rotation;
-        e.b += this.rotation;
+        e.a += this.rotation_angle;
+        e.b += this.rotation_angle;
     });
 
     BHell_Enemy_Starshooter.prototype.update.call(this);
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -2753,8 +3094,8 @@ BHell_Explosion.prototype.destroy = function() {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -2843,7 +3184,12 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
                         this.params[k].animation_speed = obj[k].animation_speed || this.params[k].animation_speed || null;
                         break;
                     default:
-                        this.params[k] = my.parse(obj[k], this.x, this.y, dummyEnemy.patternWidth(), dummyEnemy.patternHeight(), Graphics.width, Graphics.height);
+                        if (k !== "boss_bgm") {
+                            this.params[k] = my.parse(obj[k], this.x, this.y, dummyEnemy.patternWidth(), dummyEnemy.patternHeight(), Graphics.width, Graphics.height);
+                        }
+                        else {
+                            this.params[k] = obj[k];
+                        }
                         break;
                 }
             }
@@ -2854,6 +3200,16 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     }
 
     this.bossGenerator = this.params.boss || false;
+
+
+    this.bossBgm = this.params.boss_bgm || null;
+
+    if (this.params.resume_bgm === false || this.params.resume_bgm === "false") {
+        this.resumeBgm = false;
+    }
+    else {
+        this.resumeBgm = true;
+    }
 };
 
 /**
@@ -2873,8 +3229,8 @@ BHell_Generator.prototype.update = function () {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -3085,12 +3441,14 @@ var BHell = (function (my) {
     /**
      * Constructor.
      * @param radius Orbit distance from the player.
+     * @param counterclockwise If true orbits in the counterclockwise direction.
      */
-    BHell_Mover_Orbit.prototype.initialize = function (radius) {
+    BHell_Mover_Orbit.prototype.initialize = function (radius, counterclockwise) {
         BHell_Mover_Base.prototype.initialize.call(this);
 
         this.inPosition = false;
         this.radius = radius;
+        this.counterclockwise = counterclockwise;
         this.t = 3 * Math.PI / 2;
     };
 
@@ -3116,7 +3474,12 @@ var BHell = (function (my) {
                 ret.push(my.player.x + this.radius * Math.cos(this.t));
                 ret.push(my.player.y + this.radius * Math.sin(this.t));
 
-                this.t += speed * Math.PI / 360;
+                if (this.counterclockwise) {
+                    this.t -= speed * Math.PI / 360;
+                }
+                else {
+                    this.t += speed * Math.PI / 360;
+                }
                 if (this.t > 2 * Math.PI) {
                     this.t -= 2 * Math.PI;
                 }
@@ -3305,8 +3668,8 @@ var BHell = (function (my) {
 
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -3365,8 +3728,8 @@ var BHell = (function (my) {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -3393,7 +3756,6 @@ var BHell = (function (my) {
      * - rate: Player's rate of fire rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}).
      * - power: Player's power rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}),
      * - bombs: Player's initial stock of bombs (D = 1, C = 2, B = 3, A = 4, S = 5),
-     * - autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit, the player will automatically counterattack with a bomb, up to rank times per life),
      * - unlocked: If true the player can be used on a stage,
      * - can_be_bought: If true the player can be bought at the shop,
      * - price: The player's price at the shop,
@@ -3422,7 +3784,7 @@ var BHell = (function (my) {
             return p.index === id;
         })[0]);
 
-        ["speed", "bombs", "autobombs"].forEach(p => {
+        ["speed", "bombs"].forEach(p => {
             switch (playerParams[p]) {
                 case "D":
                     playerParams[p] = 1;
@@ -3462,9 +3824,6 @@ var BHell = (function (my) {
 
         this.bombs = this.startingBombs;
 
-        this.startingAutobombs = playerParams.autobombs - 1;
-        this.autobombs = this.startingAutobombs;
-
         this.spawn_se = playerData.spawn_se;
         this.death_se = playerData.death_se;
         this.victory_se = playerData.victory;
@@ -3474,6 +3833,7 @@ var BHell = (function (my) {
 
         this.hitboxW = my.parse(playerData.hitbox_w, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
         this.hitboxH = my.parse(playerData.hitbox_h, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
+        this.grazingRadius = my.parse(playerData.grazing_radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
 
         this.speed = playerParams.speed * 2;
 
@@ -3510,6 +3870,18 @@ var BHell = (function (my) {
         var dx = Math.abs(this.x - x);
         var dy = Math.abs(this.y - y);
         return (dx < this.hitboxW / 2 && dy < this.hitboxH / 2);
+    };
+
+    /**
+     * Checks if the player collides at given coordinates.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @returns {boolean} True if (x, y) is inside the player's hitbox.
+     */
+    BHell_Player.prototype.checkGrazing = function (x, y) {
+        var dx = Math.abs(this.x - x);
+        var dy = Math.abs(this.y - y);
+        return (dx * dx + dy * dy < this.grazingRadius * this.grazingRadius);
     };
 
     /**
@@ -3692,7 +4064,6 @@ var BHell = (function (my) {
         this.emitters.forEach(e => {
             e.shooting = t && this.justSpawned === false;
         });
-
     };
 
     /**
@@ -3712,16 +4083,15 @@ var BHell = (function (my) {
      */
     BHell_Player.prototype.die = function (t) {
         if (this.immortal === false) {
-            if (t && this.autobombs > 0 && this.bombs > 0) { // If a bullet hits the player and there are autobombs available, launch one.
+            if (t && this.bombs > 0) { // If a bullet hits the player and there are bombs available, launch one, but waste all of them.
                 this.launchBomb();
-                this.autobombs--;
+                this.bombs = 0;
             }
             else {
                 this.lives--;
                 $gameBHellResult.livesLost++;
                 my.controller.stopShooting = true;
                 this.bombs = this.startingBombs;
-                this.autobombs = this.startingAutobombs;
                 this.bomb.deactivate();
                 my.explosions.push(new my.BHell_Explosion(this.x, this.y, this.parent, my.explosions));
                 if (this.death_se != null) {
@@ -3762,8 +4132,8 @@ var BHell = (function (my) {
     };
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -3895,6 +4265,14 @@ Scene_BHell_Init.prototype.update = function() {
         else {
             my.player.shoot(false);
         }
+
+        for (i = 0; i < my.friendlyBullets.length; i++) {
+            b = my.friendlyBullets[i];
+            if (b.x < 0 || b.y < 0 || b.x > Graphics.width || b.y > Graphics.height) {
+                b.destroy();
+                i--;
+            }
+        }
     }
     Scene_Base.prototype.update.call(this);
 };
@@ -3958,8 +4336,8 @@ Scene_BHell_Init.prototype.selectPlayer = function(i) {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -4058,7 +4436,8 @@ var BHell = (function (my) {
         my.controller = new my.BHell_Controller(my.stage, my.playerId, 3, this._spriteset._tilemap);
 
         if ($dataMap.autoplayBgm) {
-            AudioManager.playBgm($dataMap.bgm);
+            my.bgm = $dataMap.bgm;
+            AudioManager.playBgm(my.bgm);
         }
         if ($dataMap.autoplayBgs) {
             AudioManager.playBgs($dataMap.bgs);
@@ -4133,11 +4512,13 @@ var BHell = (function (my) {
      * Stops the gameplay and opens the pause window.
      */
     Scene_BHell.prototype.pause = function () {
-        my.controller.paused = true;
-        this.bgm = AudioManager.saveBgm();
-        AudioManager.stopBgm();
-        this.pauseWindow.open();
-        this.pauseWindow.activate();
+        if (!my.controller.paused) {
+            my.controller.paused = true;
+            my.bgm = AudioManager.saveBgm();
+            AudioManager.stopBgm();
+            this.pauseWindow.open();
+            this.pauseWindow.activate();
+        }
     };
 
     /**
@@ -4350,8 +4731,8 @@ var BHell = (function (my) {
         this.usingTouch = false;
         TouchInput.clear();
         my.controller.paused = false;
-        this.bgm = this.bgm || $dataMap.bgm;
-        AudioManager.replayBgm(this.bgm);
+        my.bgm = my.bgm || $dataMap.bgm;
+        AudioManager.replayBgm(my.bgm);
     };
 
     /**
@@ -4439,8 +4820,8 @@ var BHell = (function (my) {
     };
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -4800,8 +5181,8 @@ var BHell = (function (my) {
 
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+
 var BHell = (function (my) {
 
 /**
@@ -4906,8 +5287,8 @@ BHell_Spriteset.prototype.updateTilemap = function () {
 };
 
 return my;
-} (BHell || {}));
-
+} (BHell || {}));
+
 var BHell = (function (my) {
 
     /**
@@ -4968,7 +5349,7 @@ var BHell = (function (my) {
     };
 
     BHell_Window_Status.prototype.windowHeight = function () {
-        return 220;
+        return 176;
     };
 
 
@@ -4985,7 +5366,7 @@ var BHell = (function (my) {
         var x = this.textPadding();
         var width = this.contents.width - this.textPadding() * 2;
 
-        var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs + "\n" + my.autobombs;
+        var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs;
         this.contents.clear();
         this.contents.context.textAlign = "left";
         this.drawTextEx(str, x, 0);
@@ -4993,7 +5374,7 @@ var BHell = (function (my) {
         if (this.currentPlayer != null) {
             this.contents.context.textAlign = "right";
             str = "";
-            ["speed", "rate", "power", "bombs", "autobombs"].forEach(p => {
+            ["speed", "rate", "power", "bombs"].forEach(p => {
                 switch (this.currentPlayer[p]) {
                     case "D":
                         str += "\\c[0]D\n";
@@ -5402,7 +5783,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Lists the five parameters (speed, rate of fire, power, number of bombs and autobombs) and determines the price for each upgrade from the plugin's parameters.
+     * Lists the four parameters (speed, rate of fire, power and number of bombs) and determines the price for each upgrade from the plugin's parameters.
      */
     BHell_Window_BuyUpgrades.prototype.makeItemList = function () {
         this._data = [];
@@ -5410,7 +5791,7 @@ var BHell = (function (my) {
 
         if (this.playerId != null) {
 
-            ["speed", "rate", "power", "bombs", "autobombs"].forEach(p => {
+            ["speed", "rate", "power", "bombs"].forEach(p => {
                 this._data.push({name: my[p], param: p, rank: $gamePlayer.bhellPlayers[this.playerId][p]});
 
                 switch ($gamePlayer.bhellPlayers[this.playerId][p]) {
@@ -5550,6 +5931,14 @@ var BHell = (function (my) {
             else {
                 my.player.shoot(false);
             }
+
+            for (i = 0; i < my.friendlyBullets.length; i++) {
+                b = my.friendlyBullets[i];
+                if (b.x < 0 || b.y < 0 || b.x > this.width || b.y > this.height) {
+                    b.destroy();
+                    i--;
+                }
+            }
         }
     };
 
@@ -5587,14 +5976,14 @@ var BHell = (function (my) {
             var x = this.textPadding();
             var width = this.contents.width - this.textPadding() * 2;
 
-            var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs + "\n" + my.autobombs;
+            var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs;
             this.contents.context.textAlign = "left";
             this.drawTextEx(str, x, 0);
 
             this.contents.context.textAlign = "right";
             str = "";
 
-            var stats = ["speed", "rate", "power", "bombs", "autobombs"];
+            var stats = ["speed", "rate", "power", "bombs"];
 
             for (var i = 0; i < stats.length; i++) {
                 var p = stats[i];
@@ -5668,5 +6057,5 @@ var BHell = (function (my) {
 
 
     return my;
-}(BHell || {}));
-
+}(BHell || {}));
+

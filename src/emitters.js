@@ -91,11 +91,30 @@ var BHell = (function (my) {
             case "base":
                 ret = new BHell_Emitter_Base(x, y, params, parent, bulletList);
                 break;
+            case "angle":
+                params.angle = my.parse(emitter.params.angle, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Angle(x, y, params, parent, bulletList);
+                break;
             case "spray":
                 params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
                 params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
                 params.n = my.parse(emitter.params.n, x, y, w, h, Graphics.width, Graphics.height);
                 ret = new BHell_Emitter_Spray(x, y, params, parent, bulletList);
+                break;
+            case "spray_random":
+                params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
+                params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
+                params.n = my.parse(emitter.params.n, x, y, w, h, Graphics.width, Graphics.height);
+                params.min_speed = my.parse(emitter.params.min_speed, x, y, w, h, Graphics.width, Graphics.height);
+                params.max_speed = my.parse(emitter.params.max_speed, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Spray_Rnd(x, y, params, parent, bulletList);
+                break;
+            case "spray_alternate":
+                params.a = my.parse(emitter.params.a, x, y, w, h, Graphics.width, Graphics.height);
+                params.b = my.parse(emitter.params.b, x, y, w, h, Graphics.width, Graphics.height);
+                params.n1 = my.parse(emitter.params.n1, x, y, w, h, Graphics.width, Graphics.height);
+                params.n2 = my.parse(emitter.params.n2, x, y, w, h, Graphics.width, Graphics.height);
+                ret = new BHell_Emitter_Spray_Alt(x, y, params, parent, bulletList);
                 break;
             case "rotate":
                 params.theta = my.parse(emitter.params.theta, x, y, w, h, Graphics.width, Graphics.height);
@@ -357,6 +376,246 @@ var BHell = (function (my) {
             this.parent.addChild(bullet);
             this.bulletList.push(bullet);
         }
+    };
+
+    /**
+     * Alternating spraying emitter. Creates a series of bullets spreading in an arc from the initial position, alternating between two sets of bullets.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Spray_Alt = my.BHell_Emitter_Spray_Alt = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Spray_Alt.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Spray_Alt.prototype.constructor = BHell_Emitter_Spray_Alt;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - n1: Number of bullets to be spawned for odd shots,
+     * - n2: Number of bullets to be spawned for even shots.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Spray_Alt.prototype.initialize = function (x, y, params, parent, bulletList) {
+
+        this.n1 = 3;
+        this.n2 = 2;
+        this.odd = true;
+
+        if (params != null) {
+            this.n1 = params.n1 || this.n1;
+            this.n2 = params.n2 || this.n2;
+        }
+        params.n = this.n1;
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Spray_Alt.prototype.shoot = function () {
+        if (this.odd) {
+            this.n = this.n1;
+        }
+        else {
+            this.n = this.n2;
+        }
+
+        BHell_Emitter_Spray.prototype.shoot.call(this);
+
+        this.odd = !this.odd;
+    };
+
+    /**
+     * Random emitter. Creates a series of random bullets inside an arc from the initial position.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Spray_Rnd = my.BHell_Emitter_Spray_Rnd = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Spray_Rnd.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Spray_Rnd.prototype.constructor = BHell_Emitter_Spray_Rnd;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - min_speed: Minimum random speed for bullets,
+     * - max_speed: Maximum random speed for bullets.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Spray_Rnd.prototype.initialize = function (x, y, params, parent, bulletList) {
+        this.min_speed = 3;
+        this.max_speed = 4;
+
+        if (params != null) {
+            this.min_speed = params.min_speed || this.min_speed;
+            this.max_speed = params.max_speed || this.max_speed;
+        }
+
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Spray_Rnd.prototype.shoot = function () {
+        for (var k = 0; k < this.n; k++) {
+            var bullet;
+            var randomAngle = Math.random() * (this.b - this.a);
+            var randomSpeed = Math.random() * (this.max_speed - this.min_speed) + this.min_speed;
+            if (this.aim) {
+                if (this.alwaysAim || this.oldShooting === false) {
+                    var dx = my.player.x - this.x + this.aimX;
+                    var dy = my.player.y - this.y + this.aimY;
+                    this.aimingAngle = Math.atan2(dy, dx);
+                }
+
+                bullet = new my.BHell_Bullet(this.x, this.y, this.aimingAngle + this.a - (this.b - this.a) / 2 + randomAngle, this.bulletParams, this.bulletList);
+            }
+            else {
+                bullet = new my.BHell_Bullet(this.x, this.y, this.a + randomAngle, this.bulletParams, this.bulletList);
+            }
+
+            bullet.speed = randomSpeed;
+            this.parent.addChild(bullet);
+            this.bulletList.push(bullet);
+        }
+    };
+
+    /**
+     * Overcoming bullets emitter. Creates a series of bullets spreading in an arc from the initial position, with the later bullets faster than the earlier ones.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Spray
+     */
+    var BHell_Emitter_Overcome = my.BHell_Emitter_Overcome = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Overcome.prototype = Object.create(BHell_Emitter_Spray.prototype);
+    BHell_Emitter_Overcome.prototype.constructor = BHell_Emitter_Overcome;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - min_speed: Speed for the bullets in the first wave,
+     * - max_speed: Speed for the bullets in the last wave,
+     * - waves: Number of waves to shoot.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Overcome.prototype.initialize = function (x, y, params, parent, bulletList) {
+
+        this.min_speed = 3;
+        this.max_speed = 4;
+        this.waves = 4;
+
+        if (params != null) {
+            this.min_speed = params.min_speed || this.min_speed;
+            this.max_speed = params.max_speed || this.max_speed;
+            this.waves = params.waves || this.waves;
+        }
+
+        this.d_speed = (this.max_speed - this.min_speed) / this.waves;
+        this.current_wave = 0;
+        params.bullet.speed = this.min_speed;
+        BHell_Emitter_Spray.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Overcome.prototype.shoot = function () {
+        BHell_Emitter_Spray.prototype.shoot.call(this);
+        if (!this.oldShooting) {
+            this.bulletParams.speed = this.min_speed;
+            this.current_wave = 0;
+        }
+        this.bulletParams.speed = this.min_speed + this.current_wave * this.d_speed;
+
+        this.current_wave = (this.current_wave + 1) % this.waves;
+    };
+
+    /**
+     * Fanning bullets emitter. Creates a series of bullets spreading in an arc from the initial position, rotating like a fan.
+     * Optionally aims towards the player.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Emitter_Overcome
+     */
+    var BHell_Emitter_Fan = my.BHell_Emitter_Fan = function () {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Emitter_Fan.prototype = Object.create(BHell_Emitter_Overcome.prototype);
+    BHell_Emitter_Fan.prototype.constructor = BHell_Emitter_Fan;
+
+    /**
+     * Constructor.
+     * Additional parameters:
+     *
+     * - rotation_angle: Rotation angle between each wave.
+     *
+     * @param x
+     * @param y
+     * @param params
+     * @param parent
+     * @param bulletList
+     */
+    BHell_Emitter_Fan.prototype.initialize = function (x, y, params, parent, bulletList) {
+        this.rotation_angle = 0.05;
+
+        if (params != null) {
+            this.rotation_angle = params.rotation_angle || this.rotation_angle;
+        }
+
+        BHell_Emitter_Overcome.prototype.initialize.call(this, x, y, params, parent, bulletList);
+    };
+
+    BHell_Emitter_Fan.prototype.shoot = function () {
+        if (!this.oldShooting) {
+            this.bulletParams.speed = this.min_speed;
+            this.current_wave = 0;
+        }
+
+        this.bulletParams.speed = this.min_speed + this.current_wave * this.d_speed;
+        for (var k = 0; k < this.n; k++) {
+            var bullet;
+
+            if (this.aim) {
+                if (this.alwaysAim || this.oldShooting === false) {
+                    var dx = my.player.x - this.x + this.aimX;
+                    var dy = my.player.y - this.y + this.aimY;
+                    this.aimingAngle = Math.atan2(dy, dx);
+                }
+
+                bullet = new my.BHell_Bullet(this.x, this.y, this.aimingAngle + this.rotation_angle * this.current_wave - (this.b - this.a) / 2 + (this.b - this.a) / this.n * (k + 0.5), this.bulletParams, this.bulletList);
+            }
+            else {
+                bullet = new my.BHell_Bullet(this.x, this.y, this.a + this.rotation_angle * this.current_wave + (this.b - this.a) / this.n * (k + 0.5), this.bulletParams, this.bulletList);
+            }
+
+            this.parent.addChild(bullet);
+            this.bulletList.push(bullet);
+        }
+
+        this.current_wave = (this.current_wave + 1) % this.waves;
     };
 
     /**

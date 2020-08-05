@@ -38,7 +38,8 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
     var direction = 2;
     var frame = 0;
     var animated = false;
-    var animationSpeed = 25;
+    var animationSpeed = 15;
+    var grazed = false;
 
     if (params != null) {
         speed = params.speed || speed;
@@ -46,7 +47,9 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
         index = params.index || index;
         direction = params.direction || direction;
         frame = params.frame || frame;
-        animated = params.animated || animated;
+        if (params.animated !== false) {
+            animated = true;
+        }
         animationSpeed = params.animation_speed || animationSpeed;
     }
 
@@ -54,7 +57,7 @@ BHell_Bullet.prototype.initialize = function (x, y, angle, params, bulletList) {
 
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
-    this.rotation = angle;
+    this.rotation = angle + Math.PI / 2;
 
     this.x = x;
     this.y = y;

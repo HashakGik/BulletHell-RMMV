@@ -24,7 +24,6 @@ var BHell = (function (my) {
      * - rate: Player's rate of fire rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}).
      * - power: Player's power rank (D, C, B, A, S. See {@link BHell.BHell_Emitter_Factory}),
      * - bombs: Player's initial stock of bombs (D = 1, C = 2, B = 3, A = 4, S = 5),
-     * - autobombs: Player's autobomb rank (D = 0, C = 1, B = 2, A = 3, S = 4. If hit, the player will automatically counterattack with a bomb, up to rank times per life),
      * - unlocked: If true the player can be used on a stage,
      * - can_be_bought: If true the player can be bought at the shop,
      * - price: The player's price at the shop,
@@ -53,7 +52,7 @@ var BHell = (function (my) {
             return p.index === id;
         })[0]);
 
-        ["speed", "bombs", "autobombs"].forEach(p => {
+        ["speed", "bombs"].forEach(p => {
             switch (playerParams[p]) {
                 case "D":
                     playerParams[p] = 1;
@@ -93,9 +92,6 @@ var BHell = (function (my) {
 
         this.bombs = this.startingBombs;
 
-        this.startingAutobombs = playerParams.autobombs - 1;
-        this.autobombs = this.startingAutobombs;
-
         this.spawn_se = playerData.spawn_se;
         this.death_se = playerData.death_se;
         this.victory_se = playerData.victory;
@@ -105,6 +101,7 @@ var BHell = (function (my) {
 
         this.hitboxW = my.parse(playerData.hitbox_w, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
         this.hitboxH = my.parse(playerData.hitbox_h, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
+        this.grazingRadius = my.parse(playerData.grazing_radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height);
 
         this.speed = playerParams.speed * 2;
 
@@ -141,6 +138,18 @@ var BHell = (function (my) {
         var dx = Math.abs(this.x - x);
         var dy = Math.abs(this.y - y);
         return (dx < this.hitboxW / 2 && dy < this.hitboxH / 2);
+    };
+
+    /**
+     * Checks if the player collides at given coordinates.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     * @returns {boolean} True if (x, y) is inside the player's hitbox.
+     */
+    BHell_Player.prototype.checkGrazing = function (x, y) {
+        var dx = Math.abs(this.x - x);
+        var dy = Math.abs(this.y - y);
+        return (dx * dx + dy * dy < this.grazingRadius * this.grazingRadius);
     };
 
     /**
@@ -323,7 +332,6 @@ var BHell = (function (my) {
         this.emitters.forEach(e => {
             e.shooting = t && this.justSpawned === false;
         });
-
     };
 
     /**
@@ -343,16 +351,15 @@ var BHell = (function (my) {
      */
     BHell_Player.prototype.die = function (t) {
         if (this.immortal === false) {
-            if (t && this.autobombs > 0 && this.bombs > 0) { // If a bullet hits the player and there are autobombs available, launch one.
+            if (t && this.bombs > 0) { // If a bullet hits the player and there are bombs available, launch one, but waste all of them.
                 this.launchBomb();
-                this.autobombs--;
+                this.bombs = 0;
             }
             else {
                 this.lives--;
                 $gameBHellResult.livesLost++;
                 my.controller.stopShooting = true;
                 this.bombs = this.startingBombs;
-                this.autobombs = this.startingAutobombs;
                 this.bomb.deactivate();
                 my.explosions.push(new my.BHell_Explosion(this.x, this.y, this.parent, my.explosions));
                 if (this.death_se != null) {

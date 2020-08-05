@@ -46,6 +46,8 @@
  * - score: Score points awarded for each successful bullet hit,
  * - kill_score: Score points awarded on enemy's death,
  * - boss: If true, an hp bar will be shown,
+ * - boss_bgm: If defined, plays this BGM instead of the one defined on the map,
+ * - resume_bgm: If true, when the monster is defeated, resumes the previous BGM,
  * - bullet: bullet parameters (see {@link BHell.BHell_Bullet}).
  *
  * @constructor
@@ -123,31 +125,49 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
             this.hitboxH = tmp;
         }
         tmp = my.parse(params.angle, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.angle = tmp || this.angle;
+        if (tmp !== null) {
+            this.angle = tmp;
+        }
 
         tmp = my.parse(params.aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aim = tmp || this.aim;
+        if (tmp !== null) {
+            this.aim = tmp;
+        }
 
         tmp = my.parse(params.always_aim, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.alwaysAim = tmp || this.alwaysAim;
+        if (tmp !== null) {
+            this.alwaysAim = tmp;
+        }
 
         tmp = my.parse(params.aim_x, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimX = tmp || this.aimX;
+        if (tmp !== null) {
+            this.aimX = tmp;
+        }
 
         tmp = my.parse(params.aim_y, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.aimY = tmp || this.aimY;
+        if (tmp !== null) {
+            this.aimY = tmp;
+        }
 
         tmp = my.parse(params.rnd, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.rnd = tmp || this.rnd;
+        if (tmp !== null) {
+            this.rnd = tmp;
+        }
 
         tmp = my.parse(params.score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.score = tmp || this.score;
+        if (tmp !== null) {
+            this.score = tmp;
+        }
 
         tmp = my.parse(params.kill_score, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.killScore = tmp || this.score;
+        if (tmp !== null) {
+            this.killScore = tmp;
+        }
 
         tmp = my.parse(params.boss, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        this.boss = tmp || this.boss;
+        if (tmp !== null) {
+            this.boss = tmp;
+        }
 
         if (params.bullet != null) {
             this.bullet = Object.assign({}, params.bullet);
@@ -186,7 +206,12 @@ BHell_Enemy_Base.prototype.update = function () {
     my.BHell_Sprite.prototype.update.call(this);
     this.move();
     this.shoot(true);
-    this.emitters.forEach(e => {
+
+    this.emitters.forEach(e => { // If not shooting, change the angle
+        if (this.aim === false &amp;&amp; this.rnd === true) {
+            e.angle = Math.random() * 2 * Math.PI;
+        }
+
         e.update();
     });
 };
@@ -320,55 +345,62 @@ BHell_Enemy_Suicide.prototype.initialize = function (x, y, image, params, parent
     this.mover = new my.BHell_Mover_Chase();
 };
 
-/**
- * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
- *
- * Additional parameters:
- *
- * - radius: distance from the player.
- * @constructor
- * @memberOf BHell
- * @extends BHell.BHell_Enemy_Base
- */
-var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
-    this.initialize.apply(this, arguments);
-};
+    /**
+     * Orbiter enemy class. Orbits around the player and shoots toward it once in a while. It is never destroyed outside the map.
+     *
+     * Additional parameters:
+     *
+     * - radius: distance from the player.
+     * - counterclockwise: if true orbits counterclockwise.
+     * @constructor
+     * @memberOf BHell
+     * @extends BHell.BHell_Enemy_Base
+     */
+    var BHell_Enemy_Orbiter = my.BHell_Enemy_Orbiter = function() {
+        this.initialize.apply(this, arguments);
+    };
 
-BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
-BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
+    BHell_Enemy_Orbiter.prototype = Object.create(BHell_Enemy_Base.prototype);
+    BHell_Enemy_Orbiter.prototype.constructor = BHell_Enemy_Orbiter;
 
-BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
-    BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
+    BHell_Enemy_Orbiter.prototype.initialize = function (x, y, image, params, parent, enemyList) {
+        BHell_Enemy_Base.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    // Set default parameters for this class:
-    this.radius = 250;
+        // Set default parameters for this class:
+        this.radius = 250;
+        this.counterclockwise = false;
 
-    // Overrides default parameters:
-    if (params != null) {
-        var tmp;
+        // Overrides default parameters:
+        if (params != null) {
+            var tmp;
 
-        tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
-        if (tmp > 0) {
-            this.radius = Math.round(tmp);
+            tmp = my.parse(params.radius, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp > 0) {
+                this.radius = Math.round(tmp);
+            }
+
+            tmp = my.parse(params.counterclockwise, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+            if (tmp !== null) {
+                this.counterclockwise = tmp;
+            }
         }
-    }
 
-    var emitterParams = {};
-    emitterParams.x = 0;
-    emitterParams.y = 0;
-    emitterParams.period = this.period;
-    emitterParams.angle = 0;
-    emitterParams.aim = true;
-    emitterParams.always_aim = true;
-    emitterParams.bullet = Object.assign({}, this.bullet);
+        var emitterParams = {};
+        emitterParams.x = 0;
+        emitterParams.y = 0;
+        emitterParams.period = this.period;
+        emitterParams.angle = 0;
+        emitterParams.aim = true;
+        emitterParams.always_aim = true;
+        emitterParams.bullet = Object.assign({}, this.bullet);
 
-    this.mover = new my.BHell_Mover_Orbit( 250);
-    this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
-};
+        this.mover = new my.BHell_Mover_Orbit(this.radius, this.counterclockwise);
+        this.emitters.push(new my.BHell_Emitter_Angle(this.x, this.y, emitterParams, parent, my.enemyBullets));
+    };
 
-BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
-    return false;
-};
+    BHell_Enemy_Orbiter.prototype.isOutsideMap = function () {
+        return false;
+    };
 
 /**
  * Probe enemy class. Switches between two states: moving and shooting. In the first state it moves in a straight line
@@ -841,6 +873,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
 
     if (params != null) {
         this.shots = params.shots || this.shots;
+        this.n = params.n || this.n;
     }
 
     var emitterParams = {};
@@ -865,7 +898,7 @@ BHell_Enemy_Starshooter.prototype.initialize = function (x, y, image, params, pa
  *
  * Additional parameters:
  *
- * - rotation: rotation speed (in radians per frame) of the bullets' swirl.
+ * - rotation_angle: rotation speed (in radians per frame) of the bullets' swirl.
  * @constructor
  * @memberOf BHell
  * @extends BHell.BHell_Enemy_Starshooter
@@ -880,17 +913,17 @@ BHell_Enemy_Swirler.prototype.constructor = BHell_Enemy_Swirler;
 BHell_Enemy_Swirler.prototype.initialize = function (x, y, image, params, parent, enemyList) {
     BHell_Enemy_Starshooter.prototype.initialize.call(this, x, y, image, params, parent, enemyList);
 
-    this.rotation = 0.01;
+    this.rotation_angle = 0.01;
 
     if (params != null) {
-        this.rotation = params.rotation || this.rotation;
+        this.rotation_angle = params.rotation_angle || this.rotation_angle;
     }
 };
 
 BHell_Enemy_Swirler.prototype.update = function () {
     this.emitters.forEach(e => {
-        e.a += this.rotation;
-        e.b += this.rotation;
+        e.a += this.rotation_angle;
+        e.b += this.rotation_angle;
     });
 
     BHell_Enemy_Starshooter.prototype.update.call(this);
@@ -907,13 +940,13 @@ return my;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BHell.html">BHell</a></li></ul><h3>Classes</h3><ul><li><a href="BHell.BHell_Bomb_Base.html">BHell_Bomb_Base</a></li><li><a href="BHell.BHell_Bomb_Earth.html">BHell_Bomb_Earth</a></li><li><a href="BHell.BHell_Bomb_Ice.html">BHell_Bomb_Ice</a></li><li><a href="BHell.BHell_Bomb_Water.html">BHell_Bomb_Water</a></li><li><a href="BHell.BHell_Bomb_Wind.html">BHell_Bomb_Wind</a></li><li><a href="BHell.BHell_Bullet.html">BHell_Bullet</a></li><li><a href="BHell.BHell_Controller.html">BHell_Controller</a></li><li><a href="BHell.BHell_Emitter_Angle.html">BHell_Emitter_Angle</a></li><li><a href="BHell.BHell_Emitter_Base.html">BHell_Emitter_Base</a></li><li><a href="BHell.BHell_Emitter_Burst.html">BHell_Emitter_Burst</a></li><li><a href="BHell.BHell_Emitter_Factory.html">BHell_Emitter_Factory</a></li><li><a href="BHell.BHell_Emitter_Fan.html">BHell_Emitter_Fan</a></li><li><a href="BHell.BHell_Emitter_Overcome.html">BHell_Emitter_Overcome</a></li><li><a href="BHell.BHell_Emitter_Rotate.html">BHell_Emitter_Rotate</a></li><li><a href="BHell.BHell_Emitter_Spray.html">BHell_Emitter_Spray</a></li><li><a href="BHell.BHell_Emitter_Spray_Alt.html">BHell_Emitter_Spray_Alt</a></li><li><a href="BHell.BHell_Emitter_Spray_Rnd.html">BHell_Emitter_Spray_Rnd</a></li><li><a href="BHell.BHell_Enemy_Base.html">BHell_Enemy_Base</a></li><li><a href="BHell.BHell_Enemy_Blocker.html">BHell_Enemy_Blocker</a></li><li><a href="BHell.BHell_Enemy_Burster.html">BHell_Enemy_Burster</a></li><li><a href="BHell.BHell_Enemy_Gunner.html">BHell_Enemy_Gunner</a></li><li><a href="BHell.BHell_Enemy_Gunner_Base.html">BHell_Enemy_Gunner_Base</a></li><li><a href="BHell.BHell_Enemy_Orbiter.html">BHell_Enemy_Orbiter</a></li><li><a href="BHell.BHell_Enemy_Probe.html">BHell_Enemy_Probe</a></li><li><a href="BHell.BHell_Enemy_Smallfry.html">BHell_Enemy_Smallfry</a></li><li><a href="BHell.BHell_Enemy_Spline.html">BHell_Enemy_Spline</a></li><li><a href="BHell.BHell_Enemy_Sprayer.html">BHell_Enemy_Sprayer</a></li><li><a href="BHell.BHell_Enemy_Starshooter.html">BHell_Enemy_Starshooter</a></li><li><a href="BHell.BHell_Enemy_Suicide.html">BHell_Enemy_Suicide</a></li><li><a href="BHell.BHell_Enemy_Swirler.html">BHell_Enemy_Swirler</a></li><li><a href="BHell.BHell_Explosion.html">BHell_Explosion</a></li><li><a href="BHell.BHell_Generator.html">BHell_Generator</a></li><li><a href="BHell.BHell_Mover_Base.html">BHell_Mover_Base</a></li><li><a href="BHell.BHell_Mover_Bounce.html">BHell_Mover_Bounce</a></li><li><a href="BHell.BHell_Mover_Chase.html">BHell_Mover_Chase</a></li><li><a href="BHell.BHell_Mover_Harmonic.html">BHell_Mover_Harmonic</a></li><li><a href="BHell.BHell_Mover_Orbit.html">BHell_Mover_Orbit</a></li><li><a href="BHell.BHell_Mover_Point.html">BHell_Mover_Point</a></li><li><a href="BHell.BHell_Mover_Spline.html">BHell_Mover_Spline</a></li><li><a href="BHell.BHell_Player.html">BHell_Player</a></li><li><a href="BHell.BHell_Sprite.html">BHell_Sprite</a></li><li><a href="BHell.BHell_Spriteset.html">BHell_Spriteset</a></li><li><a href="BHell.BHell_Window_BuyPlayers.html">BHell_Window_BuyPlayers</a></li><li><a href="BHell.BHell_Window_BuyUpgrades.html">BHell_Window_BuyUpgrades</a></li><li><a href="BHell.BHell_Window_Confirm.html">BHell_Window_Confirm</a></li><li><a href="BHell.BHell_Window_Pause.html">BHell_Window_Pause</a></li><li><a href="BHell.BHell_Window_Players.html">BHell_Window_Players</a></li><li><a href="BHell.BHell_Window_Preview.html">BHell_Window_Preview</a></li><li><a href="BHell.BHell_Window_Ranks.html">BHell_Window_Ranks</a></li><li><a href="BHell.BHell_Window_SelectPlayer.html">BHell_Window_SelectPlayer</a></li><li><a href="BHell.BHell_Window_ShopCommand.html">BHell_Window_ShopCommand</a></li><li><a href="BHell.BHell_Window_Status.html">BHell_Window_Status</a></li><li><a href="BHell.Scene_BHell.html">Scene_BHell</a></li><li><a href="BHell.Scene_BHell_Init.html">Scene_BHell_Init</a></li><li><a href="BHell.Scene_BHell_Shop.html">Scene_BHell_Shop</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-advanced.html">Advanced Topics</a></li><li><a href="tutorial-getting_started.html">Getting Started</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Mar 08 2020 12:30:25 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Tue Aug 04 2020 14:14:42 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

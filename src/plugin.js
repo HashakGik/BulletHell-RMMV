@@ -54,10 +54,6 @@
 @desc Bombs string.
 @default Bombs
 
-@param autobombs
-@desc Autobombs string.
-@default Autobombs
-
 @param buy_players
 @desc Buy new players string.
 @default Players
@@ -81,6 +77,10 @@
 @param explosion
 @desc Default explosion sprite.
 @default $Explosions
+
+@param grazing_score
+@desc Bonus points awarded for grazing (a bullet moves close to the player, but doesn't hit it).
+@default 50
 
 @param life_bonus_first
 @desc Number of points required for the first life bonus.
@@ -168,7 +168,6 @@ var $gameBHellResult;
  * @property {string} rate Current rate of fire rank (how fast bullets are shot).
  * @property {string} power Current power rank (how strong the emitters are).
  * @property {string} bombs Current bomb rank (how many bombs can be stored).
- * @property {string} autobombs Current autobombs rank (how many times a panic attack can be performed).
  */
 
 /**
@@ -220,10 +219,10 @@ var BHell = (function (my) {
     my.rate = String(parameters['rate'] || "Rate");
     my.power = String(parameters['power'] || "Power");
     my.bombs = String(parameters['bombs'] || "Bombs");
-    my.autobombs = String(parameters['autobombs'] || "Autobombs");
     my.buyPlayers = String(parameters['buy_players'] || "Players");
     my.buyUpgrades = String(parameters['buy_upgrades'] || "Upgrades");
 
+    my.grazingScore = Number(parameters['grazing_score'] || 50);
     my.lifeBonusFirst = Number(parameters['life_bonus_first'] || 30000);
     my.lifeBonusNext = Number(parameters['life_bonus_next'] || 80000);
     my.dcPrice = Number(parameters['DCprice'] || 5000);
@@ -267,7 +266,6 @@ var BHell = (function (my) {
                 $gamePlayer.bhellPlayers[i].rate = $gamePlayer.bhellPlayers[i].rate || $dataBulletHell.players[i].rate || 1;
                 $gamePlayer.bhellPlayers[i].power = $gamePlayer.bhellPlayers[i].power || $dataBulletHell.players[i].power || 1;
                 $gamePlayer.bhellPlayers[i].bombs = $gamePlayer.bhellPlayers[i].bombs || $dataBulletHell.players[i].bombs || 1;
-                $gamePlayer.bhellPlayers[i].autobombs = $gamePlayer.bhellPlayers[i].autobombs || $dataBulletHell.players[i].autobombs || 1;
             }
 
             switch (args[0]) {

@@ -58,7 +58,7 @@ var BHell = (function (my) {
     };
 
     BHell_Window_Status.prototype.windowHeight = function () {
-        return 220;
+        return 176;
     };
 
 
@@ -75,7 +75,7 @@ var BHell = (function (my) {
         var x = this.textPadding();
         var width = this.contents.width - this.textPadding() * 2;
 
-        var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs + "\n" + my.autobombs;
+        var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs;
         this.contents.clear();
         this.contents.context.textAlign = "left";
         this.drawTextEx(str, x, 0);
@@ -83,7 +83,7 @@ var BHell = (function (my) {
         if (this.currentPlayer != null) {
             this.contents.context.textAlign = "right";
             str = "";
-            ["speed", "rate", "power", "bombs", "autobombs"].forEach(p => {
+            ["speed", "rate", "power", "bombs"].forEach(p => {
                 switch (this.currentPlayer[p]) {
                     case "D":
                         str += "\\c[0]D\n";
@@ -492,7 +492,7 @@ var BHell = (function (my) {
     };
 
     /**
-     * Lists the five parameters (speed, rate of fire, power, number of bombs and autobombs) and determines the price for each upgrade from the plugin's parameters.
+     * Lists the four parameters (speed, rate of fire, power and number of bombs) and determines the price for each upgrade from the plugin's parameters.
      */
     BHell_Window_BuyUpgrades.prototype.makeItemList = function () {
         this._data = [];
@@ -500,7 +500,7 @@ var BHell = (function (my) {
 
         if (this.playerId != null) {
 
-            ["speed", "rate", "power", "bombs", "autobombs"].forEach(p => {
+            ["speed", "rate", "power", "bombs"].forEach(p => {
                 this._data.push({name: my[p], param: p, rank: $gamePlayer.bhellPlayers[this.playerId][p]});
 
                 switch ($gamePlayer.bhellPlayers[this.playerId][p]) {
@@ -640,6 +640,14 @@ var BHell = (function (my) {
             else {
                 my.player.shoot(false);
             }
+
+            for (i = 0; i < my.friendlyBullets.length; i++) {
+                b = my.friendlyBullets[i];
+                if (b.x < 0 || b.y < 0 || b.x > this.width || b.y > this.height) {
+                    b.destroy();
+                    i--;
+                }
+            }
         }
     };
 
@@ -677,14 +685,14 @@ var BHell = (function (my) {
             var x = this.textPadding();
             var width = this.contents.width - this.textPadding() * 2;
 
-            var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs + "\n" + my.autobombs;
+            var str = my.speed + "\n" + my.rate + "\n" + my.power + "\n" + my.bombs;
             this.contents.context.textAlign = "left";
             this.drawTextEx(str, x, 0);
 
             this.contents.context.textAlign = "right";
             str = "";
 
-            var stats = ["speed", "rate", "power", "bombs", "autobombs"];
+            var stats = ["speed", "rate", "power", "bombs"];
 
             for (var i = 0; i < stats.length; i++) {
                 var p = stats[i];

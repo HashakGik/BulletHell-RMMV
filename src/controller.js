@@ -55,13 +55,29 @@ var BHell = (function (my) {
             });
 
             // If an event has some message, store it in the messages array.
-            var message = {};
-            message.list = e.event().pages[0].list.filter(l => {
+            var list = e.event().pages[0].list.filter(l => {
                 return l.code === 101 || l.code === 401;
             });
-            message.y = e.event().y;
 
-            this.messages.push(message);
+            var indexes = [];
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].code === 101) {
+                    indexes.push(i);
+                }
+            }
+
+            for (var i = 0; i < indexes.length; i++) {
+                var message = {};
+                message.y = e.event().y;
+                if (i < indexes.length - 1) {
+                    message.list = list.slice(indexes[i], indexes[i + 1]);
+                }
+                else {
+                    message.list = list.slice(indexes[i]);
+                }
+
+                this.messages.push(message);
+            }
 
             var grps = regex.exec(e.event().note);
             if (grps != null) {
@@ -69,7 +85,7 @@ var BHell = (function (my) {
             }
         });
 
-        var regex = /<bhell:([0-9]+(?:\.[0-9])*)>/i;
+        var regex = /<bhell:(-?[0-9]+(?:\.[0-9]*))>/i;
         var grps = regex.exec($dataMap.note);
         this.scrollSpeed = 0;
         this.stageY = this.stage.height();
@@ -149,6 +165,21 @@ var BHell = (function (my) {
                     g = this.generators[i];
                     if (g.y >= this.stageY) {
                         this.activeGenerators.push(g);
+
+                        // If the BGM needs to be changed, save the old one and play the new one.
+                        if (g.bossBgm !== null) {
+                            if (g.resumeBgm) {
+                                my.prevBossBgm = AudioManager.saveBgm();
+                            }
+
+                            my.bgm = my.bgm || {"name": "", "pan": 0, "pitch": 100, "volume": 90};
+                            my.bgm.name = g.bossBgm;
+
+                            AudioManager.fadeOutBgm(1);
+                            AudioManager.playBgm(my.bgm);
+                            AudioManager.fadeInBgm(1);
+                        }
+
                         this.generators.splice(this.generators.indexOf(g), 1);
                         i--;
                     }
@@ -187,6 +218,19 @@ var BHell = (function (my) {
                         if (g.sync === false || this.enemies.length === 0) {
                             this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
                             i--;
+
+                            // If the BGM needs to be restored to the previous one, do it.
+                            if (g.bossBgm !== null && g.resumeBgm) {
+                                if (my.prevBossBgm.name !== "") {
+                                    my.bgm = my.prevBossBgm;
+                                    AudioManager.fadeOutBgm(1);
+                                    AudioManager.playBgm(my.bgm);
+                                    AudioManager.fadeInBgm(1);
+                                }
+                                else {
+                                    AudioManager.fadeOutBgm(1);
+                                }
+                            }
                         }
                     }
                 }
@@ -246,6 +290,9 @@ var BHell = (function (my) {
                     b.destroy();
                     my.player.die(true);
                     i--;
+                } else if (!b.grazed && my.player.checkGrazing(b.x, b.y)) {
+                    b.grazed = true; // Avoid grazing the same bullet multiple times.
+                    $gameBHellResult.score += my.grazingScore;
                 }
             }
 

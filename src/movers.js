@@ -208,12 +208,14 @@ var BHell = (function (my) {
     /**
      * Constructor.
      * @param radius Orbit distance from the player.
+     * @param counterclockwise If true orbits in the counterclockwise direction.
      */
-    BHell_Mover_Orbit.prototype.initialize = function (radius) {
+    BHell_Mover_Orbit.prototype.initialize = function (radius, counterclockwise) {
         BHell_Mover_Base.prototype.initialize.call(this);
 
         this.inPosition = false;
         this.radius = radius;
+        this.counterclockwise = counterclockwise;
         this.t = 3 * Math.PI / 2;
     };
 
@@ -239,7 +241,12 @@ var BHell = (function (my) {
                 ret.push(my.player.x + this.radius * Math.cos(this.t));
                 ret.push(my.player.y + this.radius * Math.sin(this.t));
 
-                this.t += speed * Math.PI / 360;
+                if (this.counterclockwise) {
+                    this.t -= speed * Math.PI / 360;
+                }
+                else {
+                    this.t += speed * Math.PI / 360;
+                }
                 if (this.t > 2 * Math.PI) {
                     this.t -= 2 * Math.PI;
                 }

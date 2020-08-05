@@ -35,16 +35,18 @@ var BHell = (function (my) {
         var handsParams = {};
         handsParams.bullet = {};
         handsParams.bullet.speed = 0.5;
-        handsParams.bullet.index = 0;
+        handsParams.bullet.index = 1;
         handsParams.bullet.frame = 0;
-        handsParams.bullet.direction = 2;
-        handsParams.period = 300;
+        handsParams.bullet.direction = 6;
+        handsParams.period = 5;
         handsParams.a = 0;
         handsParams.b = 2 * Math.PI;
-        handsParams.n = 45;
+        handsParams.n = 3;
+        handsParams.min_speed = 0.5;
+        handsParams.max_speed = 1;
         this.handsEmitters = [];
-        this.handsEmitters.push(new my.BHell_Emitter_Spray(0, 0, handsParams, parent, my.enemyBullets));
-        this.handsEmitters.push(new my.BHell_Emitter_Spray(0, 0, handsParams, parent, my.enemyBullets));
+        this.handsEmitters.push(new my.BHell_Emitter_Spray_Rnd(0, 0, handsParams, parent, my.enemyBullets));
+        this.handsEmitters.push(new my.BHell_Emitter_Spray_Rnd(0, 0, handsParams, parent, my.enemyBullets));
         this.handsEmitters[0].offsetX = -46;
         this.handsEmitters[0].offsetY = -68;
         this.handsEmitters[1].offsetX = 100;
@@ -55,7 +57,7 @@ var BHell = (function (my) {
         var clawsParams = {};
         clawsParams.bullet = {};
         clawsParams.bullet.speed = 1;
-        clawsParams.bullet.index = 0;
+        clawsParams.bullet.index = 1;
         clawsParams.bullet.frame = 2;
         clawsParams.bullet.direction = 2;
         clawsParams.period = 5;
@@ -76,31 +78,34 @@ var BHell = (function (my) {
     BHell_Enemy_Darklord.prototype.initializeWings = function (parent) {
         var wingsParams = {};
         wingsParams.bullet = {};
-        wingsParams.bullet.speed = 1;
-        wingsParams.bullet.index = 0;
-        wingsParams.bullet.frame = 2;
-        wingsParams.bullet.direction = 8;
-        wingsParams.period = 5;
-        wingsParams.alwaysAim = true;
+        wingsParams.bullet.index = 4;
+        wingsParams.bullet.frame = 1;
+        wingsParams.bullet.animated = false;
+        wingsParams.bullet.direction = 2;
+        wingsParams.min_speed = 2;
+        wingsParams.max_speed = 6;
+        wingsParams.waves = 10;
+        wingsParams.a = -Math.PI / 4;
+        wingsParams.b = Math.PI /4;
+        wingsParams.n = 4;
+        wingsParams.period = 10;
+        wingsParams.rotation_angle = -0.05;
+        wingsParams.alwaysAim = false;
         wingsParams.aim = true;
         this.wingsEmitters = [];
-        this.wingsEmitters.push(new my.BHell_Emitter_Angle(0, 0, wingsParams, parent, my.enemyBullets));
-        this.wingsEmitters.push(new my.BHell_Emitter_Angle(0, 0, wingsParams, parent, my.enemyBullets));
+        this.wingsEmitters.push(new my.BHell_Emitter_Fan(0, 0, wingsParams, parent, my.enemyBullets));
+        this.wingsEmitters.push(new my.BHell_Emitter_Fan(0, 0, wingsParams, parent, my.enemyBullets));
         this.wingsEmitters[0].offsetX = 152;
         this.wingsEmitters[0].offsetY = -134;
         this.wingsEmitters[1].offsetX = -160;
         this.wingsEmitters[1].offsetY = -118;
-        this.wingsEmitters[0].aimX = 100;
-        this.wingsEmitters[0].alwaysAim = true;
-        this.wingsEmitters[1].alwaysAim = true;
-        this.wingsEmitters[1].aimX = -100;
     };
 
 
     BHell_Enemy_Darklord.prototype.update = function () {
         my.BHell_Sprite.prototype.update.call(this);
 
-        if (this.state !== "dying" && this.state !== "stunned") {
+        if (this.state !== "dying" && this.state !== "stunned" && this.state !== "pattern 2") {
             this.move();
         }
 
@@ -119,7 +124,7 @@ var BHell = (function (my) {
                 }
                 break;
             case "pattern 1": // Shoots from the hands and the claws for 10 seconds, then switches to pattern 2
-                if (this.j > 600) {
+                if (this.j >= 600) {
                     this.changeState("pattern 2");
                 } else {
                     this.updateClaws();
@@ -128,7 +133,7 @@ var BHell = (function (my) {
 
                 break;
             case "pattern 2": // Shoots from the hands and the wings for 10 seconds, then switches randomly to pattern 1 or 3
-                if (this.j > 600) {
+                if (this.j >= 300) {
                     if (Math.random() > 0.7) {
                         this.changeState("pattern 3");
                     }
@@ -141,7 +146,7 @@ var BHell = (function (my) {
                 }
                 break;
             case "pattern 3": // Spawns some probe enemies until the player dies or for 10 seconds.
-                if (my.player.justSpawned || this.j > 600) {
+                if (my.player.justSpawned || this.j >= 600) {
                     this.changeState("waiting");
                 }
                 else {
@@ -185,7 +190,7 @@ var BHell = (function (my) {
         });
 
         // Update the received damage counter for the stunned state.
-        if (this.j % 60 == 0) {
+        if (this.j % 60 === 0) {
             this.receivedDamage = 0;
         }
 
@@ -213,7 +218,7 @@ var BHell = (function (my) {
     };
 
     BHell_Enemy_Darklord.prototype.updateWings = function() {
-        this.shoot(this.wingsEmitters,true);
+        this.shoot(this.wingsEmitters, this.j % 180 < 90);
     };
 
 

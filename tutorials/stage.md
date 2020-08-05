@@ -53,7 +53,7 @@ And so on until our stage is finished...
 
 ![Completed map](map8.png)
 
-There is only one thing left: to start our stage!
+There is only one thing left to do: start our stage!
 
 Open again the map properties and take note of the `Map ID`:
 
