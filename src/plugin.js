@@ -82,6 +82,14 @@
 @desc Bonus points awarded for grazing (a bullet moves close to the player, but doesn't hit it).
 @default 50
 
+@param bullet_timeout
+@desc Timeout in frames after which the enemy bullets are destroyed while the player is dead.
+@default 300
+
+@param immortal_timeout
+@desc Timeout in frames during which the player is immortal after a respawn.
+@default 300
+
 @param life_bonus_first
 @desc Number of points required for the first life bonus.
 @default 30000
@@ -223,6 +231,8 @@ var BHell = (function (my) {
     my.buyUpgrades = String(parameters['buy_upgrades'] || "Upgrades");
 
     my.grazingScore = Number(parameters['grazing_score'] || 50);
+    my.bulletTimeout = Number(parameters['bullet_timeout'] || 300);
+    my.immortalTimeout = Number(parameters['immortal_timeout'] || 300);
     my.lifeBonusFirst = Number(parameters['life_bonus_first'] || 30000);
     my.lifeBonusNext = Number(parameters['life_bonus_next'] || 80000);
     my.dcPrice = Number(parameters['DCprice'] || 5000);

@@ -82,6 +82,14 @@
 @desc Bonus points awarded for grazing (a bullet moves close to the player, but doesn't hit it).
 @default 50
 
+@param bullet_timeout
+@desc Timeout in frames after which the enemy bullets are destroyed while the player is dead.
+@default 300
+
+@param immortal_timeout
+@desc Timeout in frames during which the player is immortal after a respawn.
+@default 300
+
 @param life_bonus_first
 @desc Number of points required for the first life bonus.
 @default 30000
@@ -223,6 +231,8 @@ var BHell = (function (my) {
     my.buyUpgrades = String(parameters['buy_upgrades'] || "Upgrades");
 
     my.grazingScore = Number(parameters['grazing_score'] || 50);
+    my.bulletTimeout = Number(parameters['bullet_timeout'] || 300);
+    my.immortalTimeout = Number(parameters['immortal_timeout'] || 300);
     my.lifeBonusFirst = Number(parameters['life_bonus_first'] || 30000);
     my.lifeBonusNext = Number(parameters['life_bonus_next'] || 80000);
     my.dcPrice = Number(parameters['DCprice'] || 5000);
@@ -977,6 +987,9 @@ var BHell = (function (my) {
 
     /**
      * Controller class. Handles the game mechanics.
+     *
+     * Note: Generators in a map with negative scroll speed are still placed bottom-to-top, only the in-game scrolling is affected (ie. the map will scroll top-to-bottom).
+     *
      * @constructor
      * @memberOf BHell
      */
@@ -1122,7 +1135,7 @@ var BHell = (function (my) {
                 if (this.activeGenerators.filter(g => {
                     return g.sync === true;
                 }).length === 0) {
-                    this.stageY -= this.scrollSpeed;
+                    this.stageY -= Math.abs(this.scrollSpeed); // Design choice: a negative scrollSpeed still requires generators to be placed from bottom to top.
                 }
 
                 var bossGenerators = this.activeGenerators.filter(g => {
@@ -1873,13 +1886,12 @@ var BHell = (function (my) {
     };
 
     BHell_Emitter_Overcome.prototype.shoot = function () {
+        BHell_Emitter_Spray.prototype.shoot.call(this);
         if (!this.oldShooting) {
             this.bulletParams.speed = this.min_speed;
             this.current_wave = 0;
         }
         this.bulletParams.speed = this.min_speed + this.current_wave * this.d_speed;
-
-        BHell_Emitter_Spray.prototype.shoot.call(this);
 
         this.current_wave = (this.current_wave + 1) % this.waves;
     };
@@ -3898,7 +3910,7 @@ var BHell = (function (my) {
         if (this.immortal && this.immortalTimeout >= 0) {
             this.immortalTimeout++;
 
-            if (this.immortalTimeout > 300) {
+            if (this.immortalTimeout > my.immortalTimeout) {
                 this.immortal = false;
                 this.immortalTimeout = -1;
                 this.opacity = 255;
@@ -3987,7 +3999,7 @@ var BHell = (function (my) {
             }
             else {
                 this.bulletTimeout++;
-                if (this.bulletTimeout > 300) {
+                if (this.bulletTimeout > my.bulletTimeout) {
                     my.controller.destroyEnemyBullets();
                 }
             }

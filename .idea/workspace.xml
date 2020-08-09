@@ -27,106 +27,100 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="advanced.md" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tutorials/advanced.md">
-              <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-                <state split_layout="SPLIT">
-                  <first_editor>
-                    <caret column="115" selection-start-column="115" selection-end-column="115" />
-                  </first_editor>
-                  <second_editor />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="scene_main.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/scene_main.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1666">
-                  <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/controller.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4233">
-                  <caret line="249" column="41" selection-start-line="249" selection-start-column="41" selection-end-line="249" selection-end-column="41" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="generator.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/generator.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1258">
-                  <caret line="74" column="47" selection-start-line="74" selection-start-column="39" selection-end-line="74" selection-end-column="47" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="emitters.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/emitters.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="249">
-                  <caret line="544" column="55" selection-start-line="544" selection-start-column="55" selection-end-line="544" selection-end-column="55" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="parse.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/parse.js">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file leaf-file-name="BulletHell.json" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/demo/data/BulletHell.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="16048">
-                  <caret line="944" column="23" selection-start-line="944" selection-start-column="23" selection-end-line="944" selection-end-column="23" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="scene_init.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/scene_init.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1173">
-                  <caret line="69" column="17" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="40" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="emitters.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/emitters.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="538">
-                  <caret line="617" column="8" selection-start-line="617" selection-start-column="8" selection-end-line="617" selection-end-column="65" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="advanced.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/advanced.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret column="115" selection-start-column="115" selection-end-column="115" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scene_main.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scene_main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1666">
+              <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="358">
+              <caret line="348" column="50" selection-start-line="348" selection-start-column="31" selection-end-line="348" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="player.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/player.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="168" column="57" selection-start-line="168" selection-start-column="57" selection-end-line="168" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/plugin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="89" column="76" selection-start-line="89" selection-start-column="76" selection-end-line="89" selection-end-column="76" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="generator.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/generator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1258">
+              <caret line="74" column="47" selection-start-line="74" selection-start-column="39" selection-end-line="74" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="emitters.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/emitters.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9248">
+              <caret line="544" column="55" selection-start-line="544" selection-start-column="55" selection-end-line="544" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="parse.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parse.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="BulletHell.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/data/BulletHell.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="16048">
+              <caret line="944" column="23" selection-start-line="944" selection-start-column="23" selection-end-line="944" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scene_init.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scene_init.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1173">
+              <caret line="69" column="17" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>play</find>
-      <find>bossHp</find>
-      <find>my.prevBgm</find>
-      <find>Orbit</find>
-      <find>prevBgm</find>
-      <find>pause</find>
-      <find>bgm</find>
       <find>generator</find>
       <find>generato</find>
       <find>activeGenerators</find>
@@ -150,6 +144,13 @@
       <find>this\.([^ ]+) = tmp \|\| this\.([^ ]+);</find>
       <find>my.parse</find>
       <find>Gunner</find>
+      <find>y</find>
+      <find>scrollSpeed</find>
+      <find>enemyBullets</find>
+      <find>destroyenemyBullets</find>
+      <find>destroyEnemy</find>
+      <find>can</find>
+      <find>immortal</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;period&quot;: 25,</replace>
@@ -225,10 +226,8 @@
         <option value="$PROJECT_DIR$/BulletHell.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/BulletHell.js" />
         <option value="$PROJECT_DIR$/make.py" />
-        <option value="$PROJECT_DIR$/src/plugin.js" />
         <option value="$PROJECT_DIR$/src/windows.js" />
         <option value="$PROJECT_DIR$/demo/js/plugins/emitter_probe.js" />
-        <option value="$PROJECT_DIR$/src/player.js" />
         <option value="$PROJECT_DIR$/../Project3/data/BulletHell.json" />
         <option value="$PROJECT_DIR$/tutorials/stage.md" />
         <option value="$PROJECT_DIR$/src/bullet.js" />
@@ -238,9 +237,11 @@
         <option value="$PROJECT_DIR$/src/scene_main.js" />
         <option value="$PROJECT_DIR$/src/generator.js" />
         <option value="$PROJECT_DIR$/demo/data/BulletHell.json" />
-        <option value="$PROJECT_DIR$/src/controller.js" />
         <option value="$PROJECT_DIR$/src/enemies.js" />
         <option value="$PROJECT_DIR$/src/emitters.js" />
+        <option value="$PROJECT_DIR$/src/controller.js" />
+        <option value="$PROJECT_DIR$/src/player.js" />
+        <option value="$PROJECT_DIR$/src/plugin.js" />
       </list>
     </option>
   </component>
@@ -255,7 +256,7 @@
       <path value="$PROJECT_DIR$/demo/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="width" value="1750" />
     <option name="height" value="970" />
@@ -475,28 +476,30 @@
       <workItem from="1596187318004" duration="512000" />
       <workItem from="1596542733175" duration="478000" />
       <workItem from="1596543234081" duration="304000" />
+      <workItem from="1596698807680" duration="269000" />
+      <workItem from="1597006832998" duration="467000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="394831000" />
+    <option name="totallyTimeSpent" value="395567000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4279661" visible="true" weight="0.16085792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4279661" visible="true" weight="0.16487935" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32909605" />
       <window_info anchor="right" id="Database" order="3" weight="0.3297587" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2980226" />
       <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2980226" />
       <window_info id="Structure" order="1" sideWeight="0.5720339" side_tool="true" weight="0.347185" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32909605" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -584,9 +587,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/js/plugins.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/js/rpg_core.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64702">
@@ -644,13 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="260" column="69" selection-start-line="260" selection-start-column="62" selection-end-line="260" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/js/rpg_sprites.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -686,13 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64804">
           <caret line="3814" column="51" selection-start-line="3814" selection-start-column="51" selection-end-line="3814" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5661">
-          <caret line="333" column="11" selection-start-line="333" selection-start-column="11" selection-end-line="333" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -858,13 +844,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4233">
-          <caret line="249" column="41" selection-start-line="249" selection-start-column="41" selection-end-line="249" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/enemies.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -888,8 +867,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/emitters.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
+        <state relative-caret-position="9248">
           <caret line="544" column="55" selection-start-line="544" selection-start-column="55" selection-end-line="544" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/js/plugins.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="348" column="50" selection-start-line="348" selection-start-column="31" selection-end-line="348" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="168" column="57" selection-start-line="168" selection-start-column="57" selection-end-line="168" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="89" column="76" selection-start-line="89" selection-start-column="76" selection-end-line="89" selection-end-column="76" />
         </state>
       </provider>
     </entry>

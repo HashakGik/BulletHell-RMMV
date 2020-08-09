@@ -166,7 +166,7 @@ var BHell = (function (my) {
         if (this.immortal && this.immortalTimeout >= 0) {
             this.immortalTimeout++;
 
-            if (this.immortalTimeout > 300) {
+            if (this.immortalTimeout > my.immortalTimeout) {
                 this.immortal = false;
                 this.immortalTimeout = -1;
                 this.opacity = 255;
@@ -255,7 +255,7 @@ var BHell = (function (my) {
             }
             else {
                 this.bulletTimeout++;
-                if (this.bulletTimeout > 300) {
+                if (this.bulletTimeout > my.bulletTimeout) {
                     my.controller.destroyEnemyBullets();
                 }
             }

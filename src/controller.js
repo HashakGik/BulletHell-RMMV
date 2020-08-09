@@ -2,6 +2,9 @@ var BHell = (function (my) {
 
     /**
      * Controller class. Handles the game mechanics.
+     *
+     * Note: Generators in a map with negative scroll speed are still placed bottom-to-top, only the in-game scrolling is affected (ie. the map will scroll top-to-bottom).
+     *
      * @constructor
      * @memberOf BHell
      */
@@ -147,7 +150,7 @@ var BHell = (function (my) {
                 if (this.activeGenerators.filter(g => {
                     return g.sync === true;
                 }).length === 0) {
-                    this.stageY -= this.scrollSpeed;
+                    this.stageY -= Math.abs(this.scrollSpeed); // Design choice: a negative scrollSpeed still requires generators to be placed from bottom to top.
                 }
 
                 var bossGenerators = this.activeGenerators.filter(g => {
