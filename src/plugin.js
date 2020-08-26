@@ -114,6 +114,18 @@
 @desc Money required to buy an A -> S upgrade.
 @default 100000
 
+@param warning_img
+@desc Picture for the warning sign. NOTE: It's a PICTURE, not a charset.
+@default
+
+@param warning_duration
+@desc Length of warning animation.
+@default 120
+
+@param warning_se
+@desc Sound effect for warning.
+@default
+
 @help
 Plugin commands:
 - Play a stage:
@@ -239,6 +251,10 @@ var BHell = (function (my) {
     my.cbPrice = Number(parameters['CBprice'] || 10000);
     my.baPrice = Number(parameters['BAprice'] || 50000);
     my.asPrice = Number(parameters['ASprice'] || 100000);
+
+    my.warningImg = String(parameters['warning_img'] || "");
+    my.warningDuration = Number(parameters['warning_duration'] || 120);
+    my.warningSE = String(parameters['warning_se'] || "");
 
 
     // Override Scene_Boot.create()

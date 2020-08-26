@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: BHell_Window_SelectPlayer</title>
+    <title>JSDoc: Source: warning.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,362 +17,135 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: BHell_Window_SelectPlayer</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="BHell.html">BHell</a>.</span>BHell_Window_SelectPlayer<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    
-    <h4 class="name" id="BHell_Window_SelectPlayer"><span class="type-signature"></span>new BHell_Window_SelectPlayer<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Player selection window (&quot;Buy upgrades&quot; submenu) for the shop.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="windows.js.html">windows.js</a>, <a href="windows.js.html#line364">line 364</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="makeItemList"><span class="type-signature"></span>makeItemList<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Lists only the players already unlocked.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="windows.js.html">windows.js</a>, <a href="windows.js.html#line399">line 399</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(index)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Updates the selected item and refreshes the preview window accordingly.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Index of the new selected item.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="windows.js.html">windows.js</a>, <a href="windows.js.html#line427">line 427</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: warning.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var BHell = (function (my) {
+
+    /**
+     * Warning sign class. Creates a warning on screen before each boss encounter and then melts it with a DOOM-like effect.
+     * If a SE is specified, it's played as well.
+     *
+     * @constructor
+     * @memberOf BHell
+     * @extends Sprite_Base
+     */
+    var BHell_Warning = my.BHell_Warning = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Warning.prototype = Object.create(Sprite_Base.prototype);
+    BHell_Warning.prototype.constructor = BHell_Warning;
+
+    /**
+     * Constructor. Creates the sprite and plays the SE.
+     *
+     * @param warningImg Picture to display.
+     * @param warningDuration Duration of the warning in frames.
+     * @param warningSE SE to be played.
+     * @param parent Container for the sprite.
+     */
+    BHell_Warning.prototype.initialize = function (warningImg, warningDuration, warningSE, parent) {
+        Sprite_Base.prototype.initialize.call(this);
+
+        this.warning = ImageManager.loadPicture(warningImg, 0);
+        this._bitmap = new Bitmap(Graphics.width, Graphics.height);
+        this.setFrame(0, 0, Graphics.width, Graphics.height);
+
+        this.x = 0;
+        this.y = 0;
+        this.z = 100;
+        this.opacity = 0;
+        this.i = 0;
+
+        this.anchor.x = 0;
+        this.anchor.y = 0;
+
+        this.heights = [];
+        this.heights.push(-Math.floor(Math.random() * 100));
+        for (var i = 1; i &lt; 250; i++) {
+            var tmp = Math.floor(Math.random() * 50) - 25 + this.heights[this.heights.length - 1];
+            if (tmp > 0) {
+                tmp = 0;
+            }
+            this.heights.push(tmp);
+        }
+
+        this.warningDuration = warningDuration;
+        if (warningSE !== "") {
+            AudioManager.playSe({"name": warningSE, "pan": 0, "pitch": 100, "volume": 90});
+        }
+
+        my.displayWarning = true;
+        this.parent = parent;
+        this.parent.addChild(this);
+    };
+
+    /**
+     * Updates the warning image. For the first half of the animation it fades in, for the second half it melts down.
+     */
+    BHell_Warning.prototype.update = function () {
+        Sprite_Base.prototype.update.call(this);
+
+        if (ImageManager.isReady()) {
+            this.visible = true;
+
+            var w = Math.ceil(this.warning.width / 250);
+            var h = this.warning.height;
+            var dx = (Graphics.width - this. warning.width) / 2;
+            var dy = (Graphics.height - this. warning.height) / 2;
+
+
+            this._bitmap.clear();
+
+            if (this.i &lt; this.warningDuration / 2) {
+                this.opacity += 255 / this.warningDuration * 2;
+                this._bitmap.blt(this.warning, 0, 0, this.warning.width, h, dx, dy, this.warning.width, h);
+            }
+            else {
+                this.opacity = 255;
+                my.displayWarning = false;
+                for (var i = 0; i &lt; 250; i++) {
+                    this.heights[i] += Math.floor(this._bitmap.height / this.warningDuration * 2);
+                    my.displayWarning |= this.heights[i] &lt;= this._bitmap.height;
+                }
+
+                for (var i = 0; i &lt; 250; i++) {
+                    var dh = (this.heights[i] &lt; 0) ? 0 : this.heights[i];
+
+                    this._bitmap.blt(this.warning, i * w, 0, w, h, i * w + dx, dh + dy, w, h);
+                }
+            }
+        }
+
+        if (!my.displayWarning) {
+            this.destroy();
+        }
+
+        this.i++;
+    };
+
+    /**
+     * Removes the warning from screen.
+     */
+    BHell_Warning.prototype.destroy = function() {
+        if (this.parent != null) {
+            this.parent.removeChild(this);
+        }
+
+        my.warningSign = null;
+    };
+
+    return my;
+} (BHell || {}));</code></pre>
+        </article>
+    </section>
 
 
 
@@ -386,7 +159,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Aug 23 2020 17:21:27 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Aug 23 2020 17:21:26 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

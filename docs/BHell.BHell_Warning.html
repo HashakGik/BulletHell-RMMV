@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: BHell_Mover_Orbit</title>
+    <title>JSDoc: Class: BHell_Warning</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: BHell_Mover_Orbit</h1>
+    <h1 class="page-title">Class: BHell_Warning</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="BHell.html">BHell</a>.</span>BHell_Mover_Orbit<span class="signature">()</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="BHell.html">BHell</a>.</span>BHell_Warning<span class="signature">()</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="BHell_Mover_Orbit"><span class="type-signature"></span>new BHell_Mover_Orbit<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BHell_Warning"><span class="type-signature"></span>new BHell_Warning<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,8 @@
 
 
 <div class="description">
-    <p>Orbit movement class. Moves towards the player up to a given distance, then starts orbiting around it.</p>
+    <p>Warning sign class. Creates a warning on screen before each boss encounter and then melts it with a DOOM-like effect.
+If a SE is specified, it's played as well.</p>
 </div>
 
 
@@ -94,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="movers.js.html">movers.js</a>, <a href="movers.js.html#line202">line 202</a>
+        <a href="warning.js.html">warning.js</a>, <a href="warning.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -134,7 +135,7 @@
 
 
     <ul>
-        <li><a href="BHell.BHell_Mover_Base.html">BHell.BHell_Mover_Base</a></li>
+        <li>Sprite_Base</li>
     </ul>
 
 
@@ -161,7 +162,7 @@
     
 
     
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(radius, counterclockwise)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -169,7 +170,95 @@
 
 
 <div class="description">
-    <p>Constructor.</p>
+    <p>Removes the warning from screen.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="warning.js.html">warning.js</a>, <a href="warning.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(warningImg, warningDuration, warningSE, parent)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Constructor. Creates the sprite and plays the SE.</p>
 </div>
 
 
@@ -205,7 +294,7 @@
 
         <tr>
             
-                <td class="name"><code>radius</code></td>
+                <td class="name"><code>warningImg</code></td>
             
 
             <td class="type">
@@ -216,14 +305,14 @@
 
             
 
-            <td class="description last"><p>Orbit distance from the player.</p></td>
+            <td class="description last"><p>Picture to display.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>counterclockwise</code></td>
+                <td class="name"><code>warningDuration</code></td>
             
 
             <td class="type">
@@ -234,7 +323,43 @@
 
             
 
-            <td class="description last"><p>If true orbits in the counterclockwise direction.</p></td>
+            <td class="description last"><p>Duration of the warning in frames.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>warningSE</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>SE to be played.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Container for the sprite.</p></td>
         </tr>
 
     
@@ -254,11 +379,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="BHell.BHell_Mover_Base.html#initialize">BHell.BHell_Mover_Base#initialize</a>
-    </li></ul></dd>
     
 
     
@@ -280,7 +400,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="movers.js.html">movers.js</a>, <a href="movers.js.html#line213">line 213</a>
+        <a href="warning.js.html">warning.js</a>, <a href="warning.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -316,7 +436,7 @@
     
 
     
-    <h4 class="name" id="move"><span class="type-signature"></span>move<span class="signature">(oldX, oldY, speed)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -324,8 +444,7 @@
 
 
 <div class="description">
-    <p>If the player is not ready yet (e.g. it's just been resurrected) remains still, otherwise chases the player until the set
-radius is reached, then starts orbiting.</p>
+    <p>Updates the warning image. For the first half of the animation it fades in, for the second half it melts down.</p>
 </div>
 
 
@@ -336,86 +455,6 @@ radius is reached, then starts orbiting.</p>
 
 
 
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>oldX</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Old x coordinate.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>oldY</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Old y coordinate.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>speed</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Movement speed (pixels per frame during the chase phase, degrees per frame during the orbiting phase).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
 
 
 
@@ -428,11 +467,6 @@ radius is reached, then starts orbiting.</p>
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="BHell.BHell_Mover_Base.html#move">BHell.BHell_Mover_Base#move</a>
-    </li></ul></dd>
     
 
     
@@ -454,7 +488,7 @@ radius is reached, then starts orbiting.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="movers.js.html">movers.js</a>, <a href="movers.js.html#line230">line 230</a>
+        <a href="warning.js.html">warning.js</a>, <a href="warning.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -479,24 +513,6 @@ radius is reached, then starts orbiting.</p>
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

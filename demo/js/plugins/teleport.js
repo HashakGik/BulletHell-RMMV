@@ -1,3 +1,13 @@
+//=============================================================================
+// teleport.js
+//=============================================================================
+
+/*:
+@plugindesc Example of extension for the Bullet Hell plugin. It defines a new mover which teleports an enemy on top of the player.
+@author Hash'ak'Gik
+
+*/
+
 /**
  * @namespace BHell
  */

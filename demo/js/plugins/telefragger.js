@@ -1,3 +1,13 @@
+//=============================================================================
+// telefragger.js
+//=============================================================================
+
+/*:
+@plugindesc Example of extension for the Bullet Hell plugin. It defines a new enemy using the mover defined in teleport.js.
+@author Hash'ak'Gik
+
+*/
+
 var BHell = (function (my) {
 
     var BHell_Enemy_Telefragger = my.BHell_Enemy_Telefragger = function() {

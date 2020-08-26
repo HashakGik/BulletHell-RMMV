@@ -102,6 +102,7 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     }
 
     this.bossGenerator = this.params.boss || false;
+    this.suppressWarning = this.params.suppress_warning || false;
 
 
     this.bossBgm = this.params.boss_bgm || null;

@@ -114,6 +114,18 @@
 @desc Money required to buy an A -> S upgrade.
 @default 100000
 
+@param warning_img
+@desc Picture for the warning sign. NOTE: It's a PICTURE, not a charset.
+@default
+
+@param warning_duration
+@desc Length of warning animation.
+@default 120
+
+@param warning_se
+@desc Sound effect for warning.
+@default
+
 @help
 Plugin commands:
 - Play a stage:
@@ -239,6 +251,10 @@ var BHell = (function (my) {
     my.cbPrice = Number(parameters['CBprice'] || 10000);
     my.baPrice = Number(parameters['BAprice'] || 50000);
     my.asPrice = Number(parameters['ASprice'] || 100000);
+
+    my.warningImg = String(parameters['warning_img'] || "");
+    my.warningDuration = Number(parameters['warning_duration'] || 120);
+    my.warningSE = String(parameters['warning_se'] || "");
 
 
     // Override Scene_Boot.create()
@@ -1019,7 +1035,7 @@ var BHell = (function (my) {
 
         this.parent = parent;
         this.stage = stage;
-        my.player = new my.BHell_Player(playerId, lives, false, this.parent, this);
+        my.player = new my.BHell_Player(playerId, lives, false, this.parent);
         my.player.spawn();
 
         this.generators = [];
@@ -1028,6 +1044,7 @@ var BHell = (function (my) {
         my.bossMaxHp = 0;
         my.bossHp = 0;
         my.bossOnScreen = false;
+        my.displayWarning = false;
 
         this.messages = [];
 
@@ -1087,6 +1104,7 @@ var BHell = (function (my) {
         }
 
         this.paused = false;
+        this.scrolling = true;
         my.playing = true;
 
         $gameBHellResult = $gameBHellResult || {};
@@ -1128,10 +1146,14 @@ var BHell = (function (my) {
                 return g.stop === true;
             }).length === 0) {
                 this.stage.scrollUp(this.scrollSpeed);
+                this.scrolling = true;
+            }
+            else {
+                this.scrolling = false;
             }
 
             // If the player can move and there are no active generators to synchronize, update the stage's progression.
-            if (my.player.justSpawned === false) {
+            if (my.player.justSpawned === false && !my.displayWarning) {
                 if (this.activeGenerators.filter(g => {
                     return g.sync === true;
                 }).length === 0) {
@@ -1168,6 +1190,14 @@ var BHell = (function (my) {
                             AudioManager.fadeInBgm(1);
                         }
 
+                        // If the warning sign needs to be displayed, pause the generators and show it.
+                        if (g.bossGenerator && !g.suppressWarning) {
+                            my.displayWarning = true;
+                            if (my.warningSign == null) {
+                                my.warningSign = new my.BHell_Warning(my.warningImg, my.warningDuration, my.warningSE, this.parent);
+                            }
+                        }
+
                         this.generators.splice(this.generators.indexOf(g), 1);
                         i--;
                     }
@@ -1199,24 +1229,26 @@ var BHell = (function (my) {
                 }
 
                 // Update the active generators. If a generator is synchronized, wait until there are no more enemies to remove it.
-                for (i = 0; i < this.activeGenerators.length; i++) {
-                    g = this.activeGenerators[i];
-                    g.update();
-                    if (g.n === 0) {
-                        if (g.sync === false || this.enemies.length === 0) {
-                            this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
-                            i--;
+                if (!my.displayWarning) {
+                    for (i = 0; i < this.activeGenerators.length; i++) {
+                        g = this.activeGenerators[i];
+                        g.update();
+                        if (g.n === 0) {
+                            if (g.sync === false || this.enemies.length === 0) {
+                                this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
+                                i--;
 
-                            // If the BGM needs to be restored to the previous one, do it.
-                            if (g.bossBgm !== null && g.resumeBgm) {
-                                if (my.prevBossBgm.name !== "") {
-                                    my.bgm = my.prevBossBgm;
-                                    AudioManager.fadeOutBgm(1);
-                                    AudioManager.playBgm(my.bgm);
-                                    AudioManager.fadeInBgm(1);
-                                }
-                                else {
-                                    AudioManager.fadeOutBgm(1);
+                                // If the BGM needs to be restored to the previous one, do it.
+                                if (g.bossBgm !== null && g.resumeBgm) {
+                                    if (my.prevBossBgm.name !== "") {
+                                        my.bgm = my.prevBossBgm;
+                                        AudioManager.fadeOutBgm(1);
+                                        AudioManager.playBgm(my.bgm);
+                                        AudioManager.fadeInBgm(1);
+                                    }
+                                    else {
+                                        AudioManager.fadeOutBgm(1);
+                                    }
                                 }
                             }
                         }
@@ -2141,6 +2173,7 @@ var BHell = (function (my) {
  * - kill_score: Score points awarded on enemy's death,
  * - boss: If true, an hp bar will be shown,
  * - boss_bgm: If defined, plays this BGM instead of the one defined on the map,
+ * - suppress_warning: If true (together with boss), doesn't show the warning sign,
  * - resume_bgm: If true, when the monster is defeated, resumes the previous BGM,
  * - bullet: bullet parameters (see {@link BHell.BHell_Bullet}).
  *
@@ -2193,6 +2226,7 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
     this.score = 10;
     this.killScore = 100;
     this.boss = false;
+    this.suppressWarning = false;
 
     // Overrides default parameters with params content.
     if (params != null) {
@@ -2261,6 +2295,11 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
         tmp = my.parse(params.boss, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
         if (tmp !== null) {
             this.boss = tmp;
+        }
+
+        tmp = my.parse(params.suppress_warning, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+        if (tmp !== null) {
+            this.suppressWarning = tmp;
         }
 
         if (params.bullet != null) {
@@ -3083,7 +3122,9 @@ BHell_Explosion.prototype.update = function () {
 
     var ret = false;
 
-    this.y += this.speed;
+    if (my.controller.scrolling) {
+        this.y += this.speed;
+    }
 
     this.j++;
 
@@ -3212,6 +3253,7 @@ BHell_Generator.prototype.initialize = function (x, y, image, name, n, period, s
     }
 
     this.bossGenerator = this.params.boss || false;
+    this.suppressWarning = this.params.suppress_warning || false;
 
 
     this.bossBgm = this.params.boss_bgm || null;
@@ -4399,6 +4441,9 @@ var BHell = (function (my) {
         while (grps != null);
 
         ImageManager.loadCharacter(my.explosion, 0);
+        if (my.warningImg !== "") {
+            ImageManager.loadPicture(my.warningImg, 0);
+        }
 
         $dataMap.events.forEach(e => {
             if (e != null) {
@@ -5299,6 +5344,125 @@ BHell_Spriteset.prototype.updateTilemap = function () {
 };
 
 return my;
+} (BHell || {}));
+
+var BHell = (function (my) {
+
+    /**
+     * Warning sign class. Creates a warning on screen before each boss encounter and then melts it with a DOOM-like effect.
+     * If a SE is specified, it's played as well.
+     *
+     * @constructor
+     * @memberOf BHell
+     * @extends Sprite_Base
+     */
+    var BHell_Warning = my.BHell_Warning = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    BHell_Warning.prototype = Object.create(Sprite_Base.prototype);
+    BHell_Warning.prototype.constructor = BHell_Warning;
+
+    /**
+     * Constructor. Creates the sprite and plays the SE.
+     *
+     * @param warningImg Picture to display.
+     * @param warningDuration Duration of the warning in frames.
+     * @param warningSE SE to be played.
+     * @param parent Container for the sprite.
+     */
+    BHell_Warning.prototype.initialize = function (warningImg, warningDuration, warningSE, parent) {
+        Sprite_Base.prototype.initialize.call(this);
+
+        this.warning = ImageManager.loadPicture(warningImg, 0);
+        this._bitmap = new Bitmap(Graphics.width, Graphics.height);
+        this.setFrame(0, 0, Graphics.width, Graphics.height);
+
+        this.x = 0;
+        this.y = 0;
+        this.z = 100;
+        this.opacity = 0;
+        this.i = 0;
+
+        this.anchor.x = 0;
+        this.anchor.y = 0;
+
+        this.heights = [];
+        this.heights.push(-Math.floor(Math.random() * 100));
+        for (var i = 1; i < 250; i++) {
+            var tmp = Math.floor(Math.random() * 50) - 25 + this.heights[this.heights.length - 1];
+            if (tmp > 0) {
+                tmp = 0;
+            }
+            this.heights.push(tmp);
+        }
+
+        this.warningDuration = warningDuration;
+        if (warningSE !== "") {
+            AudioManager.playSe({"name": warningSE, "pan": 0, "pitch": 100, "volume": 90});
+        }
+
+        my.displayWarning = true;
+        this.parent = parent;
+        this.parent.addChild(this);
+    };
+
+    /**
+     * Updates the warning image. For the first half of the animation it fades in, for the second half it melts down.
+     */
+    BHell_Warning.prototype.update = function () {
+        Sprite_Base.prototype.update.call(this);
+
+        if (ImageManager.isReady()) {
+            this.visible = true;
+
+            var w = Math.ceil(this.warning.width / 250);
+            var h = this.warning.height;
+            var dx = (Graphics.width - this. warning.width) / 2;
+            var dy = (Graphics.height - this. warning.height) / 2;
+
+
+            this._bitmap.clear();
+
+            if (this.i < this.warningDuration / 2) {
+                this.opacity += 255 / this.warningDuration * 2;
+                this._bitmap.blt(this.warning, 0, 0, this.warning.width, h, dx, dy, this.warning.width, h);
+            }
+            else {
+                this.opacity = 255;
+                my.displayWarning = false;
+                for (var i = 0; i < 250; i++) {
+                    this.heights[i] += Math.floor(this._bitmap.height / this.warningDuration * 2);
+                    my.displayWarning |= this.heights[i] <= this._bitmap.height;
+                }
+
+                for (var i = 0; i < 250; i++) {
+                    var dh = (this.heights[i] < 0) ? 0 : this.heights[i];
+
+                    this._bitmap.blt(this.warning, i * w, 0, w, h, i * w + dx, dh + dy, w, h);
+                }
+            }
+        }
+
+        if (!my.displayWarning) {
+            this.destroy();
+        }
+
+        this.i++;
+    };
+
+    /**
+     * Removes the warning from screen.
+     */
+    BHell_Warning.prototype.destroy = function() {
+        if (this.parent != null) {
+            this.parent.removeChild(this);
+        }
+
+        my.warningSign = null;
+    };
+
+    return my;
 } (BHell || {}));
 
 var BHell = (function (my) {

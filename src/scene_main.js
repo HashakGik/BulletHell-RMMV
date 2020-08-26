@@ -47,6 +47,9 @@ var BHell = (function (my) {
         while (grps != null);
 
         ImageManager.loadCharacter(my.explosion, 0);
+        if (my.warningImg !== "") {
+            ImageManager.loadPicture(my.warningImg, 0);
+        }
 
         $dataMap.events.forEach(e => {
             if (e != null) {

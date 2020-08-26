@@ -34,7 +34,7 @@ var BHell = (function (my) {
 
         this.parent = parent;
         this.stage = stage;
-        my.player = new my.BHell_Player(playerId, lives, false, this.parent, this);
+        my.player = new my.BHell_Player(playerId, lives, false, this.parent);
         my.player.spawn();
 
         this.generators = [];
@@ -43,6 +43,7 @@ var BHell = (function (my) {
         my.bossMaxHp = 0;
         my.bossHp = 0;
         my.bossOnScreen = false;
+        my.displayWarning = false;
 
         this.messages = [];
 
@@ -102,6 +103,7 @@ var BHell = (function (my) {
         }
 
         this.paused = false;
+        this.scrolling = true;
         my.playing = true;
 
         $gameBHellResult = $gameBHellResult || {};
@@ -143,10 +145,14 @@ var BHell = (function (my) {
                 return g.stop === true;
             }).length === 0) {
                 this.stage.scrollUp(this.scrollSpeed);
+                this.scrolling = true;
+            }
+            else {
+                this.scrolling = false;
             }
 
             // If the player can move and there are no active generators to synchronize, update the stage's progression.
-            if (my.player.justSpawned === false) {
+            if (my.player.justSpawned === false && !my.displayWarning) {
                 if (this.activeGenerators.filter(g => {
                     return g.sync === true;
                 }).length === 0) {
@@ -183,6 +189,14 @@ var BHell = (function (my) {
                             AudioManager.fadeInBgm(1);
                         }
 
+                        // If the warning sign needs to be displayed, pause the generators and show it.
+                        if (g.bossGenerator && !g.suppressWarning) {
+                            my.displayWarning = true;
+                            if (my.warningSign == null) {
+                                my.warningSign = new my.BHell_Warning(my.warningImg, my.warningDuration, my.warningSE, this.parent);
+                            }
+                        }
+
                         this.generators.splice(this.generators.indexOf(g), 1);
                         i--;
                     }
@@ -214,24 +228,26 @@ var BHell = (function (my) {
                 }
 
                 // Update the active generators. If a generator is synchronized, wait until there are no more enemies to remove it.
-                for (i = 0; i < this.activeGenerators.length; i++) {
-                    g = this.activeGenerators[i];
-                    g.update();
-                    if (g.n === 0) {
-                        if (g.sync === false || this.enemies.length === 0) {
-                            this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
-                            i--;
+                if (!my.displayWarning) {
+                    for (i = 0; i < this.activeGenerators.length; i++) {
+                        g = this.activeGenerators[i];
+                        g.update();
+                        if (g.n === 0) {
+                            if (g.sync === false || this.enemies.length === 0) {
+                                this.activeGenerators.splice(this.activeGenerators.indexOf(g), 1);
+                                i--;
 
-                            // If the BGM needs to be restored to the previous one, do it.
-                            if (g.bossBgm !== null && g.resumeBgm) {
-                                if (my.prevBossBgm.name !== "") {
-                                    my.bgm = my.prevBossBgm;
-                                    AudioManager.fadeOutBgm(1);
-                                    AudioManager.playBgm(my.bgm);
-                                    AudioManager.fadeInBgm(1);
-                                }
-                                else {
-                                    AudioManager.fadeOutBgm(1);
+                                // If the BGM needs to be restored to the previous one, do it.
+                                if (g.bossBgm !== null && g.resumeBgm) {
+                                    if (my.prevBossBgm.name !== "") {
+                                        my.bgm = my.prevBossBgm;
+                                        AudioManager.fadeOutBgm(1);
+                                        AudioManager.playBgm(my.bgm);
+                                        AudioManager.fadeInBgm(1);
+                                    }
+                                    else {
+                                        AudioManager.fadeOutBgm(1);
+                                    }
                                 }
                             }
                         }

@@ -1,3 +1,13 @@
+//=============================================================================
+// rammer.js
+//=============================================================================
+
+/*:
+@plugindesc Example of extension for the Bullet Hell plugin. It defines a new enemy.
+@author Hash'ak'Gik
+
+*/
+
 var BHell = (function (my) {
 
     var BHell_Enemy_Rammer = my.BHell_Enemy_Rammer = function() {

@@ -55,7 +55,9 @@ BHell_Explosion.prototype.update = function () {
 
     var ret = false;
 
-    this.y += this.speed;
+    if (my.controller.scrolling) {
+        this.y += this.speed;
+    }
 
     this.j++;
 

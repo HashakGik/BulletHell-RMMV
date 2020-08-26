@@ -19,6 +19,7 @@ var BHell = (function (my) {
  * - kill_score: Score points awarded on enemy's death,
  * - boss: If true, an hp bar will be shown,
  * - boss_bgm: If defined, plays this BGM instead of the one defined on the map,
+ * - suppress_warning: If true (together with boss), doesn't show the warning sign,
  * - resume_bgm: If true, when the monster is defeated, resumes the previous BGM,
  * - bullet: bullet parameters (see {@link BHell.BHell_Bullet}).
  *
@@ -71,6 +72,7 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
     this.score = 10;
     this.killScore = 100;
     this.boss = false;
+    this.suppressWarning = false;
 
     // Overrides default parameters with params content.
     if (params != null) {
@@ -139,6 +141,11 @@ BHell_Enemy_Base.prototype.initialize = function (x, y, image, params, parent, e
         tmp = my.parse(params.boss, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
         if (tmp !== null) {
             this.boss = tmp;
+        }
+
+        tmp = my.parse(params.suppress_warning, this.x, this.y, this.patternWidth(), this.patternHeight(), Graphics.width, Graphics.height, Graphics.width, Graphics.height);
+        if (tmp !== null) {
+            this.suppressWarning = tmp;
         }
 
         if (params.bullet != null) {

@@ -1,3 +1,13 @@
+//=============================================================================
+// darklord.js
+//=============================================================================
+
+/*:
+@plugindesc Example of extension for the Bullet Hell plugin. It defines a boss.
+@author Hash'ak'Gik
+
+*/
+
 var BHell = (function (my) {
 
     var BHell_Enemy_Darklord = my.BHell_Enemy_Darklord = function() {
@@ -123,7 +133,7 @@ var BHell = (function (my) {
 
                 }
                 break;
-            case "pattern 1": // Shoots from the hands and the claws for 10 seconds, then switches to pattern 2
+            case "pattern 1": // Shoots from the hands and the claws for 10 seconds, then switches to pattern 2.
                 if (this.j >= 600) {
                     this.changeState("pattern 2");
                 } else {
@@ -285,7 +295,7 @@ var BHell = (function (my) {
         if (this.state !== "dying") {
             my.BHell_Enemy_Base.prototype.hit.call(this);
 
-            if (this.state != "stunned") {
+            if (this.state !== "stunned") {
                 this.receivedDamage++;
             }
         }
